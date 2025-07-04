@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>История переписки - AuraFlora</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/chat_history.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {user_info}
+            <div class="language-buttons">
+                <button class="lang-btn active" data-lang="ru">🇷🇺 Русский</button>
+                <button class="lang-btn" data-lang="en">🇺🇸 English</button>
+                <button class="lang-btn" data-lang="th">🇹🇭 ไทย</button>
+            </div>
+        </div>
+        <div class="chat-container">{messages_html}</div>
+        <div class="footer">
+            Имя - у тебя разьве нет его?
+        </div>
+    </div>
+    <script src="/static/js/chat_history.js"></script>
+</body>
+</html> 

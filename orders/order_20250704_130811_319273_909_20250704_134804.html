@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ AuraFlora</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        .language-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .tab:hover {
+            background: #e9ecef;
+        }
+        .tab.active {
+            background: white;
+            color: #ff6b6b;
+            border-bottom: 3px solid #ff6b6b;
+        }
+        .content {
+            padding: 30px;
+        }
+        .language-content {
+            display: none;
+        }
+        .language-content.active {
+            display: block;
+        }
+        .order-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .order-section h3 {
+            color: #495057;
+            margin-top: 0;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 10px;
+        }
+        .chat-history {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            background: white;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .message.user {
+            background: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        .message.bot {
+            background: #e9ecef;
+            color: #495057;
+            margin-right: auto;
+        }
+        .message-time {
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        .order-details {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .order-details h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #ffeaa7;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .content {
+                padding: 20px;
+            }
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌸 AuraFlora</h1>
+            <p>История заказа и переписки</p>
+        </div>
+        
+        <div class="language-tabs">
+            <button class="tab active" onclick="switchLanguage('ru')">🇷🇺 Русский</button>
+            <button class="tab" onclick="switchLanguage('en')">🇺🇸 English</button>
+            <button class="tab" onclick="switchLanguage('th')">🇹🇭 ไทย</button>
+        </div>
+        
+        <div class="content">
+            <div id="ru-content" class="language-content active">
+                <div class="order-section">
+                    <h3>📋 Детали заказа</h3>
+                    <div class="order-details">
+                        **Букет:** Good vibes 🌸
+**Дата доставки:** 05 July 2025
+**Время доставки:** 10:00
+**Доставка:** Нет
+**Открытка:** Нет
+                    </div>
+                </div>
+                
+                <div class="order-section">
+                    <h3>💬 История переписки</h3>
+                    <div class="chat-history">
+                        <p>Нет сообщений</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="en-content" class="language-content">
+                <div class="order-section">
+                    <h3>📋 Order Details</h3>
+                    <div class="order-details">
+                        **Bouquet:** Good vibes 🌸
+**Delivery date:** 05 July 2025
+**Delivery time:** 10:00
+**Delivery:** No
+**Card:** No
+                    </div>
+                </div>
+                
+                <div class="order-section">
+                    <h3>💬 Chat History</h3>
+                    <div class="chat-history">
+                        <p>Нет сообщений</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="th-content" class="language-content">
+                <div class="order-section">
+                    <h3>📋 รายละเอียดคำสั่งซื้อ</h3>
+                    <div class="order-details">
+                        **ช่อดอกไม้:** Good vibes 🌸
+**วันที่จัดส่ง:** 05 July 2025
+**เวลาจัดส่ง:** 10:00
+**การจัดส่ง:** ไม่
+**การ์ด:** ไม่
+                    </div>
+                </div>
+                
+                <div class="order-section">
+                    <h3>💬 ประวัติการสนทนา</h3>
+                    <div class="chat-history">
+                        <p>Нет сообщений</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🌸 AuraFlora - Ваш надежный партнер в мире цветов</p>
+            <p>Generated on 2025-07-04 13:48:04</p>
+        </div>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Скрываем все контенты
+            document.querySelectorAll('.language-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Убираем активный класс со всех табов
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показываем нужный контент
+            document.getElementById(lang + '-content').classList.add('active');
+            
+            // Активируем нужный таб
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+        

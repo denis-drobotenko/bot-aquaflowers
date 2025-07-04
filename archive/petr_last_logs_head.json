@@ -1,0 +1,500 @@
+[
+  {
+    "insertId": "68666e3700053050e426d249",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:11.648913970Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:src.webhook_handlers:[IN] Webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'read', 'timestamp': '1751543350', 'recipient_id': '79084634603'}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:11.340048Z"
+  },
+  {
+    "insertId": "68666e37000530430e99f1bd",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:11.648913970Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:11,341 - webhook_flow - INFO - [webhook_handlers.py:log_with_context:157] [WEBHOOK_INPUT] Raw webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'read', 'timestamp': '1751543350', 'recipient_id': '79084634603'}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:11.340035Z"
+  },
+  {
+    "insertId": "68666e370003b69d6a268cca",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:11.317212523Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:src.webhook_handlers:[IN] Webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'delivered', 'timestamp': '1751543350', 'recipient_id': '79084634603', 'conversation': {'id': '3896455a019c3c4497f35749c15bd37d', 'origin': {'type': 'service'}}, 'pricing': {'billable': False, 'pricing_model': 'PMP', 'category': 'service', 'type': 'free_customer_service'}}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:11.243357Z"
+  },
+  {
+    "insertId": "68666e370003b6571f68690a",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:11.317212523Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:11,244 - webhook_flow - INFO - [webhook_handlers.py:log_with_context:157] [WEBHOOK_INPUT] Raw webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'delivered', 'timestamp': '1751543350', 'recipient_id': '79084634603', 'conversation': {'id': '3896455a019c3c4497f35749c15bd37d', 'origin': {'type': 'service'}}, 'pricing': {'billable': False, 'pricing_model': 'PMP', 'category': 'service', 'type': 'free_customer_service'}}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:11.243287Z"
+  },
+  {
+    "insertId": "68666e370002dd46a6711525",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:11.317212523Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:src.webhook_handlers:[IN] Webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'delivered', 'timestamp': '1751543350', 'recipient_id': '79084634603', 'conversation': {'id': '3896455a019c3c4497f35749c15bd37d', 'origin': {'type': 'service'}}, 'pricing': {'billable': False, 'pricing_model': 'PMP', 'category': 'service', 'type': 'free_customer_service'}}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:11.187718Z"
+  },
+  {
+    "insertId": "68666e370002dd007312f140",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:11.317212523Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:11,189 - webhook_flow - INFO - [webhook_handlers.py:log_with_context:157] [WEBHOOK_INPUT] Raw webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'delivered', 'timestamp': '1751543350', 'recipient_id': '79084634603', 'conversation': {'id': '3896455a019c3c4497f35749c15bd37d', 'origin': {'type': 'service'}}, 'pricing': {'billable': False, 'pricing_model': 'PMP', 'category': 'service', 'type': 'free_customer_service'}}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:11.187648Z"
+  },
+  {
+    "insertId": "68666e360009a638356206a7",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.651420742Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:src.webhook_handlers:[IN] Webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'sent', 'timestamp': '1751543350', 'recipient_id': '79084634603', 'conversation': {'id': '3896455a019c3c4497f35749c15bd37d', 'expiration_timestamp': '1751543350', 'origin': {'type': 'service'}}, 'pricing': {'billable': False, 'pricing_model': 'PMP', 'category': 'service', 'type': 'free_customer_service'}}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:10.632376Z"
+  },
+  {
+    "insertId": "68666e360009a6064c762684",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.651420742Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:10,633 - webhook_flow - INFO - [webhook_handlers.py:log_with_context:157] [WEBHOOK_INPUT] Raw webhook data: {'object': 'whatsapp_business_account', 'entry': [{'id': '515848908286141', 'changes': [{'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '66963617068', 'phone_number_id': '494991623707876'}, 'statuses': [{'id': 'wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA', 'status': 'sent', 'timestamp': '1751543350', 'recipient_id': '79084634603', 'conversation': {'id': '3896455a019c3c4497f35749c15bd37d', 'expiration_timestamp': '1751543350', 'origin': {'type': 'service'}}, 'pricing': {'billable': False, 'pricing_model': 'PMP', 'category': 'service', 'type': 'free_customer_service'}}]}, 'field': 'messages'}]}]}",
+    "timestamp": "2025-07-03T11:49:10.632326Z"
+  },
+  {
+    "insertId": "68666e36000003088bd0b28a",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.319724944Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:src.webhook_handlers:Successfully processed webhook for user 79084634603",
+    "timestamp": "2025-07-03T11:49:10.000776Z"
+  },
+  {
+    "insertId": "68666e36000002a0ed6cb29d",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.319724944Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:10,001 - webhook_flow - INFO - [webhook_handlers.py:log_with_context:157] [WEBHOOK_SUCCESS] Successfully processed webhook for user 79084634603",
+    "timestamp": "2025-07-03T11:49:10.000672Z"
+  },
+  {
+    "insertId": "68666e36000001355a2a172a",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.319724944Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:10,001 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] Message sent successfully to 79084634603 (session_id=79084634603_20250703-162123)",
+    "timestamp": "2025-07-03T11:49:10.000309Z"
+  },
+  {
+    "insertId": "68666e36000000c78d96ae38",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.319724944Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:10,001 - ai_pipeline - INFO - [AI_RESPONSE_SAVED] Session: 79084634603_20250703-162123 | Message ID: wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA | Text: ?????? ?????, ????!",
+    "timestamp": "2025-07-03T11:49:10.000199Z"
+  },
+  {
+    "insertId": "68666e35000f423597663daa",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.319724944Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:10,001 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] [REPLY_DEBUG] Saved text message with ID wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA for session 79084634603_20250703-162123 | message=?????? ?????, ????!",
+    "timestamp": "2025-07-03T11:49:09.999989Z"
+  },
+  {
+    "insertId": "68666e35000f41dc58f1b7ff",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:10.319724944Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:src.database:Message added to Firestore for session_id: 79084634603_20250703-162123, role: model, content: ?????? ?????, ????!",
+    "timestamp": "2025-07-03T11:49:09.999900Z"
+  },
+  {
+    "insertId": "68666e35000e8030a9a38ed9",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.987146258Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:database_pipeline:[database.py:log_with_context:35] [DB_ADD_MESSAGE_REF] Created reference to conversation document: 79084634603_20250703-162123",
+    "timestamp": "2025-07-03T11:49:09.950320Z"
+  },
+  {
+    "insertId": "68666e35000e7fd5d40f62df",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.987146258Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:database_pipeline:[database.py:log_with_context:35] [DB_ADD_MESSAGE_INPUT] Session: 79084634603_20250703-162123, Role: model, Content length: 373, Message ID: wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA",
+    "timestamp": "2025-07-03T11:49:09.950229Z"
+  },
+  {
+    "insertId": "68666e35000e7f18a1304a4b",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.987146258Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:09,951 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] [WHATSAPP_LOG] Response body: {\"messaging_product\":\"whatsapp\",\"contacts\":[{\"input\":\"79084634603\",\"wa_id\":\"79084634603\"}],\"messages\":[{\"id\":\"wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA\"}]}",
+    "timestamp": "2025-07-03T11:49:09.950040Z"
+  },
+  {
+    "insertId": "68666e35000e7e991e9158c0",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.987146258Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:09,951 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] [MESSAGE_SEND_API_RESPONSE_BODY] {\"messaging_product\":\"whatsapp\",\"contacts\":[{\"input\":\"79084634603\",\"wa_id\":\"79084634603\"}],\"messages\":[{\"id\":\"wamid.HBgLNzkwODQ2MzQ2MDMVAgARGBIyNUI2OTdDODVFQ0MwODBFODEA\"}]}",
+    "timestamp": "2025-07-03T11:49:09.949913Z"
+  },
+  {
+    "insertId": "68666e350002767798e6e41e",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.326025825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:09,162 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] [WHATSAPP_LOG] Request payload: {'messaging_product': 'whatsapp', 'to': '79084634603', 'type': 'text', 'text': {'body': '?????? ?????, ????!\\n\\n????? ? ????? ?????? ??? ? ???????, ??????????, ???????? ???? ????? ?? ?????? ????????. ?????? ???????? ??? ??? ????????.\\n\\n??? ???? ????????? ??????:\\n\\n* Pink peony 15 (4 500,00 ?)\\n* Love is on the air (2 200,00 ?)\\n* Spirit  (2 650,00 ?)\\n* Good vibes (2 350,00 ?)\\n* Clouds (2 400,00 ?)\\n* Candy?s (1 450,00 ?)\\n* Pretty  (2 600,00 ?)\\n\\n??? ?????? ??????! ?'}}",
+    "timestamp": "2025-07-03T11:49:09.161399Z"
+  },
+  {
+    "insertId": "68666e35000275bfd70bfe91",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.326025825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:09,162 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] [MESSAGE_SEND_API_PAYLOAD] {'messaging_product': 'whatsapp', 'to': '79084634603', 'type': 'text', 'text': {'body': '?????? ?????, ????!\\n\\n????? ? ????? ?????? ??? ? ???????, ??????????, ???????? ???? ????? ?? ?????? ????????. ?????? ???????? ??? ??? ????????.\\n\\n??? ???? ????????? ??????:\\n\\n* Pink peony 15 (4 500,00 ?)\\n* Love is on the air (2 200,00 ?)\\n* Spirit  (2 650,00 ?)\\n* Good vibes (2 350,00 ?)\\n* Clouds (2 400,00 ?)\\n* Candy?s (1 450,00 ?)\\n* Pretty  (2 600,00 ?)\\n\\n??? ?????? ??????! ?'}}",
+    "timestamp": "2025-07-03T11:49:09.161215Z"
+  },
+  {
+    "insertId": "68666e35000274b9e1f83510",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.326025825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "??? ?????? ??????! ?' (session_id=79084634603_20250703-162123)",
+    "timestamp": "2025-07-03T11:49:09.160953Z"
+  },
+  {
+    "insertId": "68666e3500027495ec3fd0c5",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.326025825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:09,162 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] [WHATSAPP_LOG] Sending message to 79084634603: '?????? ?????, ????!",
+    "timestamp": "2025-07-03T11:49:09.160917Z"
+  },
+  {
+    "insertId": "68666e35000271e3036d48e8",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.326025825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:09,161 - whatsapp_utils - INFO - [whatsapp_utils.py:log_with_context:36] [MESSAGE_SEND_START] To: 79084634603, Session: 79084634603_20250703-162123",
+    "timestamp": "2025-07-03T11:49:09.160227Z"
+  },
+  {
+    "insertId": "68666e35000270c0d3c15347",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.326025825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "INFO:src.webhook_handlers:[CHAT_LOG] SENDING TO USER (79084634603): ?????? ?????, ????!",
+    "timestamp": "2025-07-03T11:49:09.159936Z"
+  },
+  {
+    "insertId": "68666e3500027030afdd54d1",
+    "labels": {
+      "instanceId": "0069c7a98811fca2b19b73293087727c4e3be07e930da2b9aa8de8cdfeca25ced658c5ad06e3d67207055ed67d93eace55dbf293e98113ad54baa6af1e7e9c83a63076a14c42bc91f74e2bb88879541dbefb"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-03T11:49:09.326025825Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00130-fvr",
+        "service_name": "auraflora-bot"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "2025-07-03 11:49:09,161 - webhook_flow - INFO - [webhook_handlers.py:log_with_context:157] [WEBHOOK_SEND_MESSAGE_TO] Sending to: 79084634603",
+    "timestamp": "2025-07-03T11:49:09.159792Z"

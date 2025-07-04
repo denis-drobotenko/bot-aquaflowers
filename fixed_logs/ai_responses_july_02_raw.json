@@ -1,0 +1,872 @@
+[
+  {
+    "timestamp": "2025-07-02T02:05:48.727416+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:05:48.727460+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T02:05:48.727667+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T02:05:55.378319+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:05:55.378369+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T02:05:55.455836+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T02:05:55.456008+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:06:12.764578+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:06:12.764634+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T02:06:12.816649+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Candy’s'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Candy’s'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:06:12.816701+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'rl7vdxciro'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'rl7vdxciro'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:06:26.907134+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:06:26.907181+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041f\\u043e\\u043d\\u044f\\u043b, \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u043d\\u0443\\u0436\\u043d\\u0430 \\u0432 Centrio condo. \\u041a\\u043e\\u0..."
+  },
+  {
+    "timestamp": "2025-07-02T02:06:26.956643+00:00",
+    "response": "Понял, доставка нужна в Centrio condo. Когда бы вы хотели получить букет? Укажите, пожалуйста, дату и время. Мы доставляем с 8:00 до 21:00.",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Понял, доставка нужна в Centrio condo. Когда бы вы хотели получить букет? Укажите, пожалуйста, дату и время. Мы доставляем с 8:00 до 21:00."
+  },
+  {
+    "timestamp": "2025-07-02T02:06:26.956648+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'delivery_needed': True, 'address': 'Centrio condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'delivery_needed': True, 'address': 'Centrio condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:12:08.564106+00:00",
+    "response": "Произошла ошибка при обработке вашего запроса.",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Произошла ошибка при обработке вашего запроса."
+  },
+  {
+    "timestamp": "2025-07-02T02:18:36.918089+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:18:36.918144+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T02:18:36.918393+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T02:18:44.298014+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:18:44.298087+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T02:18:44.350904+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T02:18:44.350930+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:00.963955+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:00.964037+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T02:19:01.014258+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:01.014388+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'rl7vdxci0s'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'rl7vdxci0s'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:25.563925+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:25.563994+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T02:19:25.564308+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:36.548539+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:36.548587+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T02:19:36.630113+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:36.630163+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:53.165100+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:53.165146+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T02:19:53.246743+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:19:53.246783+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'candy_bouquet_id', 'price': '1450.00'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'candy_bouquet_id', 'price': '1450.00'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:20:06.295868+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:20:06.295924+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041f\\u043e\\u043d\\u044f\\u043b, \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u0431\\u0443\\u0434\\u0435\\u0442 \\u043f\\u043e \\u0430\\u0434\\u0440\\u0435..."
+  },
+  {
+    "timestamp": "2025-07-02T02:20:06.381569+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:20:06.381616+00:00",
+    "response": "Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:30:57.467388+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:30:57.467447+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T02:30:57.467723+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T02:31:04.448158+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:31:04.448220+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T02:31:04.500613+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T02:31:04.500627+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:31:19.062693+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:31:19.062763+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T02:31:19.112717+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:31:19.112757+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'rl7vdxcifo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'rl7vdxcifo'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:36:07.281490+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:36:07.281651+00:00",
+    "response": "None",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: None"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:19.530521+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:19.530603+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T02:57:19.530915+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:32.611306+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:32.611379+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T02:57:32.611618+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:34.639723+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:34.639804+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T02:57:34.712858+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:34.712924+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:41.294911+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:41.295056+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T02:57:41.348205+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T02:57:41.348255+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:12.432794+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:12.432859+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T02:58:12.482619+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:12.482669+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'r22x21743h'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'r22x21743h'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:19.011207+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:19.011265+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T02:58:19.099537+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Good vibes 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Good vibes 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:19.099607+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Good vibes 🌸', 'retailer_id': 'rl7vdxcifo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Good vibes 🌸', 'retailer_id': 'rl7vdxcifo'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:36.950093+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:36.950162+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e, \\u0437\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0430\\u0434\\u0440\\u0435\\u0441: Centrio condo. \\u041a\\u043e\\u0..."
+  },
+  {
+    "timestamp": "2025-07-02T02:58:36.999882+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:58:36.999950+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'rl7vdxcifo', 'delivery_needed': True, 'address': 'Centrio condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'rl7vdxcifo', 'delivery_needed': True, 'address': 'Centrio condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T02:59:11.474017+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T02:59:11.474085+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T02:59:11.555459+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Spirit 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Spirit 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T02:59:11.555464+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Spirit 🌸', 'retailer_id': 'rl7vdxcifo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Spirit 🌸', 'retailer_id': 'rl7vdxcifo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:01.469067+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:01.469123+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T03:12:01.469422+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:10.032412+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:10.032449+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:12:10.138047+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:10.138112+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:23.887355+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:23.887409+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T03:12:23.939870+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Candy’s 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:23.939911+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'rl7vdxm4j7'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s 🌸', 'retailer_id': 'rl7vdxm4j7'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:46.916929+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:46.916998+00:00",
+    "response": "{{\\n  \\",
+    "original_log": "                \"text\": \"{{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b, \\u0447\\u0442\\u043e \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:12:46.967712+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:12:46.967778+00:00",
+    "response": "Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:06.612029+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:06.669245+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:06.669251+00:00",
+    "response": "Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:25.798713+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:25.798767+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b, \\u0447\\u0442\\u043e \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a..."
+  },
+  {
+    "timestamp": "2025-07-02T03:13:25.871135+00:00",
+    "response": "Отлично! Записал, что доставка нужна по адресу Centrio Condo. Когда вам удобно получить букет? Укажите, пожалуйста, дату и время.",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал, что доставка нужна по адресу Centrio Condo. Когда вам удобно получить букет? Укажите, пожалуйста, дату и время."
+  },
+  {
+    "timestamp": "2025-07-02T03:13:25.871185+00:00",
+    "response": "Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:40.673796+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:40.673834+00:00",
+    "response": "{{\\n  \\",
+    "original_log": "                \"text\": \"{{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0443 \\u043d\\u0430 03 July ..."
+  },
+  {
+    "timestamp": "2025-07-02T03:13:40.727634+00:00",
+    "response": "Отлично! Записал доставку на 03 July 2025 к 17:00. Нужна ли открытка к букету? Если да, то какой текст на ней написать?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал доставку на 03 July 2025 к 17:00. Нужна ли открытка к букету? Если да, то какой текст на ней написать?"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:40.727697+00:00",
+    "response": "Command: {'type': 'save_order_info', 'date': '03 July 2025', 'time': '17:00'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'date': '03 July 2025', 'time': '17:00'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:53.714002+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:13:53.714137+00:00",
+    "response": "\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b, \\u0447\\u0442\\u043e \\u043d\\u0443\\u0436\\u043d\\u0430 \\u043e\\u0442\\u043a\\u0440\\u044b\\u0442\\u043a\\u0430 \\u0441 \\u0442\\u0435\\u043a\\u0441\\u0442\\u043e\\u043c \\",
+    "original_log": "                \"text\": \"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b, \\u0447\\u0442\\u043e \\u043d\\u0443\\u0436\\u043d\\u0430 \\u043e\\u0442\\u043a\\u0440\\u044b\\u0442\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:13:53.714414+00:00",
+    "response": "Отлично! Записал, что нужна открытка с текстом \"Люблю\". Как зовут получателя букета? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал, что нужна открытка с текстом \"Люблю\". Как зовут получателя букета? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:03.797374+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:03.797425+00:00",
+    "response": "\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0438\\u043c\\u044f \\u043f\\u043e\\u043b\\u0443\\u0447\\u0430\\u0442\\u0435\\u043b\\u044f: \\u0421\\u0430\\u0448\\u0430. \\u041a\\u0430\\u043a\\u043e\\u0439 \\u043d\\u043e\\u043c\\u0435\\u0440 \\u0442\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\\u0430 \\u043f\\u043e\\u043b\\u0443\\u0447\\u0430\\u0442\\u0435\\u043b\\u044f? \\ud83c\\udf38",
+    "original_log": "                \"text\": \"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0438\\u043c\\u044f \\u043f\\u043e\\u043b\\u0443\\u0447\\u0430\\u0442\\u0435\\u043b\\u044f: \\u0421\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:14:03.797587+00:00",
+    "response": "Отлично! Записал имя получателя: Саша. Какой номер телефона получателя? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал имя получателя: Саша. Какой номер телефона получателя? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:16.969004+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:16.969062+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u043d\\u043e\\u043c\\u0435\\u0440 \\u0442\\u0435\\u043b\\u0435\\u0444\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:14:17.046303+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:17.046386+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': '2j2q6g57wo', 'delivery_needed': True, 'address': 'Centrio Condo', 'date': '03 July 2025', 'time': '17:00', 'card_needed': True, 'card_text': 'Люблю', 'recipient_name': 'Саша', 'recipient_phone': '4578535774'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': '2j2q6g57wo', 'delivery_needed': True, 'address': 'Centrio Condo', 'date': '03 July 2025'..."
+  },
+  {
+    "timestamp": "2025-07-02T03:14:26.146794+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:26.146842+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T03:14:26.147126+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:35.086425+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:35.086519+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:14:35.136585+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:35.136637+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:38.817799+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:38.817838+00:00",
+    "response": "{{\\n  \\",
+    "original_log": "                \"text\": \"{{\\n  \\\"text\\\": \\\"\\u041f\\u0440\\u043e\\u0448\\u0443 \\u043f\\u0440\\u043e\\u0449\\u0435\\u043d\\u0438\\u044f \\u0437\\u0430 \\u043f\\u043e\\u0432\\u0442\\u043e\\u0440\\u043d\\u044b\\u0439 \\u0432\\u0..."
+  },
+  {
+    "timestamp": "2025-07-02T03:14:38.818122+00:00",
+    "response": "Прошу прощения за повторный вопрос! Спасибо, что указали номер телефона получателя. Давайте сверим все детали вашего заказа:",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Прошу прощения за повторный вопрос! Спасибо, что указали номер телефона получателя. Давайте сверим все детали вашего заказа:"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:56.165668+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:56.165718+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T03:14:56.217386+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Clouds 🌸'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Clouds 🌸'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:14:56.217438+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Clouds 🌸', 'retailer_id': 'rl7vdxcifo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Clouds 🌸', 'retailer_id': 'rl7vdxcifo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:15:00.545793+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:15:00.545842+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0412\\u0430\\u0448 \\u0437\\u0430\\u043a\\u0430\\u0437 \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:15:00.599184+00:00",
+    "response": "Отлично! Ваш заказ подтвержден и передан в обработку. Мы свяжемся с вами в ближайшее время! 🌹",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Ваш заказ подтвержден и передан в обработку. Мы свяжемся с вами в ближайшее время! 🌹"
+  },
+  {
+    "timestamp": "2025-07-02T03:15:00.599230+00:00",
+    "response": "Command: {'type': 'confirm_order', 'order_summary': 'Заказ подтвержден'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'confirm_order', 'order_summary': 'Заказ подтвержден'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:15:53.928416+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:15:53.928460+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041f\\u043e\\u043d\\u044f\\u043b, \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u0432 Centrio Condo. \\u041a\\u043e\\u0433\\u0434\\u0430 \\u043d\\u0443\\u0..."
+  },
+  {
+    "timestamp": "2025-07-02T03:15:53.979535+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:15:53.979615+00:00",
+    "response": "Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'delivery_needed': True, 'address': 'Centrio Condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:30:48.817122+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:30:48.817163+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T03:30:48.817508+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T03:30:57.723752+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:30:57.723791+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:30:57.774610+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T03:30:57.774646+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:12.475970+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:12.476022+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e! \\u0417\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0432\\u0430\\u0448 \\u0432\\u044b\\u0431\\u043e\\u0440 \\u0431\\u0443..."
+  },
+  {
+    "timestamp": "2025-07-02T03:31:12.525619+00:00",
+    "response": "Отлично! Записал ваш выбор букета 'Candy’s'. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета 'Candy’s'. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:12.525649+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'rl7vdxcifo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'rl7vdxcifo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:28.075183+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:28.125470+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:28.125520+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'delivery_needed': True, 'address': 'Centrio condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'delivery_needed': True, 'address': 'Centrio condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:43.252742+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:43.252784+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e, \\u0437\\u0430\\u043f\\u0438\\u0441\\u0430\\u043b \\u0430\\u0434\\u0440\\u0435\\u0441 \\u0434\\u043e\\u0441\\u0442\\u0430\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:31:43.306547+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:31:43.306585+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'delivery_needed': True, 'address': 'Centrio condo', 'retailer_id': 'rl7vdxcifo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'delivery_needed': True, 'address': 'Centrio condo', 'retailer_id': 'rl7vdxcifo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:32:04.811552+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:32:04.811600+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u041f\\u043e\\u043d\\u044f\\u043b, \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u043d\\u0443\\u0436\\u043d\\u0430 \\u043f\\u043e \\u0430\\u0434\\u0440\\u0435..."
+  },
+  {
+    "timestamp": "2025-07-02T03:32:04.866536+00:00",
+    "response": "Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Отлично! Записал ваш выбор букета. Нужна ли доставка? Если да, то куда?"
+  },
+  {
+    "timestamp": "2025-07-02T03:32:04.866583+00:00",
+    "response": "Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'hijklmnop3', 'delivery_needed': True, 'address': 'Centrio condo'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'save_order_info', 'bouquet': 'Candy’s', 'retailer_id': 'hijklmnop3', 'delivery_needed': True, 'address': 'Centrio condo'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:55:37.837927+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:55:37.837972+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  },
+  {
+    "timestamp": "2025-07-02T03:55:37.949433+00:00",
+    "response": "Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸"
+  },
+  {
+    "timestamp": "2025-07-02T03:55:46.496976+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:55:46.497022+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0421\\u0435\\u0439\\u0447\\u0430\\u0441 \\u043f\\u043e\\u043a\\u0430\\u0436\\u0443 \\u0432\\u0430\\u043c \\u043a\\u0430\\u0436\\u0434\\u044b\\u0439 \\u0431\\u0443\\u043a\\..."
+  },
+  {
+    "timestamp": "2025-07-02T03:55:46.603306+00:00",
+    "response": "Сейчас покажу вам каждый букет отдельно с фотографией и описанием!",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] AI response: Сейчас покажу вам каждый букет отдельно с фотографией и описанием!"
+  },
+  {
+    "timestamp": "2025-07-02T03:55:46.603369+00:00",
+    "response": "Command: {'type': 'send_catalog'}",
+    "original_log": "INFO:src.webhook_handlers:[AI_DEBUG] Command: {'type': 'send_catalog'}"
+  },
+  {
+    "timestamp": "2025-07-02T03:55:50.414797+00:00",
+    "response": "response:",
+    "original_log": "INFO:src.ai_manager:[AI_LOG] Raw AI response: response:"
+  },
+  {
+    "timestamp": "2025-07-02T03:55:50.414881+00:00",
+    "response": "```json\\n{\\n  \\",
+    "original_log": "                \"text\": \"```json\\n{\\n  \\\"text\\\": \\\"\\u0417\\u0434\\u0440\\u0430\\u0432\\u0441\\u0442\\u0432\\u0443\\u0439\\u0442\\u0435! \\u0425\\u043e\\u0442\\u0438\\u0442\\u0435 \\u043f\\u043e\\u0441\\u043c\\u043e\\u0442\\u..."
+  }
+]

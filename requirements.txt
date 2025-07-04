@@ -1,0 +1,22 @@
+fastapi
+uvicorn
+httpx
+google-generativeai
+google-cloud-firestore
+google-cloud-logging
+firebase-admin
+python-dotenv
+requests
+line-bot-sdk
+pytz
+jinja2
+
+# Библиотеки для работы с кодировками
+ftfy
+unidecode
+charset-normalizer
+
+# Зависимости для тестирования
+pytest
+pytest-asyncio
+respx 

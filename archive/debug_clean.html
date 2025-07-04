@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Debug Interface</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f2f2f7;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 10px auto;
+            padding: 10px 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 320px 400px 1fr;
+            gap: 20px;
+            height: 90vh;
+        }
+        
+        .panel {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px 18px 18px 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            overflow-y: auto;
+        }
+        
+        .stats {
+            background: #f7f7fa;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 16px;
+            color: #333;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        #session-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        #session-list li {
+            background: #f8f9fa;
+            border-radius: 7px;
+            padding: 10px 14px;
+            margin-bottom: 7px;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+            color: #222;
+            font-size: 15px;
+            transition: background 0.2s, color 0.2s;
+        }
+        
+        #session-list li:hover {
+            background: #e9ecef;
+            color: #007AFF;
+        }
+        
+        #session-list li.active {
+            background: #007AFF;
+            color: #fff;
+            border-color: #007AFF;
+        }
+        
+        #loadLogsBtn, #newSessionIdBtn {
+            background: #e0e0e0;
+            color: #222;
+            border: none;
+            padding: 12px 0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 4px;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        #loadLogsBtn:hover, #newSessionIdBtn:hover {
+            background: #bdbdbd;
+        }
+        
+        label {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        input[type="number"] {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 15px;
+            width: 70px;
+            margin-left: 6px;
+        }
+        
+        h3 {
+            color: #222;
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .session-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .session-item:hover {
+            background: #e9ecef;
+        }
+        
+        .session-item.active {
+            background: #007AFF;
+            color: white;
+        }
+        
+        .session-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .session-avatar {
+            width: 32px;
+            height: 32px;
+            background: #007AFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .session-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .session-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .session-preview {
+            font-size: 12px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .session-time {
+            font-size: 11px;
+            color: #999;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        
+        .session-item.active .session-name,
+        .session-item.active .session-preview,
+        .session-item.active .session-time {
+            color: white;
+        }
+        
+        .message.assistant {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .message.assistant:hover {
+            opacity: 0.8;
+        }
+        
+        .message.assistant.has-history {
+            border: 2px solid #007AFF;
+        }
+        
+        .ai-history-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .ai-history-item:hover {
+            background: #e9ecef;
+        }
+        
+        .ai-history-item.active {
+            background: #007AFF;
+            color: white;
+        }
+        
+        .ai-history-status {
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .ai-history-time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-bottom: 2px;
+        }
+        
+        .ai-history-logger {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        .ai-history-data {
+            font-size: 11px;
+            color: #333;
+            margin-top: 4px;
+            padding: 4px;
+            background: #f8f9fa;
+            border-radius: 3px;
+            border-left: 3px solid #007bff;
+        }
+        
+        .ai-history-data.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .ai-history-details {
+            font-size: 10px;
+            color: #666;
+            margin-top: 8px;
+            padding: 8px;
+            background: #f1f3f4;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .ai-history-pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .ai-history-pagination button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .ai-history-pagination button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .message {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 18px;
+            position: relative;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .message.user {
+            background: #007AFF;
+            color: white;
+            margin-left: auto;
+            margin-right: 0;
+        }
+        
+        .message.assistant {
+            background: #E9E9EB;
+            color: #000;
+            margin-left: 0;
+            margin-right: auto;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .message-role {
+            font-weight: 500;
+            font-size: 11px;
+            opacity: 0.8;
+        }
+        
+        .message-time {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+        
+        .message-content {
+            line-height: 1.4;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        
+        .message-hint {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 4px;
+            text-align: center;
+        }
+        
+        .reply-info {
+            font-size: 12px;
+            color: #2196F3;
+            margin-bottom: 8px;
+            font-weight: 500;
+            background: rgba(33, 150, 243, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border-left: 3px solid #2196F3;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .stats {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .ai-stage-label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 2px;
+            color: #fff;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 8px 8px 8px 0;
+        }
+        .ai-stage-send .ai-stage-label { background: #007bff; }
+        .ai-stage-response .ai-stage-label { background: #28a745; }
+        .ai-stage-process .ai-stage-label { background: #ff9800; }
+        .ai-func-file {
+            font-size: 11px;
+            color: #555;
+            margin-top: 4px;
+            background: #e9ecef;
+            border-radius: 3px;
+            padding: 2px 6px;
+            display: inline-block;
+        }
+        
+        .ai-type {
+            font-size: 10px;
+            color: #666;
+            margin-top: 2px;
+            font-style: italic;
+        }
+        
+        .ai-history-group {
+            margin-bottom: 20px;
+        }
+        
+        .ai-group-separator hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 15px 0;
+        }
+        
+        .ai-request-id {
+            font-size: 10px;
+            color: #666;
+            margin-top: 2px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            padding: 2px 6px;
+            display: inline-block;
+        }
+        
+        .ai-group-header {
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            padding: 5px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .ai-status-description {
+            font-size: 10px;
+            color: #666;
+            margin-top: 2px;
+            font-style: italic;
+        }
+        
+        .deploy-btn {
+            background: linear-gradient(45deg, #7b2ff2, #f357a8);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            font-size: 15px;
+            font-weight: bold;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(123,47,242,0.15);
+            letter-spacing: 0.5px;
+        }
+        .deploy-btn:hover {
+            background: linear-gradient(45deg, #f357a8, #7b2ff2);
+            box-shadow: 0 4px 16px rgba(123,47,242,0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="grid">
+            <div class="panel">
+                <h3>Сессии пользователей</h3>
+                <div class="stats" id="stats">
+                    <div>Загрузка статистики...</div>
+                </div>
+                <div style="margin: 16px 0; display: flex; flex-direction: column; gap: 10px;">
+                    <label>Период (минут): <input type="number" id="logPeriodInput" value="20" min="1" max="1440" style="width:60px;"></label>
+                    <button id="loadLogsBtn">Загрузить логи</button>
+                    <button id="newSessionIdBtn">Новый session_id для выбранного пользователя</button>
+                </div>
+                <ul id="session-list"></ul>
+            </div>
+            
+            <div class="panel">
+                <h3>Просмотр диалога</h3>
+                <div id="dialog-content">
+                    <div class="empty-state">
+                        Выберите сессию для просмотра диалога
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h3>История AI</h3>
+                <div id="ai-history-content">
+                    <div class="empty-state">
+                        Кликните на AI сообщение для просмотра истории
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSessionId = null;
+        let serverLogs = [];
+        let currentMessages = [];
+        let currentAiHistoryIndex = -1;
+        let currentHistoryPage = 0;
+        const SERVER_URL = 'https://auraflora-bot-75152239022.asia-southeast1.run.app';
+        
+        async function loadLogsFromServer() {
+            try {
+                const period = parseInt(document.getElementById('logPeriodInput').value) || 20;
+                console.log('Загружаю логи с сервера за период:', period, 'минут...');
+                document.getElementById('stats').innerHTML = '<div>Загрузка...</div>';
+                const response = await fetch(SERVER_URL + '/api/debug/logs?period_min=' + period);
+                const data = await response.json();
+                serverLogs = data.logs || [];
+                console.log('Загружено ' + serverLogs.length + ' логов');
+                document.getElementById('stats').innerHTML = '<div>Логов: ' + serverLogs.length + '</div>';
+                
+                // Автоматически сохраняем логи в файл
+                await saveLogsToServer();
+                
+                await loadSessions();
+            } catch (error) {
+                console.error('Ошибка:', error);
+                document.getElementById('stats').innerHTML = '<div>Ошибка загрузки</div>';
+            }
+        }
+        
+        function buildSessionsFromLogs(logs) {
+            console.log('🔍 buildSessionsFromLogs: начало парсинга', logs.length, 'логов');
+            const sessions = {};
+            
+            // Ищем session_id в логах
+            logs.forEach(function(log, index) {
+                const message = log.message || log.textPayload || '';
+                // Пропускаем служебные логи сервера
+                if (message.includes('[DEBUG_LOGS]') || 
+                    message.includes('INFO:src.main:') || 
+                    message.includes('INFO: ') ||
+                    message.includes('WARNING: ') ||
+                    message.includes('ERROR: ') ||
+                    message.includes('"POST /webhook HTTP/1.1"') ||
+                    message.includes('"GET /') ||
+                    message.includes('INFO:src.webhook_handlers:')) {
+                    return;
+                }
+                console.log(`📝 Лог ${index + 1}:`, message.substring(0, 100) + '...');
+                
+                // Извлекаем session_id из разных паттернов
+                let sessionId = log.session_id;
+                if (!sessionId) {
+                    // Ищем в тексте лога - более точный паттерн для Session
+                    const sessionMatch = message.match(/Session[:\s]+([^\s,|]+)/);
+                    if (sessionMatch) {
+                        sessionId = sessionMatch[1];
+                        console.log('✅ Найден session_id в тексте:', sessionId);
+                    }
+                }
+                
+                // Если session_id не найден, пропускаем лог
+                if (!sessionId) {
+                    return;
+                }
+                
+                // Группируем по sender_id (первая часть session_id)
+                const senderId = sessionId.split('_')[0] || sessionId;
+                
+                if (!sessions[senderId]) {
+                    sessions[senderId] = {
+                        session_id: sessionId, // Используем полный session_id
+                        sender_id: senderId,
+                        message_count: 0,
+                        last_message_time: log.timestamp,
+                        unique_messages: new Set() // Для отслеживания уникальных сообщений
+                    };
+                    console.log('🆕 Создана новая сессия:', senderId, 'с session_id:', sessionId);
+                }
+                
+                // Подсчитываем уникальные сообщения пользователя
+                if (message.includes('[WEBHOOK_RAW_MESSAGE]') && (message.includes('"text"') || message.includes("'text'"))) {
+                    const content = extractUserMessageFromLog(message);
+                    if (content) {
+                        sessions[senderId].unique_messages.add(content);
+                        sessions[senderId].message_count = sessions[senderId].unique_messages.size;
+                        console.log('💬 Добавлено сообщение пользователя в сессию', senderId, ':', content.substring(0, 50));
+                    }
+                }
+                
+                if (log.timestamp > sessions[senderId].last_message_time) {
+                    sessions[senderId].last_message_time = log.timestamp;
+                }
+            });
+            
+            // Преобразуем в массив и сортируем
+            const sessionsList = Object.values(sessions).map(session => {
+                delete session.unique_messages; // Убираем Set из результата
+                return session;
+            });
+            
+            sessionsList.sort(function(a, b) {
+                return new Date(b.last_message_time) - new Date(a.last_message_time);
+            });
+            
+            console.log('📊 Результат парсинга:', sessionsList.length, 'сессий:', sessionsList);
+            return sessionsList;
+        }
+        
+        function buildMessagesFromLogs(sessionId, logs) {
+            const messages = [];
+            const seenMessages = new Set(); // Для отслеживания уже добавленных сообщений
+            
+            // Ищем логи для этой сессии (по sender_id)
+            let sessionLogs = [];
+            const senderId = sessionId.split('_')[0] || sessionId;
+            
+            for (const log of logs) {
+                const message = log.message || log.textPayload || '';
+                
+                // Проверяем session_id
+                if (log.session_id && log.session_id.startsWith(senderId)) {
+                    sessionLogs.push(log);
+                    continue;
+                }
+                
+                // Ищем session_id в тексте лога
+                const sessionMatch = message.match(/Session[:\s]+([^\s,|]+)/);
+                if (sessionMatch && sessionMatch[1].startsWith(senderId)) {
+                    sessionLogs.push(log);
+                    continue;
+                }
+                
+                // Ищем по sender_id в webhook данных - более точный поиск
+                // Ищем только основной from, не context.from
+                const webhookMatch = message.match(/['"]from['"]\s*:\s*['"]([^'"]+)['"]/);
+                if (webhookMatch && webhookMatch[1].match(/^\d+$/) && webhookMatch[1] !== '66963617068' && webhookMatch[1] === senderId) {
+                    sessionLogs.push(log);
+                    continue;
+                }
+            }
+            
+            console.log(`Анализирую ${sessionLogs.length} логов для сессии ${sessionId}`);
+            
+            // Ищем логи с AI ответами во всех логах, а не только в сессии
+            const allAiLogs = logs.filter(function(log) {
+                const message = log.message || log.textPayload || '';
+                return message.includes('[MESSAGE_AI_FINAL_RESULT]') || 
+                       message.includes('[MESSAGE_AI_RAW_TEXT]') ||
+                       message.includes('[JSON_AI_PARSE_USER_TEXT]') ||
+                       message.includes('[JSON_AI_FIX_SUCCESS]') ||
+                       message.includes('[WEBHOOK_AI_RESPONSE_TEXT]') ||
+                       message.includes('[MESSAGE_SEND_INPUT] Original message:') ||
+                       // Старые логи для обратной совместимости
+                       message.includes('[AI_RESPONSE_GENERATED]') || 
+                       message.includes('[AI_FINAL_RESULT]');
+            });
+            
+            console.log('Найдено ' + allAiLogs.length + ' логов с AI ответами во всех логах:');
+            allAiLogs.forEach(function(log, i) {
+                console.log('AI лог ' + (i+1) + ':', {
+                    logger: log.logger_name,
+                    message: log.message
+                });
+            });
+            
+            // Добавляем AI логи к сессионным логам для обработки
+            sessionLogs = sessionLogs.concat(allAiLogs);
+            
+            sessionLogs.forEach(function(log) {
+                const message = log.message || log.textPayload || '';
+                const timestamp = log.timestamp;
+                const logger = log.logger_name || '';
+                
+                // Входящие сообщения пользователя
+                if (message.includes('[WEBHOOK_RAW_MESSAGE]') && (message.includes('"text"') || message.includes("'text'"))) {
+                    const content = extractUserMessageFromLog(message);
+                    if (content && !seenMessages.has(content)) {
+                        seenMessages.add(content);
+                        
+                        // Собираем всю историю для этого конкретного сообщения
+                        const history = collectMessageHistory(content, sessionLogs, 'user');
+                        
+                        // Проверяем reply - ищем WEBHOOK_REPLY в логах в близком временном окне
+                        let replyTo = null;
+                        
+                        // Ищем reply логи в окне ±5 секунд от сообщения пользователя
+                        const messageTime = new Date(timestamp);
+                        const nearbyLogs = sessionLogs.filter(log => {
+                            const logTime = new Date(log.timestamp);
+                            return Math.abs(logTime - messageTime) < 5000; // 5 секунд
+                        });
+                        
+                        // Ищем reply в близких логах
+                        for (const nearbyLog of nearbyLogs) {
+                            const nearbyMessage = nearbyLog.message || '';
+                            
+                            // Поиск WEBHOOK_REPLY
+                            const replyMatch = nearbyMessage.match(/\[WEBHOOK_REPLY\] Reply to message ID: ([^\s,]+)/);
+                            if (replyMatch) {
+                                replyTo = replyMatch[1];
+                                break;
+                            }
+                            
+                            // Альтернативный поиск context.id в JSON
+                            const contextMatch = nearbyMessage.match(/"context":\s*{\s*"id":\s*"([^"]+)"/);
+                            if (contextMatch) {
+                                replyTo = contextMatch[1];
+                                break;
+                            }
+                            
+                            // Поиск в одинарных кавычках
+                            const singleQuoteMatch = nearbyMessage.match(/'context':\s*\{'id':\s*'([^']+)'/);
+                            if (singleQuoteMatch) {
+                                replyTo = singleQuoteMatch[1];
+                                break;
+                            }
+                        }
+                        
+                        messages.push({
+                            role: 'user',
+                            content: content,
+                            timestamp: timestamp,
+                            history: history,
+                            replyTo: replyTo
+                        });
+                    }
+                }
+                // AI сообщения - каждое отдельно (исключаем промежуточные этапы)
+                else if (message.includes('[MESSAGE_AI_FINAL_RESULT]') || 
+                         message.includes('[AI_RESPONSE_SAVED]') ||
+                         message.includes('[AI_RESPONSE_GENERATED]') || 
+                         message.includes('[AI_FINAL_RESULT]') ||
+                         message.includes('[WEBHOOK_AI_RESPONSE_TEXT]')) {
+                    
+                    console.log('🔍 Найден AI лог:', message.substring(0, 200) + '...');
+                    
+                    const content = extractBotResponseFromLog(message);
+                    console.log('📝 Извлеченный контент:', content);
+                    
+                    if (content && !seenMessages.has(content)) {
+                        seenMessages.add(content);
+                        
+                        console.log('✅ Добавляем AI сообщение:', content.substring(0, 100) + '...');
+                        
+                        // Собираем всю историю для этого конкретного сообщения
+                        const history = collectMessageHistory(content, sessionLogs, 'assistant');
+                        console.log('📚 Собрана история:', history.length, 'событий');
+                        
+                        messages.push({
+                            role: 'assistant',
+                            content: content,
+                            timestamp: timestamp,
+                            history: history
+                        });
+                    } else {
+                        console.log('❌ AI сообщение пропущено:', content ? 'уже существует' : 'пустой контент');
+                    }
+                }
+            });
+            
+            messages.sort(function(a, b) {
+                return new Date(a.timestamp) - new Date(b.timestamp);
+            });
+            
+            console.log('Построено ' + messages.length + ' уникальных сообщений');
+            return messages;
+        }
+        
+        function extractUserMessageFromLog(logMessage) {
+            console.log('🔍 extractUserMessageFromLog:', logMessage.substring(0, 100) + '...');
+            try {
+                // Извлекаем из структуры: 'text': {'body': 'Привет'}
+                const jsonMatch = logMessage.match(/'text':\s*\{'body':\s*'([^']+)'/);
+                if (jsonMatch) {
+                    const result = jsonMatch[1].trim();
+                    console.log('✅ Извлечено сообщение (паттерн 1):', result);
+                    return result;
+                }
+                
+                // Альтернативный паттерн с двойными кавычками
+                const jsonMatch2 = logMessage.match(/"text":\s*{\s*"body":\s*"([^"]+)"/);
+                if (jsonMatch2) {
+                    const result = jsonMatch2[1].trim();
+                    console.log('✅ Извлечено сообщение (паттерн 2):', result);
+                    return result;
+                }
+                
+                console.log('❌ Сообщение не найдено в логе');
+                return "";
+                
+            } catch (e) {
+                console.error('💥 Ошибка при извлечении сообщения:', e);
+                return "";
+            }
+        }
+        
+        function extractBotResponseFromLog(logMessage) {
+            console.log('🔍 extractBotResponseFromLog:', logMessage.substring(0, 200) + '...');
+            try {
+                // Функция для декодирования escape-последовательностей
+                function decodeText(text) {
+                    if (!text) return '';
+                    return text
+                        .replace(/\\xa0/g, ' ') // неразрывный пробел
+                        .replace(/\\n/g, '\n') // перенос строки
+                        .replace(/\\t/g, '\t') // табуляция
+                        .replace(/\\"/g, '"') // кавычки
+                        .replace(/\\\\/g, '\\') // обратный слеш
+                        .replace(/\\u([0-9a-fA-F]{4})/g, (match, hex) => String.fromCharCode(parseInt(hex, 16))) // Unicode
+                        .trim();
+                }
+                
+                // Приоритет 1: Финальный результат (самый важный)
+                const messageAiMatch = logMessage.match(/\[MESSAGE_AI_FINAL_RESULT\].*?Text:\s*(.+?)(?:,\s*Command:|$)/);
+                if (messageAiMatch) {
+                    const decodedText = decodeText(messageAiMatch[1]);
+                    console.log('✅ Найден MESSAGE_AI_FINAL_RESULT:', decodedText);
+                    return decodedText;
+                }
+                
+                // Приоритет 2: Сохраненный ответ
+                const aiSavedMatch = logMessage.match(/\[AI_RESPONSE_SAVED\].*?Text:\s*(.+?)(?:\s*\|\s*Message ID:|$)/);
+                if (aiSavedMatch) {
+                    console.log('✅ Найден AI_RESPONSE_SAVED:', aiSavedMatch[1].trim());
+                    return aiSavedMatch[1].trim();
+                }
+                
+                // Приоритет 3: Сгенерированный ответ
+                const aiGeneratedMatch = logMessage.match(/\[AI_RESPONSE_GENERATED\].*?Text:\s*(.+?)(?:\s*\|\s*Command:|$)/);
+                if (aiGeneratedMatch) {
+                    return aiGeneratedMatch[1].trim();
+                }
+                
+                // Приоритет 4: Старый формат
+                const aiMatch = logMessage.match(/\[AI_FINAL_RESULT\] Text:\s*(.+?)(?:,\s*Command:|$)/);
+                if (aiMatch) {
+                    return aiMatch[1].trim();
+                }
+                
+                // Приоритет 5: Webhook ответ
+                const responseMatch = logMessage.match(/\[WEBHOOK_AI_RESPONSE_TEXT\]\s*(.+)/);
+                if (responseMatch) {
+                    return responseMatch[1].trim();
+                }
+                
+                // Приоритет 6: Отправляемое сообщение
+                const sendMatch = logMessage.match(/\[MESSAGE_SEND_INPUT\] Original message:\s*(.+)/);
+                if (sendMatch) {
+                    return sendMatch[1].trim();
+                }
+                
+                // Приоритет 7: JSON AI результат (только если нет других)
+                const jsonAiMatch = logMessage.match(/\[JSON_AI_PARSE_USER_TEXT\].*?\| (.+)/);
+                if (jsonAiMatch) {
+                    return jsonAiMatch[1].trim();
+                }
+                
+                // Приоритет 8: Сырой текст (только если нет других и это не JSON)
+                const messageAiRawMatch = logMessage.match(/\[MESSAGE_AI_RAW_TEXT\].*?\| (.+)/);
+                if (messageAiRawMatch) {
+                    const rawText = messageAiRawMatch[1].trim();
+                    // Проверяем, что это не JSON код
+                    if (!rawText.startsWith('```json') && !rawText.startsWith('{') && !rawText.startsWith('[')) {
+                        return rawText;
+                    }
+                }
+                
+            } catch (e) {
+                console.error('Error:', e);
+            }
+            return '';
+        }
+        
+        function extractAiStatus(message) {
+            if (message.includes('[MESSAGE_AI_REQUEST_START]')) return 'MESSAGE_AI_REQUEST_START';
+            if (message.includes('[MESSAGE_AI_REQUEST_HISTORY]')) return 'MESSAGE_AI_REQUEST_HISTORY';
+            if (message.includes('[MESSAGE_AI_SYSTEM_INSTRUCTION]')) return 'MESSAGE_AI_SYSTEM_INSTRUCTION';
+            if (message.includes('[MESSAGE_AI_FILTERED_HISTORY]')) return 'MESSAGE_AI_FILTERED_HISTORY';
+            if (message.includes('[MESSAGE_AI_GEMINI_REQUEST]')) return 'MESSAGE_AI_GEMINI_REQUEST';
+            if (message.includes('[MESSAGE_AI_RAW_RESPONSE]')) return 'MESSAGE_AI_RAW_RESPONSE';
+            if (message.includes('[MESSAGE_AI_RAW_TEXT]')) return 'MESSAGE_AI_RAW_TEXT';
+            if (message.includes('[MESSAGE_AI_FINAL_RESULT]')) return 'MESSAGE_AI_FINAL_RESULT';
+            if (message.includes('[MESSAGE_AI_REQUEST_END]')) return 'MESSAGE_AI_REQUEST_END';
+            if (message.includes('[MESSAGE_AI_REQUEST_EXCEPTION]')) return 'MESSAGE_AI_REQUEST_EXCEPTION';
+            
+            if (message.includes('[JSON_AI_EXTRACT_START]')) return 'JSON_AI_EXTRACT_START';
+            if (message.includes('[JSON_AI_EXTRACT_INPUT]')) return 'JSON_AI_EXTRACT_INPUT';
+            if (message.includes('[JSON_AI_EXTRACT_STEP1]')) return 'JSON_AI_EXTRACT_STEP1';
+            if (message.includes('[JSON_AI_EXTRACT_STEP2]')) return 'JSON_AI_EXTRACT_STEP2';
+            if (message.includes('[JSON_AI_FIX_START]')) return 'JSON_AI_FIX_START';
+            if (message.includes('[JSON_AI_FIX_PROMPT]')) return 'JSON_AI_FIX_PROMPT';
+            if (message.includes('[JSON_AI_FIX_RAW_RESPONSE]')) return 'JSON_AI_FIX_RAW_RESPONSE';
+            if (message.includes('[JSON_AI_FIX_TEXT]')) return 'JSON_AI_FIX_TEXT';
+            if (message.includes('[JSON_AI_FIX_SUCCESS]')) return 'JSON_AI_FIX_SUCCESS';
+            if (message.includes('[JSON_AI_PARSE_INPUT]')) return 'JSON_AI_PARSE_INPUT';
+            if (message.includes('[JSON_AI_PARSE_JSON_DATA]')) return 'JSON_AI_PARSE_JSON_DATA';
+            if (message.includes('[JSON_AI_PARSE_USER_TEXT]')) return 'JSON_AI_PARSE_USER_TEXT';
+            if (message.includes('[JSON_AI_PARSE_COMMAND]')) return 'JSON_AI_PARSE_COMMAND';
+            
+            if (message.includes('[WEBHOOK_AI_RESPONSE_TEXT]')) return 'WEBHOOK_AI_RESPONSE_TEXT';
+            if (message.includes('[MESSAGE_SEND_INPUT]')) return 'MESSAGE_SEND_INPUT';
+            if (message.includes('[MESSAGE_SEND_START]')) return 'MESSAGE_SEND_START';
+            return 'OTHER';
+        }
+        
+        function extractRequestId(message) {
+            const match = message.match(/RequestID:\s*([a-f0-9]{8})/);
+            return match ? match[1] : null;
+        }
+        
+        function extractFuncFile(message) {
+            // Извлекаем файл и функцию из начала лога: [ai_manager.py:get_ai_response:123]
+            const match = message.match(/^\[([^:]+):([^:]+):(\d+)\]/);
+            if (match) {
+                return match[1] + ':' + match[2] + ':' + match[3];
+            }
+            return '';
+        }
+        
+        function collectMessageHistory(content, sessionLogs, role) {
+            const history = [];
+            
+            // Находим время этого сообщения
+            const messageTime = new Date(sessionLogs.find(log => 
+                log.message && log.message.includes(content) && 
+                (log.message.includes('[MESSAGE_AI_FINAL_RESULT]') || 
+                 log.message.includes('[AI_RESPONSE_SAVED]') ||
+                 log.message.includes('[AI_FINAL_RESULT]') || 
+                 log.message.includes('[AI_RESPONSE_GENERATED]'))
+            )?.timestamp || Date.now());
+            
+            // Для AI сообщений увеличиваем временное окно до 2 минут
+            const timeWindow = role === 'assistant' ? 120 * 1000 : 30 * 1000; // 2 минуты для AI, 30 секунд для пользователя
+            
+            sessionLogs.forEach(function(log) {
+                const message = log.message || log.textPayload || '';
+                const timestamp = log.timestamp;
+                const logger = log.logger_name || '';
+                const logTime = new Date(timestamp);
+                
+                // Для AI сообщений ищем логи вокруг времени сообщения (±2 минуты)
+                if (role === 'assistant') {
+                    const timeDiff = Math.abs(messageTime - logTime);
+                    if (timeDiff <= timeWindow) {
+                        // Проверяем, относится ли лог к этому сообщению
+                        if (isRelatedToMessage(content, message, logTime, messageTime)) {
+                            history.push({
+                                status: extractAiStatus(message),
+                                timestamp: timestamp,
+                                logger: logger,
+                                fullMessage: message,
+                                extractedData: extractRelevantData(message)
+                            });
+                        }
+                    }
+                } else {
+                    // Для пользовательских сообщений ищем логи до сообщения
+                    if (logTime <= messageTime && (messageTime - logTime) <= timeWindow) {
+                        if (isRelatedToMessage(content, message, logTime, messageTime)) {
+                            history.push({
+                                status: extractAiStatus(message),
+                                timestamp: timestamp,
+                                logger: logger,
+                                fullMessage: message,
+                                extractedData: extractRelevantData(message)
+                            });
+                        }
+                    }
+                }
+            });
+            
+            // Сортируем по времени
+            history.sort(function(a, b) {
+                return new Date(a.timestamp) - new Date(b.timestamp);
+            });
+            
+            return history;
+        }
+        
+        function isRelatedToMessage(content, logMessage, logTime, messageTime) {
+            // Проверяем, содержит ли лог тот же текст сообщения
+            if (logMessage.includes(content)) return true;
+            
+            // Проверяем AI-связанные логи
+            const timeDiff = Math.abs(messageTime - logTime);
+            if (timeDiff <= 120000) { // 2 минуты для AI логики
+                if (logMessage.includes('[MESSAGE_AI_') || 
+                    logMessage.includes('[JSON_AI_') ||
+                    logMessage.includes('[WEBHOOK_AI_') || 
+                    logMessage.includes('[MESSAGE_SEND_') ||
+                    // Старые логи для обратной совместимости
+                    logMessage.includes('[AI_')) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        function extractRelevantData(message) {
+            const data = {};
+            
+            // Извлекаем промпт из системной инструкции (новые логи)
+            const promptMatch = message.match(/\[MESSAGE_AI_SYSTEM_INSTRUCTION\].*?\| (.+)/);
+            if (promptMatch) {
+                data.prompt = promptMatch[1];
+            }
+            
+            // Извлекаем сырую историю (новые логи)
+            const historyMatch = message.match(/\[MESSAGE_AI_REQUEST_HISTORY\].*?\| (.+)/);
+            if (historyMatch) {
+                data.chatHistory = historyMatch[1];
+            }
+            
+            // Извлекаем отфильтрованную историю (новые логи)
+            const filteredMatch = message.match(/\[MESSAGE_AI_FILTERED_HISTORY\].*?\| (.+)/);
+            if (filteredMatch) {
+                data.filteredHistory = filteredMatch[1];
+            }
+            
+            // Извлекаем JSON промпт для исправления (новые логи)
+            const jsonPromptMatch = message.match(/\[JSON_AI_FIX_PROMPT\].*?\| (.+)/);
+            if (jsonPromptMatch) {
+                data.prompt = jsonPromptMatch[1];
+            }
+            
+            // Извлекаем ошибки (новые логи)
+            const errorMatch = message.match(/\[MESSAGE_AI_REQUEST_EXCEPTION\].*?Error: (.+)/);
+            if (errorMatch) {
+                data.error = errorMatch[1];
+            }
+            
+            // Извлекаем JSON ошибки (новые логи)
+            const jsonErrorMatch = message.match(/\[JSON_AI_.*?_ERROR\].*?\| (.+)/);
+            if (jsonErrorMatch) {
+                data.error = jsonErrorMatch[1];
+            }
+            
+            // Старые логи для обратной совместимости
+            const oldPromptMatch = message.match(/\[AI_SYSTEM_INSTRUCTION\].*?\| (.+)/);
+            if (oldPromptMatch) {
+                data.prompt = oldPromptMatch[1];
+            }
+            
+            const oldHistoryMatch = message.match(/\[AI_REQUEST_HISTORY\].*?\| (.+)/);
+            if (oldHistoryMatch) {
+                data.chatHistory = oldHistoryMatch[1];
+            }
+            
+            const oldFilteredMatch = message.match(/\[AI_FILTERED_HISTORY\].*?\| (.+)/);
+            if (oldFilteredMatch) {
+                data.filteredHistory = oldFilteredMatch[1];
+            }
+            
+            const oldErrorMatch = message.match(/\[AI_REQUEST_EXCEPTION\].*?Error: (.+)/);
+            if (oldErrorMatch) {
+                data.error = oldErrorMatch[1];
+            }
+            
+            return data;
+        }
+        
+        async function loadSessions() {
+            console.log('🔄 loadSessions: начало загрузки сессий');
+            console.log('📦 serverLogs.length:', serverLogs.length);
+            
+            if (!serverLogs || serverLogs.length === 0) {
+                console.log('❌ Нет логов для парсинга сессий');
+                const sessionsList = document.getElementById('sessions-list');
+                if (sessionsList) {
+                    sessionsList.innerHTML = '<div class="empty-state">Нет логов для анализа</div>';
+                }
+                return;
+            }
+            
+            try {
+                const sessions = buildSessionsFromLogs(serverLogs);
+                console.log('📋 Построено сессий:', sessions.length);
+                
+                if (sessions.length === 0) {
+                    console.log('⚠️ Сессии не найдены в логах');
+                    const sessionsList = document.getElementById('sessions-list');
+                    if (sessionsList) {
+                        sessionsList.innerHTML = '<div class="empty-state">Сессии не найдены в логах</div>';
+                    }
+                    return;
+                }
+                
+                console.log('🎯 Отображаем сессии в интерфейсе');
+                displaySessions(sessions);
+                
+            } catch (error) {
+                console.error('💥 Ошибка при загрузке сессий:', error);
+                const sessionsList = document.getElementById('sessions-list');
+                if (sessionsList) {
+                    sessionsList.innerHTML = '<div class="empty-state">Ошибка при загрузке сессий</div>';
+                }
+            }
+        }
+       
+               function displaySessions(sessions) {
+            const sessionList = document.getElementById('session-list');
+            if (!sessionList) return;
+            sessionList.innerHTML = '';
+            
+            document.getElementById('stats').innerHTML = '<div>Сессий: ' + sessions.length + '</div><div>Логов: ' + serverLogs.length + '</div>';
+            
+            sessions.forEach(session => {
+                        const sessionName = session.sender_id;
+                
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="session-header">
+                        <div class="session-avatar">👤</div>
+                        <div class="session-info">
+                            <div class="session-name">${sessionName}</div>
+                            <div class="session-preview">${session.message_count} сообщений</div>
+                        </div>
+                        <div class="session-time">${formatTime(session.last_message_time)}</div>
+                    </div>
+                `;
+                li.onclick = () => selectSession(session.session_id);
+                sessionList.appendChild(li);
+            });
+        }
+       
+       async function selectSession(sessionId) {
+            const sessionList = document.getElementById('session-list');
+            if (!sessionList) return;
+            Array.from(sessionList.children).forEach(li => li.classList.remove('active'));
+            const li = Array.from(sessionList.children).find(li => li.textContent === sessionId);
+            if (li) li.classList.add('active');
+            
+            currentSessionId = sessionId;
+            currentAiHistoryIndex = -1; // Сбрасываем историю
+            document.getElementById('dialog-content').innerHTML = '<div class="loading">Загрузка...</div>';
+            document.getElementById('ai-history-content').innerHTML = '<div class="empty-state">Кликните на AI сообщение для просмотра истории</div>';
+            
+            try {
+                // Загружаем логи с сервера, если их нет
+                if (serverLogs.length === 0) {
+                    await loadLogsFromServer();
+                }
+                
+                const messages = buildMessagesFromLogs(sessionId, serverLogs);
+                currentMessages = messages; // Сохраняем в глобальную переменную
+                displayDialog(messages, serverLogs);
+            } catch (error) {
+                document.getElementById('dialog-content').innerHTML = '<div class="empty-state">Ошибка</div>';
+                console.error('Error:', error);
+            }
+        }
+       
+       function displayDialog(messages, logs) {
+           const container = document.getElementById('dialog-content');
+           
+           if (messages.length === 0) {
+               container.innerHTML = '<div class="empty-state">Нет сообщений</div>';
+               return;
+           }
+           
+                      container.innerHTML = messages.map(function(message, index) {
+               if (message.role === 'assistant' && message.history && message.history.length > 1) {
+                   return '<div class="message ' + message.role + ' has-history" onclick="showAiHistory(' + index + ')">' +
+                       '<div class="message-content">' + escapeHtml(message.content) + '</div>' +
+                       '<div class="message-hint">📋 История (' + message.history.length + ' событий)</div>' +
+                   '</div>';
+               } else if (message.role === 'user' && message.history && message.history.length > 0) {
+                   let replyMark = '';
+                   if (message.replyTo) {
+                       replyMark = '<div class="reply-info">↩️ Ответ на сообщение: ' + message.replyTo + '</div>';
+                   }
+                   return '<div class="message ' + message.role + ' has-history" onclick="showUserHistory(' + index + ')">' +
+                       replyMark +
+                       '<div class="message-content">' + escapeHtml(message.content) + '</div>' +
+                       '<div class="message-hint">📋 История (' + message.history.length + ' событий)</div>' +
+                   '</div>';
+               } else {
+                   return '<div class="message ' + message.role + '">' +
+                       '<div class="message-content">' + escapeHtml(message.content) + '</div>' +
+                   '</div>';
+               }
+           }).join('');
+      }
+      
+      function formatDateTime(timestamp) {
+          return new Date(timestamp).toLocaleString('ru-RU');
+      }
+      
+      function formatTime(timestamp) {
+          const date = new Date(timestamp);
+          const now = new Date();
+          const diffMs = now - date;
+          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+          
+          if (diffDays === 0) {
+              // Сегодня - показываем только время
+              return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+          } else if (diffDays === 1) {
+              // Вчера
+              return 'Вчера';
+          } else if (diffDays < 7) {
+              // На этой неделе
+              return date.toLocaleDateString('ru-RU', { weekday: 'short' });
+          } else {
+              // Старые сообщения
+              return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+          }
+      }
+      
+      function escapeHtml(text) {
+          const div = document.createElement('div');
+          div.textContent = text || '';
+          return div.innerHTML;
+      }
+      
+      function showAiHistory(messageIndex) {
+          currentAiHistoryIndex = messageIndex;
+          currentHistoryPage = 0;
+          displayAiHistory();
+      }
+      
+      function displayAiHistory() {
+          const container = document.getElementById('ai-history-content');
+          
+          if (currentAiHistoryIndex === -1 || !currentMessages[currentAiHistoryIndex]) {
+              container.innerHTML = '<div class="empty-state">Кликните на AI сообщение для просмотра истории</div>';
+              return;
+          }
+          
+          const message = currentMessages[currentAiHistoryIndex];
+          if (!message.history || message.history.length === 0) {
+              container.innerHTML = '<div class="empty-state">Нет истории для этого сообщения</div>';
+              return;
+          }
+          
+          const history = message.history;
+          
+          // Группируем события по блокам запросов к AI
+          const groupedHistory = groupHistoryByAiRequests(history);
+          
+          const historyHtml = groupedHistory.map(function(group, groupIndex) {
+              const groupHtml = group.events.map(function(entry, index) {
+                  let dataHtml = '';
+                  let stageLabel = '';
+                  let stageClass = '';
+                  let aiType = '';
+                  
+                  // Определяем тип AI и этап
+                  if (entry.status.startsWith('MESSAGE_AI_')) {
+                      if (entry.status.includes('REQUEST_START') || entry.status.includes('SYSTEM_INSTRUCTION') || entry.status.includes('FILTERED_HISTORY') || entry.status.includes('GEMINI_REQUEST')) {
+                          stageLabel = 'Отправлено в Message AI';
+                          stageClass = 'ai-stage-send';
+                          aiType = 'Основной AI (генерация ответов)';
+                      } else if (entry.status.includes('RAW_RESPONSE') || entry.status.includes('RAW_TEXT') || entry.status.includes('FINAL_RESULT')) {
+                          stageLabel = 'Ответ Message AI';
+                          stageClass = 'ai-stage-response';
+                          aiType = 'Основной AI (генерация ответов)';
+                      }
+                  } else if (entry.status.startsWith('JSON_AI_')) {
+                      if (entry.status.includes('EXTRACT_START') || entry.status.includes('FIX_START') || entry.status.includes('FIX_PROMPT')) {
+                          stageLabel = 'Отправлено в JSON AI';
+                          stageClass = 'ai-stage-send';
+                          aiType = 'JSON AI (исправление JSON)';
+                      } else if (entry.status.includes('FIX_RAW_RESPONSE') || entry.status.includes('FIX_TEXT') || entry.status.includes('FIX_SUCCESS') || entry.status.includes('PARSE_')) {
+                          stageLabel = 'Ответ JSON AI';
+                          stageClass = 'ai-stage-response';
+                          aiType = 'JSON AI (исправление JSON)';
+                      }
+                  } else if (entry.status === 'WEBHOOK_AI_RESPONSE_TEXT' || entry.status === 'MESSAGE_SEND_INPUT' || entry.status === 'MESSAGE_SEND_START') {
+                      stageLabel = 'Обработка результата';
+                      stageClass = 'ai-stage-process';
+                      aiType = 'Backend обработка';
+                  }
+                  
+                  // Извлекаем функцию и файл
+                  let funcFile = extractFuncFile(entry.fullMessage);
+                  let requestId = extractRequestId(entry.fullMessage);
+                  
+                  if (entry.extractedData) {
+                      if (entry.extractedData.prompt) {
+                          dataHtml += '<div class="ai-history-data"><strong>Промпт:</strong> ' + escapeHtml(entry.extractedData.prompt) + '</div>';
+                      }
+                      if (entry.extractedData.chatHistory) {
+                          dataHtml += '<div class="ai-history-data"><strong>История:</strong> ' + escapeHtml(entry.extractedData.chatHistory) + '</div>';
+                      }
+                      if (entry.extractedData.filteredHistory) {
+                          dataHtml += '<div class="ai-history-data"><strong>Фильтрованная история:</strong> ' + escapeHtml(entry.extractedData.filteredHistory) + '</div>';
+                      }
+                      if (entry.extractedData.error) {
+                          dataHtml += '<div class="ai-history-data error"><strong>Ошибка:</strong> ' + escapeHtml(entry.extractedData.error) + '</div>';
+                      }
+                  }
+                  
+                  if (funcFile) {
+                      dataHtml += '<div class="ai-func-file"><strong>Функция:</strong> ' + escapeHtml(funcFile) + '</div>';
+                  }
+                  if (requestId) {
+                      dataHtml += '<div class="ai-request-id"><strong>RequestID:</strong> ' + requestId + '</div>';
+                  }
+                  
+                  return '<div class="ai-history-item ' + stageClass + '" onclick="showHistoryDetails(' + (group.startIndex + index) + ')">' +
+                      (stageLabel ? '<div class="ai-stage-label">' + stageLabel + '</div>' : '') +
+                      '<div class="ai-type">' + aiType + '</div>' +
+                      '<div class="ai-history-status">' + entry.status + '</div>' +
+                      '<div class="ai-status-description">' + getStatusDescription(entry.status) + '</div>' +
+                      '<div class="ai-history-time">' + formatTime(entry.timestamp) + '</div>' +
+                      '<div class="ai-history-logger">' + escapeHtml(entry.logger) + '</div>' +
+                      dataHtml +
+                  '</div>';
+              }).join('');
+              
+              return '<div class="ai-history-group">' +
+                  '<div class="ai-group-separator">' + (groupIndex > 0 ? '<hr>' : '') + '</div>' +
+                  '<div class="ai-group-header">' + group.type + (group.requestId ? ' (ID: ' + group.requestId + ')' : '') + '</div>' +
+                  groupHtml +
+              '</div>';
+          }).join('');
+          
+          container.innerHTML = 
+              '<div class="ai-history-header">' +
+                  '<h4>История: "' + escapeHtml(message.content.substring(0, 50)) + (message.content.length > 50 ? '...' : '') + '"</h4>' +
+              '</div>' +
+              historyHtml;
+      }
+      
+      function groupHistoryByAiRequests(history) {
+          const groups = [];
+          let currentGroup = null;
+          
+          history.forEach(function(entry, index) {
+              const requestId = extractRequestId(entry.fullMessage);
+              
+              // Начинаем новую группу для основных AI запросов
+              if (entry.status === 'MESSAGE_AI_REQUEST_START' || entry.status === 'JSON_AI_EXTRACT_START') {
+                  if (currentGroup) {
+                      groups.push(currentGroup);
+                  }
+                  currentGroup = {
+                      events: [],
+                      startIndex: index,
+                      requestId: requestId,
+                      type: entry.status.startsWith('MESSAGE_AI') ? 'Message AI' : 'JSON AI'
+                  };
+              }
+              
+              if (currentGroup) {
+                  currentGroup.events.push(entry);
+              } else {
+                  // Если нет активной группы, создаем одиночную
+                  groups.push({
+                      events: [entry],
+                      startIndex: index,
+                      requestId: requestId,
+                      type: 'Other'
+                  });
+              }
+          });
+          
+          if (currentGroup) {
+              groups.push(currentGroup);
+          }
+          
+          return groups;
+      }
+      
+      function showHistoryDetails(historyIndex) {
+          const message = currentMessages[currentAiHistoryIndex];
+          const entry = message.history[historyIndex];
+          
+          const detailsHtml = '<div class="ai-history-details">' + escapeHtml(entry.fullMessage) + '</div>';
+          
+          // Обновляем только выбранный элемент
+          const items = document.querySelectorAll('.ai-history-item');
+          items.forEach(function(item, index) {
+              if (index === historyIndex) {
+                  item.innerHTML = item.innerHTML.replace(/<div class="ai-history-details">.*?<\/div>/g, '') + detailsHtml;
+              } else {
+                  item.innerHTML = item.innerHTML.replace(/<div class="ai-history-details">.*?<\/div>/g, '');
+              }
+          });
+      }
+      
+      function getStatusDescription(status) {
+          const descriptions = {
+              // Message AI логи
+              'MESSAGE_AI_REQUEST_START': 'Начало запроса к основному AI',
+              'MESSAGE_AI_REQUEST_HISTORY': 'Сырая история диалога (не отправляется в AI)',
+              'MESSAGE_AI_SYSTEM_INSTRUCTION': 'Системная инструкция + каталог товаров',
+              'MESSAGE_AI_FILTERED_HISTORY': 'История диалога, подготовленная для AI',
+              'MESSAGE_AI_GEMINI_REQUEST': 'Отправка запроса в Gemini AI',
+              'MESSAGE_AI_RAW_RESPONSE': 'Сырой ответ от Gemini AI',
+              'MESSAGE_AI_RAW_TEXT': 'Текст ответа от Gemini AI',
+              'MESSAGE_AI_FINAL_RESULT': 'Финальный результат от основного AI',
+              'MESSAGE_AI_REQUEST_END': 'Завершение запроса к основному AI',
+              'MESSAGE_AI_REQUEST_EXCEPTION': 'Ошибка в основном AI',
+              
+              // JSON AI логи
+              'JSON_AI_EXTRACT_START': 'Начало извлечения JSON из ответа AI',
+              'JSON_AI_EXTRACT_INPUT': 'Сырой ответ AI для парсинга',
+              'JSON_AI_EXTRACT_STEP1': 'Попытка прямого извлечения JSON',
+              'JSON_AI_EXTRACT_STEP2': 'JSON некорректный, попытка исправления',
+              'JSON_AI_FIX_START': 'Начало исправления JSON через AI',
+              'JSON_AI_FIX_PROMPT': 'Промпт для исправления JSON',
+              'JSON_AI_FIX_RAW_RESPONSE': 'Ответ AI для исправления JSON',
+              'JSON_AI_FIX_TEXT': 'Исправленный JSON от AI',
+              'JSON_AI_FIX_SUCCESS': 'JSON успешно исправлен',
+              'JSON_AI_PARSE_INPUT': 'Входные данные для парсинга',
+              'JSON_AI_PARSE_JSON_DATA': 'Извлеченные JSON данные',
+              'JSON_AI_PARSE_USER_TEXT': 'Текст для пользователя из JSON',
+              'JSON_AI_PARSE_COMMAND': 'Команда из JSON',
+              
+              // Backend логи
+              'WEBHOOK_AI_RESPONSE_TEXT': 'Текст ответа для отправки пользователю',
+              'MESSAGE_SEND_INPUT': 'Подготовка сообщения к отправке',
+              'MESSAGE_SEND_START': 'Начало отправки сообщения'
+          };
+          
+          return descriptions[status] || 'Неизвестный статус';
+      }
+      
+      function showUserHistory(messageIndex) {
+          currentAiHistoryIndex = messageIndex;
+          currentHistoryPage = 0;
+          displayUserHistory();
+      }
+      
+      function displayUserHistory() {
+          const container = document.getElementById('ai-history-content');
+          if (currentAiHistoryIndex === -1 || !currentMessages[currentAiHistoryIndex]) {
+              container.innerHTML = '<div class="empty-state">Кликните на сообщение пользователя для просмотра истории</div>';
+              return;
+          }
+          const message = currentMessages[currentAiHistoryIndex];
+          if (!message.history || message.history.length === 0) {
+              container.innerHTML = '<div class="empty-state">Нет истории для этого сообщения</div>';
+              return;
+          }
+          let replyHtml = '';
+          if (message.replyTo) {
+              // Найти исходное сообщение по message_id (если есть)
+              const original = currentMessages.find(m => m.message_id === message.replyTo);
+              if (original) {
+                  replyHtml = '<div class="user-reply-block">↩️ Ответ на: <span>' + escapeHtml(original.content) + '</span></div>';
+              } else {
+                  replyHtml = '<div class="user-reply-block">↩️ Ответ на сообщение ID: ' + escapeHtml(message.replyTo) + '</div>';
+              }
+          }
+          const history = message.history;
+          const historyHtml = history.map(function(entry, index) {
+              let dataHtml = '';
+              if (entry.extractedData) {
+                  if (entry.extractedData.prompt) {
+                      dataHtml += '<div class="ai-history-data"><strong>Промпт:</strong> ' + escapeHtml(entry.extractedData.prompt) + '</div>';
+                  }
+                  if (entry.extractedData.chatHistory) {
+                      dataHtml += '<div class="ai-history-data"><strong>История:</strong> ' + escapeHtml(entry.extractedData.chatHistory) + '</div>';
+                  }
+                  if (entry.extractedData.filteredHistory) {
+                      dataHtml += '<div class="ai-history-data"><strong>Фильтрованная история:</strong> ' + escapeHtml(entry.extractedData.filteredHistory) + '</div>';
+                  }
+                  if (entry.extractedData.error) {
+                      dataHtml += '<div class="ai-history-data error"><strong>Ошибка:</strong> ' + escapeHtml(entry.extractedData.error) + '</div>';
+                  }
+              }
+              return '<div class="ai-history-item" onclick="showHistoryDetails(' + index + ')">' +
+                  '<div class="ai-history-status">' + entry.status + '</div>' +
+                  '<div class="ai-status-description">' + getStatusDescription(entry.status) + '</div>' +
+                  '<div class="ai-history-time">' + formatTime(entry.timestamp) + '</div>' +
+                  '<div class="ai-history-logger">' + escapeHtml(entry.logger) + '</div>' +
+                  dataHtml +
+              '</div>';
+          }).join('');
+          container.innerHTML =
+              '<div class="ai-history-header">' +
+                  '<h4>История пользователя: "' + escapeHtml(message.content.substring(0, 50)) + (message.content.length > 50 ? '...' : '') + '"</h4>' +
+                  replyHtml +
+              '</div>' +
+              historyHtml;
+      }
+      
+
+      
+              document.addEventListener('DOMContentLoaded', function() {
+            // loadLogsFromServer(); // Закомментировано - убрана автозагрузка
+            // loadSessions(); // Закомментировано - убрана автозагрузка
+
+          document.getElementById('loadLogsBtn').onclick = async function() {
+              const period = parseInt(document.getElementById('logPeriodInput').value) || 20;
+              console.log(`[DEBUG] Запрос на загрузку логов за период: ${period} минут`);
+              try {
+                  // Сначала загружаем логи
+                  await loadLogsFromServer();
+                  
+                  // Затем загружаем сессии
+                  await loadSessions();
+                  
+                  // Автоматически сохраняем логи в файл
+                  await saveLogsToServer();
+                  
+                  console.log(`[DEBUG] Логи загружены, сессий: ${serverLogs.length}`);
+              } catch (e) {
+                  console.error('[DEBUG] Ошибка при загрузке логов:', e);
+                  alert('Ошибка при загрузке логов: ' + e);
+              }
+          };
+          document.getElementById('newSessionIdBtn').onclick = async function() {
+              if (!currentSessionId) {
+                  alert('Сначала выберите сессию пользователя!');
+                  return;
+              }
+              const senderId = currentSessionId.split('_')[0];
+              console.log(`[DEBUG] Кнопка смены session_id нажата для пользователя ${senderId}`);
+              try {
+                  const response = await fetch(`/session/${senderId}/new`, { method: 'POST' });
+                  const data = await response.json();
+                  if (data.session_id) {
+                      await fetch(`/api/force_session/${senderId}`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ session_id: data.session_id })
+                      });
+                      console.log(`[DEBUG] Новый session_id отправлен на backend: ${data.session_id}`);
+                      currentSessionId = data.session_id;
+                      alert(`✅ Новый session_id для пользователя ${senderId}:\n${data.session_id}\n\nТеперь все действия будут идти с этим session_id, пока не выберете другую сессию или не нажмёте кнопку снова.`);
+                      selectSession(currentSessionId);
+                  } else {
+                      alert('Ошибка при получении нового session_id!');
+                  }
+              } catch (e) {
+                  alert('Ошибка при генерации session_id: ' + e);
+              }
+          };
+      });
+
+      // Функция для отправки логов на сервер
+      async function saveLogsToServer() {
+          if (!serverLogs || serverLogs.length === 0) {
+              return;
+          }
+          try {
+              const response = await fetch(SERVER_URL + '/api/save_fresh_logs', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(serverLogs)
+              });
+              const result = await response.json();
+              if (result.status === 'ok') {
+                  console.log('Логи автоматически сохранены в fresh_logs.log');
+              } else {
+                  console.error('Ошибка при сохранении логов:', result.error);
+              }
+          } catch (e) {
+              console.error('Ошибка при отправке логов на сервер:', e);
+          }
+      }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,366 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>История переписки - AuraFlora</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    min-height: 100vh;
+                }
+                .container {
+                    max-width: 900px;
+                    margin: 0 auto;
+                    background: white;
+                    border-radius: 15px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                    overflow: hidden;
+                }
+                .header {
+                    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+                    color: white;
+                    padding: 20px;
+                    text-align: center;
+                }
+                .header h1 {
+                    margin: 0;
+                    font-size: 24px;
+                    font-weight: 300;
+                }
+                .session-info {
+                    background: #f8f9fa;
+                    padding: 15px 20px;
+                    border-bottom: 1px solid #e9ecef;
+                    font-size: 14px;
+                    color: #6c757d;
+                }
+                .chat-container {
+                    max-height: 600px;
+                    overflow-y: auto;
+                    padding: 20px;
+                }
+                .message {
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: flex-start;
+                }
+                .message.user {
+                    flex-direction: row-reverse;
+                }
+                .message.model {
+                    flex-direction: row;
+                }
+                .message.system {
+                    flex-direction: row;
+                    opacity: 0.7;
+                }
+                .avatar {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    color: white;
+                    margin: 0 10px;
+                    flex-shrink: 0;
+                }
+                .avatar.user {
+                    background: #007bff;
+                }
+                .avatar.model {
+                    background: #28a745;
+                }
+                .avatar.system {
+                    background: #6c757d;
+                    font-size: 12px;
+                }
+                .message-content {
+                    max-width: 70%;
+                    padding: 12px 16px;
+                    border-radius: 18px;
+                    word-wrap: break-word;
+                }
+                .message.user .message-content {
+                    background: #007bff;
+                    color: white;
+                    border-bottom-right-radius: 4px;
+                }
+                .message.model .message-content {
+                    background: #f8f9fa;
+                    color: #212529;
+                    border: 1px solid #e9ecef;
+                    border-bottom-left-radius: 4px;
+                }
+                .message.system .message-content {
+                    background: #f8f9fa;
+                    color: #495057;
+                    border-bottom-left-radius: 4px;
+                    font-size: 13px;
+                    font-family: 'Courier New', monospace;
+                    border: 1px solid #dee2e6;
+                    max-width: 90%;
+                }
+                .timestamp {
+                    font-size: 11px;
+                    color: #6c757d;
+                    margin-top: 5px;
+                    text-align: center;
+                }
+                .message.user .timestamp {
+                    text-align: right;
+                }
+                .message.model .timestamp {
+                    text-align: left;
+                }
+                .footer {
+                    background: #f8f9fa;
+                    padding: 15px 20px;
+                    text-align: center;
+                    border-top: 1px solid #e9ecef;
+                    color: #6c757d;
+                    font-size: 14px;
+                }
+                .footer a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+                .footer a:hover {
+                    text-decoration: underline;
+                }
+                @media (max-width: 768px) {
+                    .message-content {
+                        max-width: 85%;
+                    }
+                    .container {
+                        margin: 10px;
+                        border-radius: 10px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>🌸 AuraFlora - История переписки</h1>
+                </div>
+                <div class="session-info">
+                    <strong>ID сессии:</strong> 79140775712_deploy_20250701_162140<br>
+                    <strong>Количество сообщений:</strong> 33
+                </div>
+                <div class="chat-container">
+        
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Привет!</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:06</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Здравствуйте! Хотите посмотреть наш каталог цветов? 🌸</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:08</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Да</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:13</div>
+            
+                    <div class="message system">
+                        <div class="avatar system">⚙️</div>
+                        <div class="message-content"><strong>[SYSTEM]</strong> command: {'type': 'send_catalog'}</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:16</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Этот</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:29</div>
+            
+                    <div class="message system">
+                        <div class="avatar system">⚙️</div>
+                        <div class="message-content"><strong>[SYSTEM]</strong> command: {'type': 'send_catalog'}</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:31</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Нужна ли доставка? Если да, то куда?</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:31</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Отлично! Ваш заказ принят.  Проверьте, пожалуйста, информацию:<br><br>Букет: Pretty<br>Дата: 02 July 2025<br>Время: 14:00<br>Доставка: Centrio condo<br>Открытка: Да, текст - Люблю<br>Получатель: Саша<br>Телефон: 46875433678645<br><br>Все верно? 🌸</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:51</div>
+            
+                    <div class="message system">
+                        <div class="avatar system">⚙️</div>
+                        <div class="message-content"><strong>[SYSTEM]</strong> command: {'type': 'clarify_request'}</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:52</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Пожалуйста, укажите имя получателя и телефон получателя в международном формате.</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:26:52</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Какой заказ?</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:03</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Извините, я не понимаю.  Вы хотите сделать заказ?  Если да, то какой букет вас интересует?<br></div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:04</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Отлично! Ваш заказ принят.  Проверьте, пожалуйста, информацию:<br><br>Букет: Pretty<br>Дата: 02 July 2025<br>Время: 14:00<br>Доставка: Centrio condo<br>Открытка: Да, текст - Люблю<br>Получатель: Саша<br>Телефон: 46875433678645<br><br>Все верно? 🌸</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:16</div>
+            
+                    <div class="message system">
+                        <div class="avatar system">⚙️</div>
+                        <div class="message-content"><strong>[SYSTEM]</strong> command: {'type': 'clarify_request'}</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:17</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Пожалуйста, укажите имя получателя и телефон получателя в международном формате.  Например, телефон в формате +7 999 123 45 67.</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:17</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Отсюда возьми инфу</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:26</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Извините, я не могу взять информацию из предыдущих сообщений.  Пожалуйста, предоставьте информацию о заказе в тексте сообщения.  Мне нужна следующая информация:  название букета, дата доставки, время доставки, нужен ли адрес доставки (и если да, то какой), нужна ли открытка (и если да, то текст открытки), имя получателя (в формате, как в паспорте) и телефон получателя (в международном формате, например +7 999 123 45 67).<br></div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:29</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Букет: Pretty<br>Дата: 02 July 2025<br>Время: 14:00<br>Доставка: Centrio condo<br>Открытка: Да, текст - Люблю<br>Получатель: Саша<br>Телефон: 46875433678645</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:56</div>
+            
+                    <div class="message system">
+                        <div class="avatar system">⚙️</div>
+                        <div class="message-content"><strong>[SYSTEM]</strong> command: {'type': 'clarify_request'}</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:58</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Пожалуйста, укажите имя получателя и телефон получателя в международном формате. Например, телефон в формате +7 999 123 45 67.  И уточните, пожалуйста, полный адрес доставки Centrio condo (город, улица, номер дома/квартиры).</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:27:58</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Подтверди заказ</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:13</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Извините, я не могу подтвердить заказ, так как у меня недостаточно информации. Пожалуйста, укажите имя получателя, телефон получателя в международном формате и полный адрес доставки Centrio condo.</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:15</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Саша</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:24</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Пожалуйста, укажите номер телефона Саши в международном формате (например, +7 999 123 45 67) и полный адрес доставки Centrio condo (город, улица, номер дома/квартиры).<br></div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:26</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">46888434</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:33</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Это не международный формат номера телефона.  Пожалуйста, укажите номер телефона Саши в международном формате (например, +7 999 123 45 67) и полный адрес доставки Centrio condo (город, улица, номер дома/квартиры).<br></div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:35</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">+79085674534</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:53</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">А какой полный адрес доставки?  Мне нужен город, улица и номер дома/квартиры для Centrio condo.<br></div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:28:54</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Building b, 37</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:29:12</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">В каком городе находится Building B, 37?  Мне нужен полный адрес для доставки.<br></div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:29:13</div>
+            
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="message-content">Phuket</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:29:20</div>
+            
+                    <div class="message system">
+                        <div class="avatar system">⚙️</div>
+                        <div class="message-content"><strong>[SYSTEM]</strong> command: {'type': 'confirm_order', 'order_summary': 'Заказ подтвержден', 'bouquet': 'Pretty', 'date': '2025-07-02', 'time': '14:00', 'delivery_needed': True, 'address': 'Building B, 37, Phuket', 'card_needed': True, 'card_text': 'Люблю', 'recipient_name': 'Саша', 'recipient_phone': '+79085674534', 'retailer_id': 'some_retailer_id'}</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:29:23</div>
+            
+                    <div class="message model">
+                        <div class="avatar model">🤖</div>
+                        <div class="message-content">Отлично! Ваш заказ подтвержден и передан в обработку. Мы свяжемся с вами в ближайшее время! 🌹</div>
+                    </div>
+                    <div class="timestamp">01.07.2025 09:29:23</div>
+            
+                </div>
+                <div class="footer">
+                    <a href="/">← Вернуться на главную</a> | 
+                    <a href="javascript:window.print()">🖨️ Печать</a> | 
+                    <a href="javascript:window.scrollTo(0,0)">⬆️ В начало</a>
+                </div>
+            </div>
+        </body>
+        </html>
+        

@@ -1,0 +1,1447 @@
+[
+  {
+    "textPayload": "Traceback (most recent call last):\n  File \"/layers/google.python.pip/pip/bin/uvicorn\", line 8, in <module>\n    sys.exit(main())",
+    "insertId": "6867f71a0008f722005ba68c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587554Z",
+    "severity": "ERROR",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z",
+    "errorGroups": [
+      {
+        "id": "COv40r3t68fvkQE"
+      }
+    ]
+  },
+  {
+    "textPayload": "             ~~~~^^",
+    "insertId": "6867f71a0008f72f22646fca",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587567Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/click/core.py\", line 1442, in __call__",
+    "insertId": "6867f71a0008f734e2c57b9e",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587572Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    return self.main(*args, **kwargs)",
+    "insertId": "6867f71a0008f7370cfa1978",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587575Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "           ~~~~~~~~~^^^^^^^^^^^^^^^^^",
+    "insertId": "6867f71a0008f739785d7af2",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587577Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/click/core.py\", line 1363, in main",
+    "insertId": "6867f71a0008f73c1ce0618f",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587580Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    rv = self.invoke(ctx)",
+    "insertId": "6867f71a0008f73f9149822d",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587583Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/click/core.py\", line 1226, in invoke",
+    "insertId": "6867f71a0008f742b8c8aed8",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587586Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    return ctx.invoke(self.callback, **ctx.params)",
+    "insertId": "6867f71a0008f74443ec127e",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587588Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "insertId": "6867f71a0008f7463705518d",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587590Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/click/core.py\", line 794, in invoke",
+    "insertId": "6867f71a0008f7493448816f",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587593Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    return callback(*args, **kwargs)",
+    "insertId": "6867f71a0008f74b52bee65c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587595Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/uvicorn/main.py\", line 413, in main",
+    "insertId": "6867f71a0008f74e29781f03",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587598Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    run(",
+    "insertId": "6867f71a0008f750c192aac6",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587600Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    ~~~^",
+    "insertId": "6867f71a0008f7535a0eb6b9",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587603Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "        app,",
+    "insertId": "6867f71a0008f75511edf0b1",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587605Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "        ^^^^",
+    "insertId": "6867f71a0008f757139b3a3c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587607Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    ...<45 lines>...",
+    "insertId": "6867f71a0008f75af75d16ac",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587610Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "        h11_max_incomplete_event_size=h11_max_incomplete_event_size,",
+    "insertId": "6867f71a0008f75de5ed0528",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587613Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "insertId": "6867f71a0008f75f33dad0c4",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587615Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    )",
+    "insertId": "6867f71a0008f76117377d95",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587617Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    ^",
+    "insertId": "6867f71a0008f764556cb074",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587620Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/uvicorn/main.py\", line 580, in run",
+    "insertId": "6867f71a0008f769a1c12d7c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587625Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    server.run()",
+    "insertId": "6867f71a0008f76b8481270b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587627Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    ~~~~~~~~~~^^",
+    "insertId": "6867f71a0008f76eeb44b96c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587630Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/uvicorn/server.py\", line 67, in run",
+    "insertId": "6867f71a0008f77231228ffe",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587634Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    return asyncio.run(self.serve(sockets=sockets))",
+    "insertId": "6867f71a0008f7751f8d8755",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587637Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "insertId": "6867f71a0008f778e1055686",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587640Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.runtime/python/lib/python3.13/asyncio/runners.py\", line 195, in run",
+    "insertId": "6867f71a0008f77be204735e",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587643Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "    return runner.run(main)",
+    "insertId": "6867f71a0008f77ff1b0e133",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587647Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.592311384Z"
+  },
+  {
+    "textPayload": "           ~~~~~~~~~~^^^^^^",
+    "insertId": "6867f71a0008f7822ea18bb6",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587650Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.runtime/python/lib/python3.13/asyncio/runners.py\", line 118, in run",
+    "insertId": "6867f71a0008f79d06579ee9",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587677Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    return self._loop.run_until_complete(task)",
+    "insertId": "6867f71a0008f7a164483b17",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587681Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^",
+    "insertId": "6867f71a0008f7a5bb8dbfe5",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587685Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.runtime/python/lib/python3.13/asyncio/base_events.py\", line 725, in run_until_complete",
+    "insertId": "6867f71a0008f7a947436be0",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587689Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    return future.result()",
+    "insertId": "6867f71a0008f7acca74bd20",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587692Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "           ~~~~~~~~~~~~~^^",
+    "insertId": "6867f71a0008f7af42bc6081",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587695Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/uvicorn/server.py\", line 71, in serve",
+    "insertId": "6867f71a0008f7c275dd4cc0",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587714Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    await self._serve(sockets)",
+    "insertId": "6867f71a0008f7c5ea7e3d5b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587717Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/uvicorn/server.py\", line 78, in _serve",
+    "insertId": "6867f71a0008f7c9feacd8e9",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587721Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    config.load()",
+    "insertId": "6867f71a0008f7cd7e49a05f",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587725Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    ~~~~~~~~~~~^^",
+    "insertId": "6867f71a0008f7d197bd88d8",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587729Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/uvicorn/config.py\", line 436, in load",
+    "insertId": "6867f71a0008f7e13203292c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587745Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    self.loaded_app = import_from_string(self.app)",
+    "insertId": "6867f71a0008f7e5183db05a",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587749Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^",
+    "insertId": "6867f71a0008f7e9d942bae5",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "project_id": "aquaf-464414",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587753Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.pip/pip/lib/python3.13/site-packages/uvicorn/importer.py\", line 19, in import_from_string",
+    "insertId": "6867f71a0008f7ed03bb66f0",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587757Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    module = importlib.import_module(module_str)",
+    "insertId": "6867f71a0008f7f0be3ca315",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587760Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/layers/google.python.runtime/python/lib/python3.13/importlib/__init__.py\", line 88, in import_module",
+    "insertId": "6867f71a0008f8277a0ee14c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587815Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    return _bootstrap._gcd_import(name[level:], package, level)",
+    "insertId": "6867f71a0008f82a83db3278",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587818Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "insertId": "6867f71a0008f82d44cd1398",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587821Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"<frozen importlib._bootstrap>\", line 1387, in _gcd_import",
+    "insertId": "6867f71a0008f85f2fe1a75f",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587871Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"<frozen importlib._bootstrap>\", line 1360, in _find_and_load",
+    "insertId": "6867f71a0008f8c29cd60fad",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587970Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"<frozen importlib._bootstrap>\", line 1331, in _find_and_load_unlocked",
+    "insertId": "6867f71a0008f8ccbfe506a3",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587980Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"<frozen importlib._bootstrap>\", line 935, in _load_unlocked",
+    "insertId": "6867f71a0008f8d85aead21c",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.587992Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"<frozen importlib._bootstrap_external>\", line 1026, in exec_module",
+    "insertId": "6867f71a0008f8e7bf967b55",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.588007Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"<frozen importlib._bootstrap>\", line 488, in _call_with_frames_removed",
+    "insertId": "6867f71a0008f8f660094dbb",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.588022Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/workspace/main.py\", line 13, in <module>",
+    "insertId": "6867f71a0008f90545e0572b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.588037Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    from src.main import app",
+    "insertId": "6867f71a0008f908c06fcb3b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.588040Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "  File \"/workspace/src/main.py\", line 276, in <module>",
+    "insertId": "6867f71a0008f917749f7f74",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.588055Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "    @router.get(\"/webhook\")",
+    "insertId": "6867f71a0008f91acb9cf8c2",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.588058Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "     ^^^^^^",
+    "insertId": "6867f71a0008f91c92685d39",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "service_name": "auraflora-bot",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:30.588060Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:30.925406446Z"
+  },
+  {
+    "textPayload": "NameError: name 'router' is not defined",
+    "insertId": "6867f71b0009d2a75006415b",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "project_id": "aquaf-464414",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:31.643751Z",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2025-07-04T15:45:31.924659947Z"
+  },
+  {
+    "textPayload": "Container called exit(1).",
+    "insertId": "6867f71b000bf55d84509daf",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "project_id": "aquaf-464414",
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:31.783700177Z",
+    "severity": "WARNING",
+    "labels": {
+      "container_name": "auraflora-bot-1",
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2025-07-04T15:45:31.789446113Z"
+  },
+  {
+    "textPayload": "Default STARTUP TCP probe failed 1 time consecutively for container \"auraflora-bot-1\" on port 8080. The instance was not started.\nConnection failed with status CANCELLED.",
+    "insertId": "6867f71b000d429a1e18fcb8",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "location": "asia-southeast1",
+        "project_id": "aquaf-464414",
+        "configuration_name": "auraflora-bot",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "service_name": "auraflora-bot"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:31.869018Z",
+    "severity": "ERROR",
+    "labels": {
+      "instanceId": "0069c7a988423ef8267bf989aa5e90c6e280b3036280d047a706448d7c476c8669bcc35653b00c81813e8db3fee013cab625ffae5172d3c6333e166cc56538d0a6e4404bbdc23d1e5dd4a3621d69de402b"
+    },
+    "logName": "projects/aquaf-464414/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2025-07-04T15:45:32.121066105Z"
+  },
+  {
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "status": {
+        "code": 9,
+        "message": "Ready condition status changed to False for Revision auraflora-bot-00173-6jv with message: The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=aquaf-464414&resource=cloud_run_revision/service_name/auraflora-bot/revision_name/auraflora-bot-00173-6jv&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22auraflora-bot%22%0Aresource.labels.revision_name%3D%22auraflora-bot-00173-6jv%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start"
+      },
+      "serviceName": "run.googleapis.com",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/aquaf-464414/revisions/auraflora-bot-00173-6jv",
+      "response": {
+        "metadata": {
+          "name": "auraflora-bot-00173-6jv",
+          "namespace": "75152239022",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/75152239022/revisions/auraflora-bot-00173-6jv",
+          "uid": "4ae9dc88-8aa8-4bbf-81c9-100df1d874e4",
+          "resourceVersion": "AAY5HGJVAS4",
+          "generation": 1,
+          "creationTimestamp": "2025-07-04T15:45:09.960035Z",
+          "labels": {
+            "client.knative.dev/nonce": "gsretimmji",
+            "serving.knative.dev/configuration": "auraflora-bot",
+            "serving.knative.dev/configurationGeneration": "173",
+            "serving.knative.dev/service": "auraflora-bot",
+            "serving.knative.dev/serviceUid": "86f96b62-a83e-4ef2-b9b6-d3f0b19e319d",
+            "serving.knative.dev/route": "auraflora-bot",
+            "run.googleapis.com/satisfiesPzs": "true",
+            "cloud.googleapis.com/location": "asia-southeast1",
+            "run.googleapis.com/startupProbeType": "Default"
+          },
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "528.0.0",
+            "serving.knative.dev/creator": "drobotenko.1979@gmail.com",
+            "run.googleapis.com/build-source-location": "{\"auraflora-bot-1\":\"gs://run-sources-aquaf-464414-asia-southeast1/services/auraflora-bot/1751643757.588543-c1d9d2689b1c464bbfb3a9da4a68cb09.zip#1751643759513518\"}",
+            "run.googleapis.com/build-id": "{\"auraflora-bot-1\":\"ba60f104-fae6-44a7-9fd0-4f52084c0b7c\"}",
+            "run.googleapis.com/operation-id": "09a65b26-0924-44e3-9edf-6cde96abdeae",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "ownerReferences": [
+            {
+              "kind": "Configuration",
+              "name": "auraflora-bot",
+              "uid": "160d6753-e538-48ca-a44a-d495d168dafa",
+              "apiVersion": "serving.knative.dev/v1",
+              "controller": true,
+              "blockOwnerDeletion": true
+            }
+          ]
+        },
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Revision",
+        "spec": {
+          "containerConcurrency": 80,
+          "timeoutSeconds": 300,
+          "serviceAccountName": "75152239022-compute@developer.gserviceaccount.com",
+          "containers": [
+            {
+              "name": "auraflora-bot-1",
+              "image": "asia-southeast1-docker.pkg.dev/aquaf-464414/cloud-run-source-deploy/auraflora-bot@sha256:42dc541050c95779c670285f0a59ea41995d92b741a8e4e602aa6cfabab29d46",
+              "ports": [
+                {
+                  "name": "http1",
+                  "containerPort": 8080
+                }
+              ],
+              "env": [
+                {
+                  "name": "DEPLOY_ID",
+                  "value": "20250704-224223"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "1Gi"
+                }
+              },
+              "startupProbe": {
+                "timeoutSeconds": 240,
+                "periodSeconds": 240,
+                "failureThreshold": 1,
+                "tcpSocket": {
+                  "port": 8080
+                }
+              }
+            }
+          ]
+        },
+        "status": {
+          "observedGeneration": 1,
+          "conditions": [
+            {
+              "type": "Ready",
+              "status": "False",
+              "reason": "HealthCheckContainerError",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=aquaf-464414&resource=cloud_run_revision/service_name/auraflora-bot/revision_name/auraflora-bot-00173-6jv&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22auraflora-bot%22%0Aresource.labels.revision_name%3D%22auraflora-bot-00173-6jv%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "lastTransitionTime": "2025-07-04T15:45:31.869486Z"
+            },
+            {
+              "type": "ContainerHealthy",
+              "status": "False",
+              "reason": "HealthCheckContainerError",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=aquaf-464414&resource=cloud_run_revision/service_name/auraflora-bot/revision_name/auraflora-bot-00173-6jv&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22auraflora-bot%22%0Aresource.labels.revision_name%3D%22auraflora-bot-00173-6jv%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "lastTransitionTime": "2025-07-04T15:45:31.869486Z"
+            },
+            {
+              "type": "ContainerReady",
+              "status": "True",
+              "message": "Container image import completed in 11.56s.",
+              "lastTransitionTime": "2025-07-04T15:45:22.164768Z"
+            },
+            {
+              "type": "ResourcesAvailable",
+              "status": "True",
+              "message": "Provisioning imported containers completed in 1.36s. Checking container health. This will wait for up to 4m for the configured startup probe, including an initial delay of 0s.",
+              "lastTransitionTime": "2025-07-04T15:45:23.527717Z"
+            },
+            {
+              "type": "Retry",
+              "status": "True",
+              "reason": "ImmediateRetry",
+              "message": "System will retry after 0:00:00 from lastTransitionTime for attempt 0.",
+              "lastTransitionTime": "2025-07-04T15:45:23.527717Z",
+              "severity": "Info"
+            }
+          ],
+          "logUrl": "https://console.cloud.google.com/logs/viewer?project=aquaf-464414&resource=cloud_run_revision/service_name/auraflora-bot/revision_name/auraflora-bot-00173-6jv&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22auraflora-bot%22%0Aresource.labels.revision_name%3D%22auraflora-bot-00173-6jv%22",
+          "imageDigest": "asia-southeast1-docker.pkg.dev/aquaf-464414/cloud-run-source-deploy/auraflora-bot@sha256:42dc541050c95779c670285f0a59ea41995d92b741a8e4e602aa6cfabab29d46",
+          "containerStatuses": [
+            {
+              "name": "auraflora-bot-1",
+              "imageDigest": "asia-southeast1-docker.pkg.dev/aquaf-464414/cloud-run-source-deploy/auraflora-bot@sha256:42dc541050c95779c670285f0a59ea41995d92b741a8e4e602aa6cfabab29d46"
+            }
+          ]
+        },
+        "@type": "type.googleapis.com/google.cloud.run.v1.Revision"
+      }
+    },
+    "insertId": "ofmjicd23nc",
+    "resource": {
+      "type": "cloud_run_revision",
+      "labels": {
+        "service_name": "auraflora-bot",
+        "location": "asia-southeast1",
+        "revision_name": "auraflora-bot-00173-6jv",
+        "configuration_name": "auraflora-bot",
+        "project_id": "aquaf-464414"
+      }
+    },
+    "timestamp": "2025-07-04T15:45:31.888427Z",
+    "severity": "ERROR",
+    "logName": "projects/aquaf-464414/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "receiveTimestamp": "2025-07-04T15:45:31.937413183Z"
+  }
+]

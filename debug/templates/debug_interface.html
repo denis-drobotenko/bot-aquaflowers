@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>AuraFlora Debug</title>
+    <link rel="stylesheet" href="/static/css/debug.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌸 AuraFlora Debug Interface</h1>
+            <p>Отладка диалогов и AI пайплайна</p>
+        </div>
+        
+        <div class="grid">
+            <div class="sessions">
+                <h3>Сессии</h3>
+                <button onclick="loadSessions()" style="margin-bottom: 10px;">Обновить</button>
+                <div id="sessions-list">
+                    <div class="loading">Загрузка...</div>
+                </div>
+            </div>
+            
+            <div class="dialog">
+                <h3>Диалог</h3>
+                <div id="dialog-content">
+                    <div class="loading">Выберите сессию</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSession = null;
+        
+        async function loadSessions() {
+            try {
+                const response = await fetch('/debug/api/sessions');
+                const sessions = await response.json();
+                
+                const list = document.getElementById('sessions-list');
+                
+                if (sessions.length === 0) {
+                    list.innerHTML = '<div>Нет сессий</div>';
+                    return;
+                }
+                
+                list.innerHTML = sessions.map(session => `
+                    <div class="session-item" onclick="selectSession('${session.session_id}')">
+                        <strong>${session.sender_id}</strong><br>
+                        <small>${new Date(session.last_message_time).toLocaleString()}</small><br>
+                        <small>${session.message_count} сообщений</small>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                document.getElementById('sessions-list').innerHTML = '<div>Ошибка загрузки</div>';
+            }
+        }
+        
+        async function selectSession(sessionId) {
+            document.querySelectorAll('.session-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentSession = sessionId;
+            
+            document.getElementById('dialog-content').innerHTML = '<div class="loading">Загрузка диалога...</div>';
+            
+            try {
+                const response = await fetch(`/debug/api/session/${sessionId}/messages`);
+                const data = await response.json();
+                
+                displayDialog(data.messages, data.logs);
+                
+            } catch (error) {
+                document.getElementById('dialog-content').innerHTML = '<div>Ошибка загрузки диалога</div>';
+            }
+        }
+        
+        function displayDialog(messages, logs) {
+            const content = document.getElementById('dialog-content');
+            
+            if (messages.length === 0) {
+                content.innerHTML = '<div>Нет сообщений</div>';
+                return;
+            }
+            
+            content.innerHTML = messages.map((message, index) => {
+                const messageLogs = logs.filter(log => 
+                    Math.abs(new Date(log.timestamp) - new Date(message.timestamp)) < 30000
+                );
+                
+                return `
+                    <div class="message ${message.role}">
+                        <strong>${message.role === 'user' ? 'Пользователь' : 'AuraFlora'}</strong>
+                        <small>${new Date(message.timestamp).toLocaleTimeString()}</small>
+                        <div>${escapeHtml(message.content)}</div>
+                        
+                        ${messageLogs.length > 0 ? `
+                            <button class="debug-btn" onclick="toggleDebug(${index})">
+                                Детали (${messageLogs.length})
+                            </button>
+                            <div class="debug-details" id="debug-${index}" style="display: none;">
+                                ${formatLogs(messageLogs)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function toggleDebug(index) {
+            const details = document.getElementById(`debug-${index}`);
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function formatLogs(logs) {
+            return logs.map(log => `
+                <div class="log-entry">
+                    <strong>${log.logger_name}</strong> [${log.level}]<br>
+                    <small>${new Date(log.timestamp).toLocaleTimeString()}</small><br>
+                    ${escapeHtml(log.message)}
+                </div>
+            `).join('');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Инициализация
+        loadSessions();
+    </script>
+</body>
+</html> 
