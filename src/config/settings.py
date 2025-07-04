@@ -4,8 +4,6 @@
 
 import os
 from typing import Optional
-
-# Загружаем переменные окружения
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -19,16 +17,16 @@ PORT = int(os.getenv('PORT', 8080))
 SERVICE_URL = os.getenv('SERVICE_URL', "https://auraflora-bot-xicvc2y5hq-as.a.run.app")
 
 # --- WhatsApp API ---
-WHATSAPP_TOKEN = os.getenv('WHATSAPP_TOKEN', 'EAAZAVqMls3gQBOzAss3TUHsMQNFNbq6GccRd8Lwzemwe92T1aTB5j7ooT4sGw2wVZBknmDxICmPUKzx3kJ7MdnDFnEtYIabRJEqFZAtgy8lLLD7quNtxfGK7Ha3dBDcaDkxZAxNNu57CUSUhD20UCfstZAIZCyN4bsYBlzZAwEZCgs88dHLz5HHl1JYl8x422IY95AZDZD')
-WHATSAPP_PHONE_ID = os.getenv('WHATSAPP_PHONE_ID', '494991623707876')
-WHATSAPP_CATALOG_ID = os.getenv('WHATSAPP_CATALOG_ID', '742818811434193')
-VERIFY_TOKEN = os.getenv('VERIFY_TOKEN', 'my-super-secret-token')
+WHATSAPP_TOKEN = os.getenv('WHATSAPP_TOKEN')
+WHATSAPP_PHONE_ID = os.getenv('WHATSAPP_PHONE_ID')
+WHATSAPP_CATALOG_ID = os.getenv('WHATSAPP_CATALOG_ID')
+VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 
 # --- AI API ---
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyCC4T7oOuWRNwNAsV9GDSCWZTg2rKoNS-4')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # --- Google Cloud ---
-PROJECT_ID = os.getenv('PROJECT_ID', 'aquaf-464414')
+PROJECT_ID = os.getenv('PROJECT_ID')
 FIRESTORE_COLLECTION = os.getenv('FIRESTORE_COLLECTION', 'chat_sessions')
 
 # --- Логирование ---
@@ -65,16 +63,20 @@ TRANSLIT_TABLE = {
 }
 
 def detect_language(text: str) -> str:
-    """Определяет язык текста: ru или en (по алфавиту)."""
+    """
+    Определяет язык текста: ru или en (по алфавиту).
+    """
     import re
-    if re.search(r'[а-яА-ЯёЁ]', text):
+    if re.search(r'[\u0430-\u044f\u0410-\u042f\u0451\u0401]', text):
         return 'ru'
     if re.search(r'[a-zA-Z]', text):
         return 'en'
     return 'unknown'
 
 def transliterate_name(name: str, to_lang: str) -> str:
-    """Транслитерирует имя в нужный алфавит."""
+    """
+    Транслитерирует имя в нужный алфавит.
+    """
     if to_lang == 'ru':
         return ''.join(TRANSLIT_TABLE['en_to_ru'].get(c, c) for c in name)
     if to_lang == 'en':

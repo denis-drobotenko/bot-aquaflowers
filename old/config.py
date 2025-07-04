@@ -4,39 +4,54 @@
 
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
 
 # --- Credentials & IDs ---
-VERIFY_TOKEN = "my-super-secret-token"  # This should match the token on Meta Developers Portal
-WHATSAPP_TOKEN = "EAAZAVqMls3gQBOzAss3TUHsMQNFNbq6GccRd8Lwzemwe92T1aTB5j7ooT4sGw2wVZBknmDxICmPUKzx3kJ7MdnDFnEtYIabRJEqFZAtgy8lLLD7quNtxfGK7Ha3dBDcaDkxZAxNNu57CUSUhD20UCfstZAIZCyN4bsYBlzZAwEZCgs88dHLz5HHl1JYl8x422IY95AZDZD"
-WHATSAPP_PHONE_ID = "494991623707876"
-WHATSAPP_CATALOG_ID = "742818811434193"
-LINE_ACCESS_TOKEN = "6NnF/l69M5XDsph2Q3PD9ac56KFFhxhCDRcdPqn2P4PhbAiCjWWJCQPnCsMwCn9/7zXvohqxaio38N0dmlUM4iKe+RWDOzBpmWWkVgD05IUfkpQ0LXZJjqcQVhQ+dxHPAan2qrYaJe3kcnfY8XgiagdB04t89/1O/w1cDnyilFU="
-LINE_CHANNEL_SECRET = "YOUR_LINE_CHANNEL_SECRET"
-LINE_GROUP_ID = "Cc86568500d176e3a423aaf18a295b52c"
-GEMINI_API_KEY = "AIzaSyCC4T7oOuWRNwNAsV9GDSCWZTg2rKoNS-4"
-LINE_WEBHOOK_URL = "https://webhook.site/1ad177d3-1481-41e4-bcff-bb79c89592d9"
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
+WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
+WHATSAPP_PHONE_ID = os.getenv("WHATSAPP_PHONE_ID")
+WHATSAPP_CATALOG_ID = os.getenv("WHATSAPP_CATALOG_ID")
+LINE_ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
+LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET")
+LINE_GROUP_ID = os.getenv("LINE_GROUP_ID")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+LINE_WEBHOOK_URL = os.getenv("LINE_WEBHOOK_URL")
 
 # URL сервиса для ссылок на переписку
 # Можно переопределить через переменную окружения SERVICE_URL
 SERVICE_URL = os.getenv('SERVICE_URL', "https://auraflora-bot-xicvc2y5hq-as.a.run.app")
 
 # --- Настройки проекта ---
-PROJECT_ID = "aquaf-464414"
-DEV_MODE = True
+PROJECT_ID = os.getenv("PROJECT_ID")
+
+# Определяем окружение
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'production')
+IS_PRODUCTION = ENVIRONMENT == 'production'
+IS_DEVELOPMENT = ENVIRONMENT == 'development'
+DEV_MODE = IS_DEVELOPMENT
+
 DEPLOY_ID = os.getenv('DEPLOY_ID', 'local_dev')
 PORT = int(os.getenv('PORT', 8080))
 
 # --- Firestore ---
-FIRESTORE_COLLECTION = "chat_sessions"
+FIRESTORE_COLLECTION = os.getenv('FIRESTORE_COLLECTION', "chat_sessions")
 
 # --- Логирование ---
-LOGGING_LEVEL = "INFO" if not DEV_MODE else "DEBUG"
+LOGGING_LEVEL = os.getenv('LOGGING_LEVEL', "INFO" if IS_PRODUCTION else "DEBUG")
+
+# --- Debug компоненты (только в разработке) ---
+ENABLE_DEBUG_INTERFACE = IS_DEVELOPMENT
+ENABLE_DEBUG_LOGGING = IS_DEVELOPMENT
+ENABLE_CORS = IS_DEVELOPMENT
 
 # --- Транслитерация имени ---
 def detect_language(text):
-    """Определяет язык текста: ru или en (по алфавиту)."""
+    """
+    Определяет язык текста: ru или en (по алфавиту).
+    """
     import re
-    if re.search(r'[а-яА-ЯёЁ]', text):
+    if re.search(r'[\u0430-\u044f\u0410-\u042f\u0451\u0401]', text):
         return 'ru'
     if re.search(r'[a-zA-Z]', text):
         return 'en'
@@ -55,7 +70,9 @@ TRANSLIT_TABLE = {
 }
 
 def transliterate_name(name, to_lang):
-    """Транслитерирует имя в нужный алфавит."""
+    """
+    Транслитерирует имя в нужный алфавит.
+    """
     if to_lang == 'ru':
         return ''.join(TRANSLIT_TABLE['en_to_ru'].get(c, c) for c in name)
     if to_lang == 'en':
