@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Viewer</title>
+    <link rel="stylesheet" href="/static/css/log_viewer.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Панель управления -->
+        <div class="control-panel">
+            <div class="filter-controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Поиск в логах...">
+                    <button onclick="searchLogs()" class="icon-btn" aria-label="Поиск">🔍</button>
+                </div>
+                <select id="moduleFilter">
+                    <option value="">Все модули</option>
+                </select>
+                <select id="eventFilter">
+                    <option value="">Все события</option>
+                    <option value="function_start">Начало функции</option>
+                    <option value="function_end">Завершение функции</option>
+                    <option value="function_error">Ошибка функции</option>
+                </select>
+                <div class="time-filter">
+                    <input type="datetime-local" id="timeFrom" placeholder="От">
+                    <input type="datetime-local" id="timeTo" placeholder="До">
+                    <button onclick="setLastMinutes(5)" class="time-btn">5м</button>
+                    <button onclick="setLastMinutes(15)" class="time-btn">15м</button>
+                    <button onclick="setLastMinutes(30)" class="time-btn">30м</button>
+                </div>
+                <button onclick="clearFilters()" class="icon-btn" aria-label="Очистить фильтры">✕</button>
+                <button onclick="refreshLogs()" class="icon-btn" aria-label="Обновить логи" title="Обновить логи из файла">↻</button>
+                <button onclick="copyLogsToClipboard()" class="icon-btn" aria-label="Скопировать логи">📋</button>
+            </div>
+            <div class="info-text">
+                💡 Логи обновляются только по кнопке ↻ (не автоматически)
+            </div>
+        </div>
+
+        <!-- Контейнер для логов -->
+        <div class="logs-container" id="logsContainer">
+            <div class="loading">Загрузка логов...</div>
+        </div>
+    </div>
+
+    <script src="/static/js/log_viewer.js"></script>
+</body>
+</html> 

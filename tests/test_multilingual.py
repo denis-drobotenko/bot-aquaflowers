@@ -7,7 +7,7 @@ import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from src.services.ai_service import AIService
-from src.config import GEMINI_API_KEY
+from src.config.settings import GEMINI_API_KEY
 from src.models.message import Message
 
 def test_multilingual_response():

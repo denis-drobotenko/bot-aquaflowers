@@ -14,7 +14,7 @@ sys.path.insert(0, project_root)
 sys.path.insert(0, src_path)
 
 from src.services.catalog_service import CatalogService
-from src.config import WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN
+from src.config.settings import WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN
 
 async def test_catalog_service():
     """Тест сервиса каталога"""
@@ -24,28 +24,28 @@ async def test_catalog_service():
         # Инициализация каталога
         catalog_service = CatalogService(WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN)
         
-        # Тест 1: Получение товаров
-        products = await catalog_service.get_products()
+        # Тест 1: Получение товаров (синхронный метод)
+        products = catalog_service.get_products()
         if products and len(products) > 0:
             print(f"✅ Каталог загрузка товаров - Загружено {len(products)} товаров")
         else:
             print("❌ Каталог загрузка товаров - Товары не загружены")
             return False
             
-        # Тест 2: Получение доступных товаров
-        available_products = await catalog_service.get_available_products()
+        # Тест 2: Получение доступных товаров (синхронный метод)
+        available_products = catalog_service.get_available_products()
         if available_products and len(available_products) > 0:
             print(f"✅ Каталог доступные товары - Доступно {len(available_products)} товаров")
         else:
             print("❌ Каталог доступные товары - Нет доступных товаров")
             return False
             
-        # Тест 3: Валидация товара
+        # Тест 3: Валидация товара (синхронный метод)
         if available_products:
             test_product = available_products[0]
             retailer_id = test_product.get('retailer_id')
             if retailer_id:
-                validation = await catalog_service.validate_product(retailer_id)
+                validation = catalog_service.validate_product(retailer_id)
                 if validation['valid']:
                     print(f"✅ Каталог валидация товара - Товар {test_product.get('name')} валиден")
                 else:

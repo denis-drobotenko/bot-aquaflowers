@@ -29,7 +29,6 @@ class User:
     phone: Optional[str] = None
     language: Optional[str] = None
     last_activity: Optional[datetime] = None
-    metadata: Optional[Dict[str, Any]] = None
     
     def __post_init__(self):
         """Валидация после инициализации"""
@@ -50,7 +49,6 @@ class User:
             'phone': self.phone,
             'language': self.language,
             'last_activity': self.last_activity.isoformat() if self.last_activity else None,
-            'metadata': self.metadata or {}
         }
     
     @classmethod
@@ -75,7 +73,6 @@ class User:
             phone=data.get('phone'),
             language=data.get('language'),
             last_activity=last_activity,
-            metadata=data.get('metadata')
         )
     
     def update_activity(self):
@@ -113,18 +110,6 @@ class User:
     def is_blocked(self) -> bool:
         """Проверяет, заблокирован ли пользователь"""
         return self.status == UserStatus.BLOCKED
-    
-    def get_metadata(self, key: str, default: Any = None) -> Any:
-        """Получает значение из метаданных"""
-        if not self.metadata:
-            return default
-        return self.metadata.get(key, default)
-    
-    def set_metadata(self, key: str, value: Any):
-        """Устанавливает значение в метаданные"""
-        if not self.metadata:
-            self.metadata = {}
-        self.metadata[key] = value
     
     def get_display_name(self) -> str:
         """Получает отображаемое имя пользователя"""

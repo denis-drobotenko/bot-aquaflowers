@@ -1,187 +1,243 @@
-// Переводы для разных языков
-const translations = {
-    'ru': {
-        title: 'История переписки',
-        sessionId: 'ID сессии',
-        messageCount: 'Количество сообщений',
-        user: 'Пользователь',
-        phone: 'Телефон',
-        backToHome: '← Вернуться на главную',
-        print: '🖨️ Печать',
-        toTop: '⬆️ В начало'
-    },
-    'en': {
-        title: 'Chat History',
-        sessionId: 'Session ID',
-        messageCount: 'Message Count',
-        user: 'User',
-        phone: 'Phone',
-        backToHome: '← Back to Home',
-        print: '🖨️ Print',
-        toTop: '⬆️ To Top'
-    },
-    'th': {
-        title: 'ประวัติการสนทนา',
-        sessionId: 'รหัสเซสชัน',
-        messageCount: 'จำนวนข้อความ',
-        user: 'ผู้ใช้',
-        phone: 'โทรศัพท์',
-        backToHome: '← กลับหน้าหลัก',
-        print: '🖨️ พิมพ์',
-        toTop: '⬆️ ขึ้นบน'
-    }
-};
+// Современный JavaScript для чата AuraFlora
+console.log('🚀 Chat history JavaScript загружается...');
 
-// Функция перевода одного сообщения с анимацией и обработкой ошибок
-async function translateSingleMessage(messageElement, targetLang) {
-    try {
-        const contentElement = messageElement.querySelector('.message-content');
-        const originalText = contentElement.textContent || contentElement.innerText;
-        
-        // Показываем индикатор загрузки и текст 'Translating...'
-        contentElement.innerHTML = '<div style="display: flex; flex-direction: column; gap: 4px; color: #666;"><div style="display: flex; align-items: center; gap: 8px;"><div class="loading-spinner"></div><span>Translating...</span></div></div>';
-        
-        const response = await fetch('/translate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                text: originalText,
-                lang: targetLang
-            })
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            contentElement.style.transition = 'opacity 0.3s ease-out';
-            contentElement.style.opacity = '0';
-            await new Promise(resolve => setTimeout(resolve, 300));
-            // Показываем только перевод
-            contentElement.innerHTML = '<div>' + data.translated_text + '</div>';
-            contentElement.style.opacity = '1';
-            return data.translated_text;
-        } else if (response.status === 429) {
-            // Ошибка превышения квоты - ждем и повторяем
-            console.log('Rate limit exceeded, waiting 5 seconds...');
-            contentElement.innerHTML = '<div style="color: #666;">Rate limit exceeded, retrying in 5s...</div>';
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            return await translateSingleMessage(messageElement, targetLang);
-        } else {
-            console.error('Translation failed:', response.status, response.statusText);
-            contentElement.textContent = originalText;
-            return originalText;
-        }
-    } catch (error) {
-        console.error('Translation error:', error);
-        const contentElement = messageElement.querySelector('.message-content');
-        contentElement.textContent = originalText;
-        return originalText;
-    }
-}
-
-// Функция перевода всего диалога по одному сообщению
-async function translateChat(lang) {
-    try {
-        console.log('Translating entire chat to:', lang, 'message by message');
-        
-        // Блокируем кнопки во время перевода
-        const buttons = document.querySelectorAll('.lang-btn');
-        buttons.forEach(btn => {
-            btn.disabled = true;
-            btn.style.opacity = '0.5';
-        });
-        
-        // Получаем все сообщения
-        const messages = Array.from(document.querySelectorAll('.message'));
-        console.log('Found messages to translate:', messages.length);
-        
-        // Переводим каждое сообщение по очереди
-        for (let i = 0; i < messages.length; i++) {
-            const message = messages[i];
-            
-            // Переводим сообщение
-            await translateSingleMessage(message, lang);
-            
-            // Увеличенная пауза между сообщениями для избежания превышения лимитов
-            await new Promise(resolve => setTimeout(resolve, 2000));
-        }
-        
-        // Обновляем заголовок
-        document.querySelector('.header h1').textContent = translations[lang].title;
-        
-        console.log('Chat translation completed message by message');
-        
-        // Разблокируем кнопки
-        buttons.forEach(btn => {
-            btn.disabled = false;
-            btn.style.opacity = '1';
-        });
-        
-    } catch (error) {
-        console.error('Chat translation error:', error);
-        alert('Ошибка при переводе: ' + error.message);
-        
-        // Разблокируем кнопки при ошибке
-        const buttons = document.querySelectorAll('.lang-btn');
-        buttons.forEach(btn => {
-            btn.disabled = false;
-            btn.style.opacity = '1';
-        });
-    }
-}
-
-// Обработчики кнопок перевода
 document.addEventListener('DOMContentLoaded', function() {
-    // Устанавливаем активную кнопку в зависимости от параметра lang в URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentLang = urlParams.get('lang') || 'ru';
+    console.log('✅ DOM загружен, инициализируем интерфейс...');
+    
+    // Отмечаем, что внешний JS загружен
+    window.chatHistoryInitialized = true;
     
     const langButtons = document.querySelectorAll('.lang-btn');
-    langButtons.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === currentLang) {
-            btn.classList.add('active');
+    const chatContainer = document.querySelector('.chat-container');
+    const chatScrollArea = document.querySelector('.chat-scroll-area');
+    
+    console.log(`📱 Найдено кнопок языков: ${langButtons.length}`);
+    console.log(`💬 Контейнер чата: ${chatContainer ? 'найден' : 'НЕ НАЙДЕН'}`);
+    console.log(`📜 Область скролла: ${chatScrollArea ? 'найдена' : 'НЕ НАЙДЕНА'}`);
+    
+    // Проверяем загрузку CSS
+    const styles = getComputedStyle(document.body);
+    const primaryColor = styles.getPropertyValue('--primary-color');
+    console.log(`🎨 CSS переменные загружены: ${primaryColor ? 'ДА' : 'НЕТ'}`);
+    
+    // Функция для показа индикатора загрузки
+    function showLoading() {
+        console.log('⏳ Показываем индикатор загрузки...');
+        chatContainer.innerHTML = `
+            <div class="loading-indicator">
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Функция для показа ошибки
+    function showError(message) {
+        console.error('❌ Ошибка:', message);
+        chatContainer.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; color: #ff4444;">
+                <div style="font-size: 2em; margin-bottom: 10px;">⚠️</div>
+                <div style="font-weight: 500; margin-bottom: 5px;">Ошибка загрузки</div>
+                <div style="font-size: 0.9em; opacity: 0.8;">${message}</div>
+            </div>
+        `;
+    }
+    
+    // Функция для плавной прокрутки вверх
+    function scrollToTop() {
+        setTimeout(() => {
+            if (chatScrollArea) {
+                chatScrollArea.scrollTop = 0;
+                console.log('📜 Прокрутка вверх выполнена');
+            }
+        }, 100);
+    }
+    
+    // Функция для анимации кнопки
+    function animateButton(button) {
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = '';
+        }, 150);
+    }
+    
+    // Обработчики кнопок перевода
+    langButtons.forEach((button, index) => {
+        console.log(`🔘 Настраиваем кнопку ${index + 1}: ${button.getAttribute('data-lang')}`);
+        
+        // Добавляем обработчики для разных типов событий
+        const events = ['click', 'touchend'];
+        
+        events.forEach(eventType => {
+            button.addEventListener(eventType, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const lang = this.getAttribute('data-lang');
+                console.log(`🔄 Переключаем на язык: ${lang}`);
+                
+                // Анимация кнопки
+                animateButton(this);
+                
+                // Обновляем активную кнопку с анимацией
+                langButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.style.transform = '';
+                });
+                
+                this.classList.add('active');
+                
+                // Получаем sender_id и session_id из URL
+                const pathParts = window.location.pathname.split('/');
+                const sender_id = pathParts[3]; // /chat/history/{sender_id}/{session_id}
+                const session_id = pathParts[4];
+                
+                console.log('🔗 URL части:', pathParts);
+                console.log('👤 Sender ID:', sender_id);
+                console.log('📋 Session ID:', session_id);
+                
+                if (!sender_id || !session_id) {
+                    console.error('❌ Не удалось определить sender_id или session_id из URL');
+                    showError('Не удалось определить параметры сессии');
+                    return;
+                }
+                
+                // Показываем индикатор загрузки
+                showLoading();
+                
+                const apiUrl = `/chat/api/messages/${sender_id}/${session_id}/${lang}`;
+                console.log('🌐 Загружаем:', apiUrl);
+                
+                // Загружаем сообщения на выбранном языке
+                fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true',
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                })
+                .then(response => {
+                    console.log('📡 Ответ сервера:', response.status, response.statusText);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('✅ Данные получены:', data);
+                    if (data.error) {
+                        showError(data.error);
+                    } else {
+                        // Плавно обновляем содержимое
+                        chatContainer.style.opacity = '0';
+                        setTimeout(() => {
+                            chatContainer.innerHTML = data.messages;
+                            chatContainer.style.opacity = '1';
+                            scrollToTop();
+                            console.log('✅ Сообщения обновлены');
+                        }, 200);
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Ошибка загрузки сообщений:', error);
+                    showError('Ошибка загрузки сообщений. Попробуйте еще раз.');
+                });
+            }, { passive: false });
+        });
+        
+        // Улучшенная обработка hover эффектов для мобильных
+        if ('ontouchstart' in window) {
+            console.log('📱 Обнаружено touch устройство, добавляем touch обработчики');
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            button.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
         }
     });
     
-    langButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const lang = this.getAttribute('data-lang');
-            
-            // Обновляем активную кнопку
-            langButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Если выбран русский язык, просто перезагружаем страницу
-            if (lang === 'ru') {
-                const currentUrl = new URL(window.location);
-                currentUrl.searchParams.set('lang', 'ru');
-                window.location.href = currentUrl.toString();
-                return;
-            }
-            
-            // Для других языков запускаем перевод по одному сообщению
-            translateChat(lang);
-        });
+    // Автоматическая прокрутка при загрузке страницы
+    scrollToTop();
+    
+    // Обработка изменения размера окна
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(scrollToTop, 100);
     });
     
-    // Добавляем CSS для спиннера загрузки
-    const style = document.createElement('style');
-    style.textContent = `
-        .loading-spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+    // Улучшенная обработка скролла
+    let scrollTimeout;
+    if (chatScrollArea) {
+        chatScrollArea.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                // Можно добавить логику для lazy loading или других функций
+            }, 100);
+        });
+    }
+    
+    // Добавляем поддержку клавиатуры
+    document.addEventListener('keydown', function(e) {
+        // ESC для сброса фокуса
+        if (e.key === 'Escape') {
+            document.activeElement.blur();
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        // Стрелки для навигации по кнопкам языков
+        if (e.target.classList.contains('lang-btn')) {
+            const buttons = Array.from(langButtons);
+            const currentIndex = buttons.indexOf(e.target);
+            
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                buttons[currentIndex - 1].focus();
+            } else if (e.key === 'ArrowRight' && currentIndex < buttons.length - 1) {
+                buttons[currentIndex + 1].focus();
+            }
         }
-    `;
-    document.head.appendChild(style);
+    });
+    
+    // Улучшенная доступность
+    langButtons.forEach(button => {
+        button.setAttribute('role', 'button');
+        button.setAttribute('tabindex', '0');
+    });
+    
+    console.log('🎉 Chat history interface инициализирован успешно!');
+    
+    // Проверяем загрузку всех ресурсов
+    setTimeout(() => {
+        const images = document.querySelectorAll('img');
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        const scripts = document.querySelectorAll('script[src]');
+        
+        console.log(`📊 Статистика загрузки:`);
+        console.log(`   - Изображения: ${images.length}`);
+        console.log(`   - CSS файлы: ${stylesheets.length}`);
+        console.log(`   - JS файлы: ${scripts.length}`);
+        
+        // Проверяем, загрузились ли стили
+        const testElement = document.createElement('div');
+        testElement.style.position = 'absolute';
+        testElement.style.visibility = 'hidden';
+        testElement.style.height = '0';
+        testElement.style.overflow = 'hidden';
+        testElement.className = 'main-chat-area';
+        document.body.appendChild(testElement);
+        
+        const computedStyle = window.getComputedStyle(testElement);
+        const hasStyles = computedStyle.display !== 'inline' || computedStyle.maxWidth !== 'none';
+        
+        console.log(`   - CSS стили загружены: ${hasStyles ? 'ДА' : 'НЕТ'}`);
+        
+        document.body.removeChild(testElement);
+    }, 1000);
 });

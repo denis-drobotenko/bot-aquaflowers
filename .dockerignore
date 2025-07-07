@@ -47,30 +47,21 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
+# НЕ игнорируем промпты - они нужны для работы
+# !src/services/prompts/ai_system_prompt.txt
+# !src/services/prompts/ai_system_prompt_backup.txt
+
+# Не игнорируем статику и шаблоны
+!static/
+!templates/
+
+# Игнорируем тесты, архивы, debug, scripts, логи, окружения, IDE
 tests/
 archive/
 old/
 debug/
-*.log
-*.json
-*.html
-*.txt
-!requirements.txt
-!README.md
-
-# Logs
-logs/
-*.log
-
-# Temporary files
-tmp/
-temp/
-
-# Исключаем debug компоненты и dev-файлы из Docker-образа
-
-debug/
 scripts/
-tests/
+logs/
 *.log
 .env.local
 requirements-dev.txt 

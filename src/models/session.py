@@ -28,7 +28,6 @@ class Session:
     # Опциональные поля
     last_activity: Optional[datetime] = None
     user_language: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
     
     def __post_init__(self):
         """Валидация после инициализации"""
@@ -50,7 +49,6 @@ class Session:
             'created_at': self.created_at.isoformat(),
             'last_activity': self.last_activity.isoformat() if self.last_activity else None,
             'user_language': self.user_language,
-            'metadata': self.metadata or {}
         }
     
     @classmethod
@@ -74,7 +72,6 @@ class Session:
             created_at=created_at,
             last_activity=last_activity,
             user_language=data.get('user_language'),
-            metadata=data.get('metadata')
         )
     
     def update_activity(self):

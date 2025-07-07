@@ -12,18 +12,35 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'production')
 IS_PRODUCTION = ENVIRONMENT == 'production'
 IS_DEVELOPMENT = ENVIRONMENT == 'development'
 DEV_MODE = IS_DEVELOPMENT
+DEBUG_MODE = IS_DEVELOPMENT  # Добавляем DEBUG_MODE
 
 PORT = int(os.getenv('PORT', 8080))
 SERVICE_URL = os.getenv('SERVICE_URL', "https://auraflora-bot-xicvc2y5hq-as.a.run.app")
+DEPLOY_ID = os.getenv('DEPLOY_ID', 'local_dev')
+
+# --- Локальная разработка ---
+LOCAL_DEV = os.getenv('LOCAL_DEV', 'false').lower() == 'true'
+if LOCAL_DEV:
+    IS_DEVELOPMENT = True
+    DEV_MODE = True
+    ENVIRONMENT = 'development'
 
 # --- WhatsApp API ---
 WHATSAPP_TOKEN = os.getenv('WHATSAPP_TOKEN')
 WHATSAPP_PHONE_ID = os.getenv('WHATSAPP_PHONE_ID')
+WHATSAPP_PHONE_NUMBER_ID = WHATSAPP_PHONE_ID  # Алиас для совместимости
 WHATSAPP_CATALOG_ID = os.getenv('WHATSAPP_CATALOG_ID')
 VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 
 # --- AI API ---
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+TRANSLATION_MODEL = os.getenv('TRANSLATION_MODEL', 'gemini-2.0-flash-exp')
+
+# --- LINE API ---
+LINE_ACCESS_TOKEN = os.getenv('LINE_ACCESS_TOKEN')
+LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
+LINE_GROUP_ID = os.getenv('LINE_GROUP_ID')
+LINE_WEBHOOK_URL = os.getenv('LINE_WEBHOOK_URL')
 
 # --- Google Cloud ---
 PROJECT_ID = os.getenv('PROJECT_ID')

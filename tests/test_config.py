@@ -13,7 +13,7 @@ src_path = os.path.join(project_root, 'src')
 sys.path.insert(0, project_root)
 sys.path.insert(0, src_path)
 
-from src.config import GEMINI_API_KEY, WHATSAPP_TOKEN, WHATSAPP_PHONE_ID, PROJECT_ID
+from src.config.settings import GEMINI_API_KEY, WHATSAPP_TOKEN, WHATSAPP_PHONE_ID, PROJECT_ID
 
 def test_configuration():
     """Тест конфигурации системы"""

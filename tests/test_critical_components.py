@@ -29,7 +29,7 @@ from src.services.session_service import SessionService
 from src.utils.whatsapp_client import WhatsAppClient
 from src.repositories.message_repository import MessageRepository
 from src.models.message import Message, MessageRole
-from src.config import GEMINI_API_KEY, WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN, WHATSAPP_PHONE_ID, PROJECT_ID
+from src.config.settings import GEMINI_API_KEY, WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN, WHATSAPP_PHONE_ID, PROJECT_ID
 
 class CriticalComponentTester:
     """Тестер критических компонентов системы"""

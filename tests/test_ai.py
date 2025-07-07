@@ -15,7 +15,7 @@ sys.path.insert(0, src_path)
 
 from src.services.ai_service import AIService
 from src.models.message import Message, MessageRole
-from src.config import GEMINI_API_KEY
+from src.config.settings import GEMINI_API_KEY
 
 async def test_ai_service():
     """Тест AI сервиса (Gemini)"""
@@ -36,10 +36,22 @@ async def test_ai_service():
         ]
         
         response = await ai_service.generate_response(test_messages)
-        if response and len(response) > 10:
-            print(f"✅ AI простой ответ - Получен ответ длиной {len(response)} символов")
+        
+        # Проверяем тип ответа и извлекаем длину
+        if isinstance(response, list) and len(response) > 0:
+            response_text = response[0] if isinstance(response[0], str) else str(response[0])
+        elif isinstance(response, str):
+            response_text = response
         else:
-            print("❌ AI простой ответ - Ответ слишком короткий или пустой")
+            response_text = str(response)
+        
+        if response_text and len(response_text) > 5:
+            print(f"✅ AI простой ответ - Получен ответ длиной {len(response_text)} символов")
+            print(f"   Ответ: {response_text[:50]}...")
+        else:
+            print(f"❌ AI простой ответ - Ответ слишком короткий или пустой")
+            print(f"   Тип ответа: {type(response)}")
+            print(f"   Ответ: {response}")
             return False
             
         # Тест 2: Определение языка

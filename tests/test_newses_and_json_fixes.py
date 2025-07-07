@@ -13,7 +13,7 @@ from src.services.ai_service import AIService
 from src.services.message_service import MessageService
 from src.services.session_service import SessionService
 from src.models.message import Message, MessageRole
-from src.config import GEMINI_API_KEY
+from src.config.settings import GEMINI_API_KEY
 
 @pytest.mark.asyncio
 async def test_newses_command():

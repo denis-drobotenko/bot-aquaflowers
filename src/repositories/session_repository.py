@@ -8,7 +8,7 @@ from typing import Dict, Any
 
 class SessionRepository(BaseRepository[Session]):
     def __init__(self):
-        super().__init__('user_sessions')
+        super().__init__('users')  # Используем коллекцию users вместо user_sessions
 
     def _model_to_dict(self, model: Session) -> Dict[str, Any]:
         return model.to_dict()

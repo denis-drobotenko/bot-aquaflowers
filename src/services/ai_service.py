@@ -1,32 +1,33 @@
 """
-Сервис для работы с AI (Gemini) - Полная версия с промптами и логикой
+Сервис для работы с AI (Gemini) - Упрощенная версия
 """
 
 import google.generativeai as genai
 from google.generativeai import GenerationConfig
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
-from src.utils.logging_utils import ContextLogger
+from src.utils.logging_decorator import log_function
 from src.models.message import Message, MessageRole
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any, Tuple, Union
 import re
 import json
 import uuid
 from datetime import datetime
 import pytz
 from src.services.catalog_service import CatalogService
-from src.config import GEMINI_API_KEY, WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN
+from src.config.settings import GEMINI_API_KEY, WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN
+import os
+from src.utils.ai_utils import format_conversation_for_ai, parse_ai_response, get_fallback_text, format_catalog_for_ai
 
 class AIService:
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self.logger = ContextLogger("ai_service")
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel(
             model_name="gemini-2.5-flash",
             generation_config=GenerationConfig(
-                temperature=0.6,
-                top_p=1,
-                top_k=1,
+                temperature=0.7,
+                top_p=0.9,
+                top_k=40,
                 max_output_tokens=8192
             ),
             safety_settings={
@@ -38,11 +39,54 @@ class AIService:
         )
         self.catalog_service = CatalogService(WHATSAPP_CATALOG_ID, WHATSAPP_TOKEN)
 
+    @log_function("ai_service")
     def detect_language(self, text: str) -> str:
-        """
-        Определяет язык пользователя по тексту сообщения.
-        Возвращает код языка или 'auto' если не удалось определить.
-        """
+        """Определяет язык пользователя по тексту сообщения с помощью AI и fallback логики"""
+        if not text:
+            return 'auto'
+        
+        # Сначала пробуем AI определение
+        try:
+            # Создаем простой промпт для определения языка
+            language_detection_prompt = f"""What language is this text written in? Respond with only the language code: ru, en, th, it, fr, es, de, pt, nl, pl, cs, sk, hu, ro, bg, hr, sr, sl, et, lv, lt, fi, sv, no, da, is, zh, ja, ko, vi, id, ms, tl, hi, bn, ur, ar, he, fa, tr, ka, hy, az, sw, am, yo, zu, xh, af. If unsure, respond with 'auto'.
+
+Text: "{text}"
+Language:"""
+
+            # Используем отдельную модель для определения языка
+            detection_model = genai.GenerativeModel(
+                model_name="gemini-2.5-flash",
+                generation_config=GenerationConfig(
+                    temperature=0.1,
+                    top_p=1,
+                    top_k=1,
+                    max_output_tokens=5
+                ),
+                safety_settings={
+                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+                }
+            )
+            
+            response = detection_model.generate_content(language_detection_prompt)
+            detected_lang = response.text.strip().lower()
+            
+            # Проверяем, что полученный код языка поддерживается
+            supported_languages = ['ru', 'en', 'th', 'it', 'fr', 'es', 'de', 'pt', 'nl', 'pl', 'cs', 'sk', 'hu', 'ro', 'bg', 'hr', 'sr', 'sl', 'et', 'lv', 'lt', 'fi', 'sv', 'no', 'da', 'is', 'zh', 'ja', 'ko', 'vi', 'id', 'ms', 'tl', 'hi', 'bn', 'ur', 'ar', 'he', 'fa', 'tr', 'ka', 'hy', 'az', 'sw', 'am', 'yo', 'zu', 'xh', 'af']
+            
+            if detected_lang in supported_languages:
+                return detected_lang
+                
+        except Exception as e:
+            print(f"AI language detection failed: {e}")
+        
+        # Fallback на старую логику определения языка
+        return self._detect_language_fallback(text)
+    
+    def _detect_language_fallback(self, text: str) -> str:
+        """Fallback логика определения языка по символам и ключевым словам"""
         if not text:
             return 'auto'
         
@@ -58,31 +102,339 @@ class AIService:
         if len(thai_chars) > len(text) * 0.3:
             return 'th'
         
-        # Английский язык
+        # Итальянские приветствия и слова
+        italian_greetings = ['ciao', 'buongiorno', 'buonasera', 'buonanotte', 'salve', 'arrivederci', 'grazie', 'prego', 'scusa', 'mi dispiace']
+        if any(greeting in text_lower for greeting in italian_greetings):
+            return 'it'
+        
+        # Французские приветствия и слова
+        french_greetings = ['bonjour', 'bonsoir', 'salut', 'au revoir', 'merci', 's\'il vous plaît', 'excusez-moi', 'pardon']
+        if any(greeting in text_lower for greeting in french_greetings):
+            return 'fr'
+        
+        # Испанские приветствия и слова
+        spanish_greetings = ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'adiós', 'gracias', 'por favor', 'perdón', 'lo siento']
+        if any(greeting in text_lower for greeting in spanish_greetings):
+            return 'es'
+        
+        # Немецкие приветствия и слова
+        german_greetings = ['hallo', 'guten tag', 'guten morgen', 'guten abend', 'auf wiedersehen', 'danke', 'bitte', 'entschuldigung']
+        if any(greeting in text_lower for greeting in german_greetings):
+            return 'de'
+        
+        # Португальские приветствия
+        portuguese_greetings = ['olá', 'bom dia', 'boa tarde', 'boa noite', 'adeus', 'obrigado', 'por favor', 'desculpe']
+        if any(greeting in text_lower for greeting in portuguese_greetings):
+            return 'pt'
+        
+        # Голландские приветствия
+        dutch_greetings = ['hallo', 'goedemorgen', 'goedemiddag', 'goedenavond', 'tot ziens', 'dank je', 'alsjeblieft']
+        if any(greeting in text_lower for greeting in dutch_greetings):
+            return 'nl'
+        
+        # Польские приветствия
+        polish_greetings = ['cześć', 'dzień dobry', 'dobry wieczór', 'do widzenia', 'dziękuję', 'proszę', 'przepraszam']
+        if any(greeting in text_lower for greeting in polish_greetings):
+            return 'pl'
+        
+        # Чешские приветствия
+        czech_greetings = ['ahoj', 'dobrý den', 'dobrý večer', 'na shledanou', 'děkuji', 'prosím', 'omlouvám se']
+        if any(greeting in text_lower for greeting in czech_greetings):
+            return 'cs'
+        
+        # Словацкие приветствия
+        slovak_greetings = ['ahoj', 'dobrý deň', 'dobrý večer', 'dovidenia', 'ďakujem', 'prosím', 'ospravedlňujem sa']
+        if any(greeting in text_lower for greeting in slovak_greetings):
+            return 'sk'
+        
+        # Венгерские приветствия
+        hungarian_greetings = ['szia', 'jó napot', 'jó estét', 'viszlát', 'köszönöm', 'kérlek', 'elnézést']
+        if any(greeting in text_lower for greeting in hungarian_greetings):
+            return 'hu'
+        
+        # Румынские приветствия
+        romanian_greetings = ['salut', 'bună ziua', 'bună seara', 'la revedere', 'mulțumesc', 'te rog', 'scuze']
+        if any(greeting in text_lower for greeting in romanian_greetings):
+            return 'ro'
+        
+        # Болгарские приветствия
+        bulgarian_greetings = ['здравей', 'добър ден', 'добър вечер', 'довиждане', 'благодаря', 'моля', 'извинявам се']
+        if any(greeting in text_lower for greeting in bulgarian_greetings):
+            return 'bg'
+        
+        # Хорватские приветствия
+        croatian_greetings = ['zdravo', 'dobar dan', 'dobar večer', 'doviđenja', 'hvala', 'molim', 'ispričavam se']
+        if any(greeting in text_lower for greeting in croatian_greetings):
+            return 'hr'
+        
+        # Сербские приветствия
+        serbian_greetings = ['здраво', 'добар дан', 'добар вече', 'довиђења', 'хвала', 'молим', 'извињавам се']
+        if any(greeting in text_lower for greeting in serbian_greetings):
+            return 'sr'
+        
+        # Словенские приветствия
+        slovenian_greetings = ['zdravo', 'dober dan', 'dober večer', 'nasvidenje', 'hvala', 'prosim', 'opravičujem se']
+        if any(greeting in text_lower for greeting in slovenian_greetings):
+            return 'sl'
+        
+        # Эстонские приветствия
+        estonian_greetings = ['tere', 'tere hommikust', 'tere päevast', 'tere õhtust', 'head aega', 'aitäh', 'palun']
+        if any(greeting in text_lower for greeting in estonian_greetings):
+            return 'et'
+        
+        # Латышские приветствия
+        latvian_greetings = ['sveiki', 'labdien', 'labvakar', 'uz redzēšanos', 'paldies', 'lūdzu', 'atvainojiet']
+        if any(greeting in text_lower for greeting in latvian_greetings):
+            return 'lv'
+        
+        # Литовские приветствия
+        lithuanian_greetings = ['labas', 'laba diena', 'labas vakaras', 'iki pasimatymo', 'ačiū', 'prašau', 'atsiprašau']
+        if any(greeting in text_lower for greeting in lithuanian_greetings):
+            return 'lt'
+        
+        # Финские приветствия
+        finnish_greetings = ['hei', 'hyvää huomenta', 'hyvää päivää', 'hyvää iltaa', 'näkemiin', 'kiitos', 'ole hyvä']
+        if any(greeting in text_lower for greeting in finnish_greetings):
+            return 'fi'
+        
+        # Шведские приветствия
+        swedish_greetings = ['hej', 'god morgon', 'god dag', 'god kväll', 'hej då', 'tack', 'varsågod']
+        if any(greeting in text_lower for greeting in swedish_greetings):
+            return 'sv'
+        
+        # Норвежские приветствия
+        norwegian_greetings = ['hei', 'god morgen', 'god dag', 'god kveld', 'ha det', 'takk', 'vær så snill']
+        if any(greeting in text_lower for greeting in norwegian_greetings):
+            return 'no'
+        
+        # Датские приветствия
+        danish_greetings = ['hej', 'god morgen', 'god dag', 'god aften', 'farvel', 'tak', 'vær venlig']
+        if any(greeting in text_lower for greeting in danish_greetings):
+            return 'da'
+        
+        # Исландские приветствия
+        icelandic_greetings = ['halló', 'góðan dag', 'góða nótt', 'bless', 'takk', 'vinsamlegast', 'fyrirgefðu']
+        if any(greeting in text_lower for greeting in icelandic_greetings):
+            return 'is'
+        
+        # Китайские символы
+        chinese_chars = re.findall(r'[\u4e00-\u9fff]', text)
+        if len(chinese_chars) > len(text) * 0.3:
+            return 'zh'
+        
+        # Японские символы
+        japanese_chars = re.findall(r'[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf]', text)
+        if len(japanese_chars) > len(text) * 0.3:
+            return 'ja'
+        
+        # Корейские символы
+        korean_chars = re.findall(r'[\uac00-\ud7af]', text)
+        if len(korean_chars) > len(text) * 0.3:
+            return 'ko'
+        
+        # Вьетнамские приветствия
+        vietnamese_greetings = ['xin chào', 'chào buổi sáng', 'chào buổi chiều', 'tạm biệt', 'cảm ơn', 'xin vui lòng']
+        if any(greeting in text_lower for greeting in vietnamese_greetings):
+            return 'vi'
+        
+        # Индонезийские приветствия
+        indonesian_greetings = ['halo', 'selamat pagi', 'selamat siang', 'selamat malam', 'terima kasih', 'tolong']
+        if any(greeting in text_lower for greeting in indonesian_greetings):
+            return 'id'
+        
+        # Малайские приветствия
+        malay_greetings = ['hai', 'selamat pagi', 'selamat petang', 'selamat malam', 'terima kasih', 'sila']
+        if any(greeting in text_lower for greeting in malay_greetings):
+            return 'ms'
+        
+        # Тагальские приветствия
+        tagalog_greetings = ['kamusta', 'magandang umaga', 'magandang hapon', 'magandang gabi', 'salamat', 'pakiusap']
+        if any(greeting in text_lower for greeting in tagalog_greetings):
+            return 'tl'
+        
+        # Хинди символы
+        hindi_chars = re.findall(r'[\u0900-\u097f]', text)
+        if len(hindi_chars) > len(text) * 0.3:
+            return 'hi'
+        
+        # Бенгальские символы
+        bengali_chars = re.findall(r'[\u0980-\u09ff]', text)
+        if len(bengali_chars) > len(text) * 0.3:
+            return 'bn'
+        
+        # Урду символы
+        urdu_chars = re.findall(r'[\u0600-\u06ff]', text)
+        if len(urdu_chars) > len(text) * 0.3:
+            return 'ur'
+        
+        # Арабские символы
+        arabic_chars = re.findall(r'[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]', text)
+        if len(arabic_chars) > len(text) * 0.3:
+            return 'ar'
+        
+        # Иврит символы
+        hebrew_chars = re.findall(r'[\u0590-\u05ff]', text)
+        if len(hebrew_chars) > len(text) * 0.3:
+            return 'he'
+        
+        # Персидские символы
+        persian_chars = re.findall(r'[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]', text)
+        if len(persian_chars) > len(text) * 0.3:
+            return 'fa'
+        
+        # Турецкие приветствия
+        turkish_greetings = ['merhaba', 'günaydın', 'iyi günler', 'iyi akşamlar', 'güle güle', 'teşekkürler', 'lütfen']
+        if any(greeting in text_lower for greeting in turkish_greetings):
+            return 'tr'
+        
+        # Грузинские символы
+        georgian_chars = re.findall(r'[\u10a0-\u10ff]', text)
+        if len(georgian_chars) > len(text) * 0.3:
+            return 'ka'
+        
+        # Армянские символы
+        armenian_chars = re.findall(r'[\u0530-\u058f]', text)
+        if len(armenian_chars) > len(text) * 0.3:
+            return 'hy'
+        
+        # Азербайджанские приветствия
+        azerbaijani_greetings = ['salam', 'günaydın', 'yaxşı günlər', 'yaxşı axşamlar', 'sağ ol', 'təşəkkür edirəm']
+        if any(greeting in text_lower for greeting in azerbaijani_greetings):
+            return 'az'
+        
+        # Суахили приветствия
+        swahili_greetings = ['hujambo', 'habari za asubuhi', 'habari za mchana', 'habari za jioni', 'asante', 'tafadhali']
+        if any(greeting in text_lower for greeting in swahili_greetings):
+            return 'sw'
+        
+        # Амхарские символы
+        amharic_chars = re.findall(r'[\u1200-\u137f]', text)
+        if len(amharic_chars) > len(text) * 0.3:
+            return 'am'
+        
+        # Йоруба приветствия
+        yoruba_greetings = ['bawo', 'eku aaro', 'eku osan', 'eku ale', 'o dabo', 'o se', 'jowo']
+        if any(greeting in text_lower for greeting in yoruba_greetings):
+            return 'yo'
+        
+        # Зулу приветствия
+        zulu_greetings = ['sawubona', 'sawubona ekuseni', 'sawubona emini', 'sawubona kusihlwa', 'ngiyabonga', 'ngicela']
+        if any(greeting in text_lower for greeting in zulu_greetings):
+            return 'zu'
+        
+        # Коса приветствия
+        xhosa_greetings = ['molo', 'molo ekuseni', 'molo emini', 'molo kusihlwa', 'enkosi', 'ndicela']
+        if any(greeting in text_lower for greeting in xhosa_greetings):
+            return 'xh'
+        
+        # Африкаанс приветствия
+        afrikaans_greetings = ['hallo', 'goeie môre', 'goeie dag', 'goeie naand', 'totsiens', 'dankie', 'asseblief']
+        if any(greeting in text_lower for greeting in afrikaans_greetings):
+            return 'af'
+        
+        # Английский язык (только если нет других языков)
         english_chars = re.findall(r'[a-z]', text_lower)
         if len(english_chars) > len(text) * 0.3 and not russian_chars and not thai_chars:
             return 'en'
         
         return 'auto'
 
-    def translate_text(self, text: str, source_lang: str, target_lang: str) -> str:
-        """
-        Переводит текст с одного языка на другой используя Gemini.
+    @log_function("ai_service")
+    def ask_language_confirmation(self, text: str, detected_lang: str) -> str:
+        """Спрашивает пользователя о подтверждении языка"""
+        if detected_lang == 'auto':
+            return self._get_unknown_language_message()
         
-        Args:
-            text: Текст для перевода
-            source_lang: Исходный язык ('ru', 'en', 'th')
-            target_lang: Целевой язык ('ru', 'en', 'th')
-            
-        Returns:
-            str: Переведенный текст
-        """
+        lang_names = {
+            'ru': 'Russian', 'en': 'English', 'th': 'Thai', 'it': 'Italian', 'fr': 'French', 
+            'es': 'Spanish', 'de': 'German', 'pt': 'Portuguese', 'nl': 'Dutch', 'pl': 'Polish',
+            'cs': 'Czech', 'sk': 'Slovak', 'hu': 'Hungarian', 'ro': 'Romanian', 'bg': 'Bulgarian',
+            'hr': 'Croatian', 'sr': 'Serbian', 'sl': 'Slovenian', 'et': 'Estonian', 'lv': 'Latvian',
+            'lt': 'Lithuanian', 'fi': 'Finnish', 'sv': 'Swedish', 'no': 'Norwegian', 'da': 'Danish',
+            'is': 'Icelandic', 'zh': 'Chinese', 'ja': 'Japanese', 'ko': 'Korean', 'vi': 'Vietnamese',
+            'id': 'Indonesian', 'ms': 'Malay', 'tl': 'Tagalog', 'hi': 'Hindi', 'bn': 'Bengali',
+            'ur': 'Urdu', 'ar': 'Arabic', 'he': 'Hebrew', 'fa': 'Persian', 'tr': 'Turkish',
+            'ka': 'Georgian', 'hy': 'Armenian', 'az': 'Azerbaijani', 'sw': 'Swahili', 'am': 'Amharic',
+            'yo': 'Yoruba', 'zu': 'Zulu', 'xh': 'Xhosa', 'af': 'Afrikaans'
+        }
+        
+        lang_name = lang_names.get(detected_lang, detected_lang)
+        
+        # Создаем сообщение на разных языках
+        messages = {
+            'ru': f"Я определил ваш язык как {lang_name}. Правильно?",
+            'en': f"I detected your language as {lang_name}. Is this correct?",
+            'th': f"ฉันตรวจพบภาษาของคุณเป็น {lang_name} ถูกต้องหรือไม่?",
+            'it': f"Ho rilevato la tua lingua come {lang_name}. È corretto?",
+            'fr': f"J'ai détecté votre langue comme {lang_name}. Est-ce correct?",
+            'es': f"He detectado tu idioma como {lang_name}. ¿Es correcto?",
+            'de': f"Ich habe Ihre Sprache als {lang_name} erkannt. Ist das richtig?",
+            'pt': f"Detectei seu idioma como {lang_name}. Está correto?",
+            'nl': f"Ik heb uw taal gedetecteerd als {lang_name}. Klopt dit?",
+            'pl': f"Wykryłem Twój język jako {lang_name}. Czy to prawda?",
+            'cs': f"Detekoval jsem váš jazyk jako {lang_name}. Je to správně?",
+            'sk': f"Detekoval som váš jazyk ako {lang_name}. Je to správne?",
+            'hu': f"Nyelvét {lang_name}-ként észleltem. Helyes?",
+            'ro': f"Am detectat limba dvs. ca {lang_name}. Este corect?",
+            'bg': f"Открих езика ви като {lang_name}. Правилно ли е?",
+            'hr': f"Otkrio sam vaš jezik kao {lang_name}. Je li točno?",
+            'sr': f"Открио сам ваш језик као {lang_name}. Да ли је тачно?",
+            'sl': f"Zaznal sem vaš jezik kot {lang_name}. Je pravilno?",
+            'et': f"Tuvastasin teie keele kui {lang_name}. Kas see on õige?",
+            'lv': f"Es atklāju jūsu valodu kā {lang_name}. Vai tas ir pareizi?",
+            'lt': f"Aptikau jūsų kalbą kaip {lang_name}. Ar tai teisinga?",
+            'fi': f"Havaitsin kielesi {lang_name}:ksi. Onko tämä oikein?",
+            'sv': f"Jag upptäckte ditt språk som {lang_name}. Är det korrekt?",
+            'no': f"Jeg oppdaget språket ditt som {lang_name}. Er det riktig?",
+            'da': f"Jeg opdagede dit sprog som {lang_name}. Er det korrekt?",
+            'is': f"Ég uppgötvaði tungumálið þitt sem {lang_name}. Er það rétt?",
+            'zh': f"我检测到您的语言是{lang_name}。对吗？",
+            'ja': f"あなたの言語を{lang_name}として検出しました。正しいですか？",
+            'ko': f"귀하의 언어를 {lang_name}로 감지했습니다. 맞나요?",
+            'vi': f"Tôi đã phát hiện ngôn ngữ của bạn là {lang_name}. Có đúng không?",
+            'id': f"Saya mendeteksi bahasa Anda sebagai {lang_name}. Apakah benar?",
+            'ms': f"Saya mengesan bahasa anda sebagai {lang_name}. Adakah betul?",
+            'tl': f"Nadetect ko ang iyong wika bilang {lang_name}. Tama ba ito?",
+            'hi': f"मैंने आपकी भाषा को {lang_name} के रूप में पहचाना। क्या यह सही है?",
+            'bn': f"আমি আপনার ভাষাকে {lang_name} হিসাবে সনাক্ত করেছি। এটা কি ঠিক?",
+            'ur': f"میں نے آپ کی زبان کو {lang_name} کے طور پر پہچانا۔ کیا یہ درست ہے؟",
+            'ar': f"لقد اكتشفت لغتك كـ {lang_name}. هل هذا صحيح؟",
+            'he': f"זיהיתי את השפה שלך כ-{lang_name}. האם זה נכון?",
+            'fa': f"من زبان شما را به عنوان {lang_name} تشخیص دادم. آیا درست است؟",
+            'tr': f"Dilinizi {lang_name} olarak tespit ettim. Doğru mu?",
+            'ka': f"თქვენი ენა {lang_name} აღმოვაჩინე. სწორია?",
+            'hy': f"Ես ձեր լեզուն հայտնաբերեցի որպես {lang_name}։ Ճիշտ է՞:",
+            'az': f"Sizin dilinizi {lang_name} kimi müəyyən etdim. Düzgündür?",
+            'sw': f"Nimegundua lugha yako kama {lang_name}. Je, ni sahihi?",
+            'am': f"ቋንቋዎን እንደ {lang_name} አገኘሁ። ትክክል ነው?",
+            'yo': f"Mo ṣe akiyesi èdè rẹ bi {lang_name}. Ṣe o tọọ?",
+            'zu': f"Ngithole ulimi lwakho njenge-{lang_name}. Kuyiqiniso?",
+            'xh': f"Ndiyifumene ulwimi lwakho njenge-{lang_name}. Kuyinyani?",
+            'af': f"Ek het jou taal as {lang_name} opgespoor. Is dit reg?"
+        }
+        
+        return messages.get(detected_lang, messages['en'])
+
+    def _get_unknown_language_message(self) -> str:
+        """Возвращает сообщение для неизвестного языка"""
+        return "I couldn't determine your language. Please write in English, Russian, Thai, or another supported language."
+
+    @log_function("ai_service")
+    def translate_text(self, text: str, source_lang: str, target_lang: str) -> str:
+        """Переводит текст с одного языка на другой используя Gemini"""
         if not text or source_lang == target_lang:
             return text
         
         try:
-            # Создаем промпт для перевода
-            lang_names = {'ru': 'Russian', 'en': 'English', 'th': 'Thai'}
+            lang_names = {
+                'ru': 'Russian', 
+                'en': 'English', 
+                'th': 'Thai',
+                'it': 'Italian',
+                'fr': 'French',
+                'es': 'Spanish',
+                'de': 'German'
+            }
             source_name = lang_names.get(source_lang, source_lang)
             target_name = lang_names.get(target_lang, target_lang)
             
@@ -91,11 +443,10 @@ class AIService:
             
             Text: {text}"""
             
-            # Создаем модель для перевода
             translation_model = genai.GenerativeModel(
                 model_name="gemini-2.5-flash",
                 generation_config=GenerationConfig(
-                    temperature=0.1,  # Низкая температура для более точного перевода
+                    temperature=0.1,
                     top_p=1,
                     top_k=1,
                     max_output_tokens=2048
@@ -105,24 +456,16 @@ class AIService:
             response = translation_model.generate_content(translation_prompt)
             translated_text = response.text.strip()
             
-            self.logger.info(f"[TRANSLATE] {source_lang} -> {target_lang}: '{text[:50]}...' -> '{translated_text[:50]}...'")
+            # print(f"[TRANSLATE] {source_lang} -> {target_lang}: '{text[:50]}...' -> '{translated_text[:50]}...'")
             return translated_text
             
         except Exception as e:
-            self.logger.error(f"Translation error {source_lang} -> {target_lang}: {e}")
-            return text  # Возвращаем исходный текст при ошибке
+            print(f"Translation error {source_lang} -> {target_lang}: {e}")
+            return text
 
+    @log_function("ai_service")
     def translate_user_message(self, text: str, user_lang: str) -> Tuple[str, str, str]:
-        """
-        Переводит сообщение пользователя на все три языка.
-        
-        Args:
-            text: Текст сообщения пользователя
-            user_lang: Язык пользователя ('ru', 'en', 'th')
-            
-        Returns:
-            Tuple[str, str, str]: (text, text_en, text_thai)
-        """
+        """Переводит сообщение пользователя на все три языка"""
         if not text:
             return "", "", ""
         
@@ -131,7 +474,7 @@ class AIService:
             user_lang = self.detect_language(text)
         
         # Если язык не определен, считаем английским
-        if user_lang not in ['ru', 'en', 'th']:
+        if user_lang not in ['ru', 'en', 'th', 'it', 'fr', 'es', 'de']:
             user_lang = 'en'
         
         # Исходный текст
@@ -149,18 +492,18 @@ class AIService:
         else:
             text_thai = self.translate_text(original_text, user_lang, 'th')
         
-        # Возвращаем в правильном порядке
+        # Возвращаем в правильном порядке: (content, content_en, content_thai)
         if user_lang == 'ru':
             return original_text, text_en, text_thai
         elif user_lang == 'en':
-            return text_en, original_text, text_thai
-        else:  # th
-            return text_thai, text_en, original_text
+            return original_text, text_en, text_thai
+        elif user_lang == 'th':
+            return original_text, text_en, text_thai
+        else:  # it, fr, es, de - используем оригинальный язык как основной
+            return original_text, text_en, text_thai
 
-    def get_system_prompt(self, user_lang: str = 'auto', sender_name: str = None) -> str:
-        """
-        Генерирует полный системный промпт с каталогом и логикой работы бота.
-        """
+    def get_system_prompt(self, user_lang: str = 'auto', sender_name: str = None, is_first_message: bool = False) -> str:
+        """Генерирует полный системный промпт"""
         try:
             phuket_tz = pytz.timezone('Asia/Bangkok')
             phuket_time = datetime.now(phuket_tz)
@@ -168,348 +511,208 @@ class AIService:
         except Exception:
             phuket_time_str = 'Error determining Phuket time'
         
-        name_context = f"User name: {{sender_name}}" if sender_name else "User name unknown"
+        name_context = f"User name: {sender_name}" if sender_name else "User name unknown"
         
-        # Если есть имя пользователя, добавляем инструкцию для использования в приветствии
-        if sender_name:
-            name_instruction = f"\nGREETING WITH NAME: If this is the first message in conversation, use the user's name '{sender_name}' in greeting. Example: 'Hello {{sender_name}}! Would you like to see our flower catalog?'"
+        if sender_name and is_first_message:
+            name_instruction = f"""
+GREETING WITH NAME: This is the first message in conversation, use the user's name '{sender_name}' in greeting.
+IMPORTANT: The name '{sender_name}' is from WhatsApp profile. If the user writes in Russian, use Russian name format.
+If the user writes in English, use English name format. If the user writes in Thai, use Thai name format.
+Example: 'Hello {sender_name}! Would you like to see our flower catalog?'"""
         else:
             name_instruction = ""
         
-        # Определяем язык для ответа
         if user_lang == 'auto':
             language_instruction = "IMPORTANT: Respond in English by default! If user writes in another language, respond in the same language."
+        elif user_lang in ['it', 'fr', 'es', 'de']:
+            # Для европейских языков отвечаем на английском, но понимаем их
+            language_instruction = f"IMPORTANT: User writes in {user_lang.upper()} language, but respond in English! User understands English."
         else:
             language_instruction = f"IMPORTANT: Respond in user's language! User writes in language code '{user_lang}'. Respond in the same language."
         
-        return f"""You are a friendly female consultant for AURAFLORA flower shop.
+        prompt_path = os.path.join(os.path.dirname(__file__), "prompts", "ai_system_prompt.txt")
+        try:
+            with open(prompt_path, encoding="utf-8") as f:
+                prompt_template = f.read()
+        except FileNotFoundError:
+            # Fallback промпт если файл не найден
+            prompt_template = """You are AURAFLORA, a flower shop assistant in Phuket, Thailand. You help customers with flower orders, delivery, and catalog browsing.
 
-{language_instruction}{name_instruction}
+IMPORTANT RULES:
+1. Always be friendly and helpful
+2. Use flower emoji 🌸 in responses
+3. Respond in user's language: {user_lang}
+4. {language_instruction}
+5. {name_instruction}
 
-CRITICAL: ALWAYS respond in JSON format with THREE language versions:
-- "text" - message in user's language (Russian/English/Thai based on user input)
-- "text_en" - English translation of the message
-- "text_thai" - Thai translation of the message
-- "command" field (action to execute). If no command needed, set command to null.
+CURRENT TIME (Phuket): {phuket_time_str}
+{name_context}
 
-Example format:
-```json
-{{
-  "text": "Здравствуйте! Хотите посмотреть наш каталог цветов?",
-  "text_en": "Hello! Would you like to see our flower catalog?",
-  "text_thai": "สวัสดี! คุณต้องการดูแคตตาล็อกดอกไม้ของเราไหม?",
-  "command": null
-}}
-```
+CATALOG INFORMATION:
+- You have access to a flower catalog with products
+- Show catalog when user asks
+- Help with order placement
+- Handle delivery requests
+- Process payment information
 
-TEXT FORMATTING:
-- Break text into paragraphs for better readability
-- Each new topic or logical part should start from a new paragraph
-- Keep messages well-structured and easy to read
-- CRITICAL: ALL line breaks and paragraph breaks in the "text" field MUST be encoded as double backslash n (\\n). DO NOT use real line breaks inside JSON strings, only \\n. Example:
-  "text": "Hello!\\n\\nThis is a new paragraph.\\nLine two.\\n\\nEnd."
+RESPONSE FORMAT:
+Respond naturally in conversation. If you need to show catalog or perform actions, use JSON commands.
 
-EMOJI RULES:
-- Do NOT use any emojis in your messages.
-- The only exception: if the bouquet name contains an emoji, you may use it in the bouquet name.
-- Do NOT use sun, heart, smile, or any other emoji in greetings or anywhere else.
+Available commands:
+- show_catalog: Display flower catalog
+- create_order: Start order process
+- confirm_order: Confirm final order
+- process_payment: Handle payment
 
-NAME USAGE RULES:
-- Use the user's name ONLY in the very first greeting if available.
-- For example: "Hello {{name}}! Would you like to see our flower catalog?"
-- In all other responses, do NOT use the user's name.
-- Keep responses simple and professional without personalizing with names.
-
-DELIVERY PRICE RULE:
-- NEVER try to guess or determine the user's district or address
-- NEVER say that the address is not in the list or that the price will be clarified by a manager
-- ALWAYS just show the full delivery price list for all districts
-- ALWAYS ask the user to provide their address for delivery, and store it for the manager
-- DO NOT make any conclusions about the address or delivery price
-
-CATALOG RULE: Use ONLY products from the actual WABA catalog! Never invent flower names!
-- Use exact names from catalog
-- Always include correct retailer_id for selected item
-- NEVER show technical data (retailer_id, internal codes) to user
-- Show only bouquet name and price
-
-USER CONTEXT:
-- {name_context}
-- CURRENT TIME IN PHUKET (GMT+7): {phuket_time_str}
-- Understand relative dates and times
-- Greet politely based on time: 6-12 "Good morning", 12-18 "Good afternoon", 18-23 "Good evening", 23-6 "Good night"
-
-COMMANDS:
-- `send_catalog` - send flower catalog
-- `save_order_info` - save order data (bouquet, date, time, delivery_needed, address, card_needed, card_text, retailer_id)
-- `confirm_order` - confirm and send order to LINE
-
-WORKFLOW (don't repeat questions):
-1. Start → Greet, offer catalog (TEXT ONLY, NO command)
-2. User agrees → Send catalog (send_catalog command)
-3. Bouquet selected → Save & ask "Delivery needed? Where?"
-4. Delivery answered → Save & show price list + ask for address
-5. Date/time → Save & ask "Card needed? Text?"
-6. Card → Save & ask "Recipient name?"
-7. Name → Save & ask "Recipient phone?"
-8. Phone → Save & show summary + ask "Confirm order?"
-9. Confirmed → Save & confirm (confirm_order with ALL data)
-
-VALIDATION:
-- Required: bouquet, delivery_needed, address (if delivery), date, time, card_needed, card_text (if card), recipient_name, recipient_phone
-- Delivery hours: 8:00-21:00 only
-
-IMPORTANT STYLE RULE:
-- Do NOT start every message with 'Perfect', 'Great', 'Отлично', 'Прекрасно' or similar. Vary your phrasing and use neutral, business-like language.
-
-EXAMPLES:
-
-Greeting:
-```json
-{{
-  "text": "Good afternoon! Would you like to see our flower catalog?",
-  "text_en": "Good afternoon! Would you like to see our flower catalog?",
-  "text_thai": "สวัสดีตอนบ่าย! คุณต้องการดูแคตตาล็อกดอกไม้ของเราไหม?"
-}}
-```
-
-Greeting with name:
-```json
-{{
-  "text": "Hello {{name}}! Would you like to see our flower catalog?",
-  "text_en": "Hello {{name}}! Would you like to see our flower catalog?",
-  "text_thai": "สวัสดี {{name}}! คุณต้องการดูแคตตาล็อกดอกไม้ของเราไหม?"
-}}
-```
-
-Catalog:
-```json
-{{
-  "text": "I'll show you each bouquet with photo!\\n\\nPlease wait a moment...",
-  "text_en": "I'll show you each bouquet with photo!\\n\\nPlease wait a moment...",
-  "text_thai": "ฉันจะแสดงช่อดอกไม้แต่ละช่อพร้อมรูปภาพ!\\n\\nกรุณารอสักครู่...",
-  "command": {{
-    "type": "send_catalog"
-  }}
-}}
-```
-
-Selection:
-```json
-{{
-  "text": "Your bouquet 'Spirit' is saved.\\n\\nDo you need delivery?",
-  "text_en": "Your bouquet 'Spirit' is saved.\\n\\nDo you need delivery?",
-  "text_thai": "ช่อดอกไม้ 'Spirit' ของคุณถูกบันทึกแล้ว\\n\\nคุณต้องการการจัดส่งไหม?",
-  "command": {{
-    "type": "save_order_info",
-    "bouquet": "Spirit",
-    "retailer_id": "rl7vdxcifo"
-  }}
-}}
-```
-
-STORE INFO:
-- Delivery: 8:00-21:00, island-wide
-- Store: 9:00-18:00, Near Central Festival
-- Payment: before delivery via manager. Baht/rubles/USDT accepted
-- Delivery prices: Rawai 500, Chalong 380, Phuket Town 300, Kathu 280, Patong 400, Bang Tao 500, Laguna 500, Thalang/Mai Khao 550 baht"""
-
-    def format_conversation_for_ai(self, messages: List[Message]) -> List[str]:
-        """
-        Форматирует историю диалога для AI в простой список строк.
-        Использует только основной текст (content) для контекста AI.
-        """
-        formatted = []
-        for msg in messages:
-            if msg.content and msg.content.strip():
-                formatted.append(msg.content.strip())
-        return formatted
-
-    def parse_ai_response(self, response_text: str) -> Tuple[str, str, str, Optional[Dict[str, Any]]]:
-        """
-        Парсит ответ AI и извлекает текст на трех языках и команду.
+Always end responses with 🌸 emoji."""
         
-        Returns:
-            Tuple[str, str, str, Optional[Dict]]: (text, text_en, text_thai, command)
-        """
-        try:
-            # Очищаем текст от лишних пробелов
-            response_text = response_text.strip()
-            
-            # Ищем JSON в ответе (с markdown)
-            json_match = re.search(r'```json\s*(\{.*?\})\s*```', response_text, re.DOTALL)
-            if json_match:
-                json_str = json_match.group(1)
-                self.logger.info(f"[PARSE] Found JSON in markdown block")
-            else:
-                # Пробуем найти JSON без markdown
-                json_match = re.search(r'(\{.*\})', response_text, re.DOTALL)
-                if json_match:
-                    json_str = json_match.group(1)
-                    self.logger.info(f"[PARSE] Found JSON without markdown")
-                else:
-                    # Если JSON не найден, возвращаем текст как есть
-                    self.logger.warning(f"[PARSE] No JSON found in response, returning as plain text")
-                    return response_text, response_text, response_text, None
-            
-            # Очищаем JSON строку
-            json_str = json_str.strip()
-            
-            # Парсим JSON
-            response_data = json.loads(json_str)
-            
-            # Извлекаем данные
-            text = response_data.get('text', '')
-            text_en = response_data.get('text_en', text)  # Fallback на основной текст
-            text_thai = response_data.get('text_thai', text)  # Fallback на основной текст
-            command = response_data.get('command')
-            
-            # Проверяем на пустые значения
-            if not text:
-                self.logger.warning(f"[PARSE] Empty text field in JSON")
-                return response_text, response_text, response_text, None
-            
-            self.logger.info(f"[PARSE] Successfully parsed JSON: text={len(text)} chars, command={command}")
-            return text, text_en, text_thai, command
-            
-        except json.JSONDecodeError as e:
-            self.logger.error(f"[PARSE] JSON decode error: {e}")
-            self.logger.error(f"[PARSE] Problematic JSON string: {json_str[:500]}...")
-            # Возвращаем текст как есть, если не удалось распарсить JSON
-            return response_text, response_text, response_text, None
-        except Exception as e:
-            self.logger.error(f"[PARSE] Unexpected error parsing AI response: {e}")
-            # Возвращаем текст как есть, если не удалось распарсить JSON
-            return response_text, response_text, response_text, None
+        return prompt_template.format(
+            user_lang=user_lang,
+            sender_name=sender_name or "",
+            phuket_time_str=phuket_time_str,
+            name_context=name_context,
+            name_instruction=name_instruction,
+            language_instruction=language_instruction
+        )
 
-    async def generate_response(self, messages: List[Message], user_lang: str = 'auto', sender_name: str = None) -> str:
-        """
-        Генерирует ответ AI с полной логикой работы бота.
-        """
+    @log_function("ai_service")
+    async def generate_response(
+        self,
+        messages: List[Union[Message, Dict]],
+        user_lang: str = 'ru',
+        sender_name: str = None,
+        is_first_message: bool = False
+    ) -> Tuple[str, str, str, Optional[dict]]:
+        """Генерирует ответ AI на основе истории сообщений"""
+        request_id = str(uuid.uuid4())[:8]
+        
         try:
-            # Генерируем уникальный ID для этого запроса
-            request_id = str(uuid.uuid4())[:8]
+            # print(f"[AI_REQUEST] RequestID: {request_id} | Generating response for {len(messages)} messages")
             
-            self.logger.info(f"[AI_REQUEST] RequestID: {request_id} | Generating response for {len(messages)} messages")
+            # Проверяем на повторяющиеся сообщения
+            if self._is_repetitive_response(messages):
+                # print(f"[AI_REQUEST] RequestID: {request_id} | Detected repetitive user message, generating contextual response")
+                pass
+            
+            # Форматируем историю для логирования
+            history_log = []
+            for m in messages:
+                if isinstance(m, dict):
+                    role = m.get('role', 'unknown')
+                    content = m.get('content', '')
+                else:
+                    role = m.role.value if hasattr(m.role, 'value') else str(m.role)
+                    content = m.content
+                history_log.append(f'[{role}] {content}')
+            
+            print(f"[AI_HISTORY] История для AI:")
+            print("=" * 80)
+            for i, msg in enumerate(history_log, 1):
+                print(f"{i:2d}. {msg}")
+            print("=" * 80)
             
             # Получаем каталог товаров
-            catalog_products = await self.catalog_service.get_products()
-            catalog_summary = self.format_catalog_for_ai(catalog_products)
+            catalog_products = self.catalog_service.get_products()
+            catalog_summary = format_catalog_for_ai(catalog_products)
             
             # Создаем системный промпт с каталогом
-            system_prompt = self.get_system_prompt(user_lang, sender_name)
+            system_prompt = self.get_system_prompt(user_lang, sender_name, is_first_message)
             enhanced_prompt = system_prompt + f"\n\nACTUAL PRODUCT CATALOG:\n{catalog_summary}"
             
             # Форматируем историю диалога
-            conversation_history = self.format_conversation_for_ai(messages)
+            session_id = None
+            sender_id = None
+            if messages:
+                first_msg = messages[0]
+                if isinstance(first_msg, dict):
+                    session_id = first_msg.get('session_id')
+                    sender_id = first_msg.get('sender_id')
+                else:
+                    session_id = first_msg.session_id
+                    sender_id = first_msg.sender_id
+            
+            conversation_history = await format_conversation_for_ai(messages, session_id, sender_id)
             
             # Проверяем на пустую историю
             if not conversation_history:
-                conversation_history = ["Здравствуйте! Чем могу помочь?"]
-                self.logger.warning(f"[AI_WARNING] Empty conversation history, using fallback")
+                conversation_history = [{"role": "assistant", "content": "Здравствуйте! Чем могу помочь?"}]
+                print(f"[AI_WARNING] Empty conversation history, using fallback")
             
             # Создаем полный промпт
             full_prompt = f"{enhanced_prompt}\n\nCONVERSATION HISTORY:\n"
-            for msg in conversation_history:
-                full_prompt += f"{msg}\n"
+            history_json = json.dumps(conversation_history, ensure_ascii=False, indent=2)
+            full_prompt += history_json
+            full_prompt += "\n\nJSON RESPONSE:"
             
-            full_prompt += "\nRESPONSE (in JSON format):"
-            
-            self.logger.info(f"[AI_REQUEST] RequestID: {request_id} | Sending full prompt to Gemini")
-            
-            # Создаем модель без system_instruction
-            model = genai.GenerativeModel(
-                model_name="gemini-2.5-flash",
-                generation_config=GenerationConfig(
-                    temperature=0.6,
-                    top_p=1,
-                    top_k=1,
-                    max_output_tokens=8192
-                ),
-                safety_settings={
-                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-                }
-            )
+            # print(f"[AI_REQUEST] RequestID: {request_id} | Sending full prompt to Gemini")
             
             # Получаем ответ от AI
-            response = model.generate_content(full_prompt)
-            response_text = response.text.strip()
-            
-            self.logger.info(f"[AI_RESPONSE] RequestID: {request_id} | Raw response: {response_text}")
-            
-            # Парсим ответ
-            ai_text, ai_text_en, ai_text_thai, ai_command = self.parse_ai_response(response_text)
-            
-            # Проверяем на пустой ответ
-            if not ai_text or ai_text.strip() == "":
-                self.logger.error(f"[AI_ERROR] Empty AI response")
-                fallback_text = "Конечно! Чем могу помочь? 🌸"
-                if user_lang == 'en':
-                    fallback_text = "Of course! How can I help you? 🌸"
-                elif user_lang == 'th':
-                    fallback_text = "แน่นอน! ฉันสามารถช่วยคุณได้อย่างไร? 🌸"
-                return fallback_text
-            
-            self.logger.info(f"[AI_SUCCESS] RequestID: {request_id} | Final response: {ai_text}")
-            
-            return ai_text
-            
-        except Exception as e:
-            self.logger.error(f"Error generating AI response: {e}")
-            fallback_text = "Конечно! Чем могу помочь? 🌸"
-            if user_lang == 'en':
-                fallback_text = "Of course! How can I help you? 🌸"
-            elif user_lang == 'th':
-                fallback_text = "แน่นอน! ฉันสามารถช่วยคุณได้อย่างไร? 🌸"
-            return fallback_text
-
-    def format_catalog_for_ai(self, products: List[Dict[str, Any]]) -> str:
-        """
-        Форматирует каталог для передачи в AI.
-        """
-        if not products:
-            return "Каталог временно недоступен."
-        
-        catalog_text = "АКТУАЛЬНЫЙ КАТАЛОГ ЦВЕТОВ ИЗ WABA\n\n"
-        for i, product in enumerate(products, 1):
-            name = product.get('name', 'Без названия')
-            price = product.get('price', 'Цена не указана')
-            retailer_id = product.get('retailer_id', '')
-            catalog_text += f"{i}. {name} (ID: {retailer_id})\n   Цена: {price}\n"
-        
-        catalog_text += "ВАЖНО: Используй ТОЛЬКО эти товары! Не выдумывай названия!"
-        return catalog_text
-
-    def generate_response_sync(self, messages: List[Message], user_lang: str = 'auto', sender_name: str = None) -> str:
-        """
-        Синхронная версия генерации ответа AI для тестирования.
-        """
-        try:
-            # Форматируем историю диалога для AI
-            conversation = self.format_conversation_for_ai(messages)
-            
-            # Получаем системный промпт
-            system_prompt = self.get_system_prompt(user_lang, sender_name)
-            
-            # Создаем промпт для AI
-            full_prompt = f"{system_prompt}\n\nConversation history:\n"
-            for msg in conversation:
-                full_prompt += f"{msg}\n"
-            
-            full_prompt += "\nResponse:"
-            
-            self.logger.info(f"[AI_GENERATE_SYNC] Генерация ответа для языка: {user_lang}")
-            
-            # Генерируем ответ
             response = self.model.generate_content(full_prompt)
             response_text = response.text.strip()
             
-            self.logger.info(f"[AI_RESPONSE_SYNC] Получен ответ длиной {len(response_text)} символов")
-            return response_text
+            # print(f"[AI_RESPONSE] RequestID: {request_id} | Raw response: {response_text}")
+            
+            # Парсим ответ
+            ai_text, ai_text_en, ai_text_thai, ai_command = parse_ai_response(response_text)
+            
+            # Проверяем на пустой ответ (но с командой)
+            if (not ai_text or ai_text.strip() == "") and not ai_command:
+                print(f"[AI_ERROR] Empty AI response")
+                fallback_text = get_fallback_text(user_lang)
+                return fallback_text, fallback_text, fallback_text, None
+            
+            print(f"[AI_RESPONSE] {ai_text}")
+            
+            return ai_text, ai_text_en, ai_text_thai, ai_command
             
         except Exception as e:
-            self.logger.error(f"Error generating AI response: {e}")
-            return "Извините, произошла ошибка при генерации ответа. Попробуйте еще раз." 
+            print(f"[AI_REQUEST] RequestID: {request_id} | Error generating response: {e}")
+            error_messages = self._get_error_messages(user_lang)
+            return error_messages['ru'], error_messages['en'], error_messages['th'], None
+
+    def _is_repetitive_response(self, messages: List[Message]) -> bool:
+        """Проверяет, не является ли последнее сообщение пользователя повторением"""
+        if not messages or len(messages) < 2:
+            return False
+        
+        # Ищем последнее сообщение пользователя
+        last_user_message = None
+        for msg in reversed(messages[:-1]):
+            if isinstance(msg, dict):
+                role = msg.get('role')
+                content = msg.get('content')
+            else:
+                role = msg.role
+                content = msg.content
+            
+            if role == MessageRole.USER or role == 'user':
+                last_user_message = content
+                break
+        
+        if not last_user_message:
+            return False
+        
+        # Проверяем, не является ли последнее сообщение пользователя коротким подтверждением
+        short_confirmations = ['да', 'да.', 'да...', 'yes', 'yes.', 'yes...', 'ok', 'ok.', 'ok...', 'хорошо', 'хорошо.', 'хорошо...']
+        return last_user_message.lower().strip() in short_confirmations 
+
+    def _get_error_messages(self, user_lang: str) -> Dict[str, str]:
+        """Возвращает сообщения об ошибках на разных языках"""
+        if user_lang == 'en':
+            return {
+                'ru': 'Sorry, an error occurred. Please try again. 🌸',
+                'en': 'Sorry, an error occurred. Please try again. 🌸',
+                'th': 'ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง 🌸'
+            }
+        elif user_lang == 'th':
+            return {
+                'ru': 'ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง 🌸',
+                'en': 'Sorry, an error occurred. Please try again. 🌸',
+                'th': 'ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง 🌸'
+            }
+        else:  # ru или auto
+            return {
+                'ru': 'Извините, произошла ошибка. Попробуйте еще раз. 🌸',
+                'en': 'Sorry, an error occurred. Please try again. 🌸',
+                'th': 'ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง 🌸'
+            } 

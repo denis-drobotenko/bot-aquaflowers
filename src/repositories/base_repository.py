@@ -5,7 +5,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List, Dict, Any, TypeVar, Generic
 from google.cloud import firestore
-from src.utils.logging_utils import ContextLogger
 
 T = TypeVar('T')
 
@@ -26,7 +25,6 @@ class BaseRepository(ABC, Generic[T]):
         """
         self.collection_name = collection_name
         self.db = self._get_firestore_client()
-        self.logger = ContextLogger(f"{collection_name}_repository")
     
     def _get_firestore_client(self) -> Optional[firestore.Client]:
         """
@@ -38,7 +36,7 @@ class BaseRepository(ABC, Generic[T]):
         try:
             return firestore.Client()
         except Exception as e:
-            self.logger.error(f"Failed to initialize Firestore client: {e}")
+            print(f"Failed to initialize Firestore client: {e}")
             return None
     
     def _get_collection_ref(self):
@@ -95,11 +93,11 @@ class BaseRepository(ABC, Generic[T]):
             doc_ref.set(doc_data)
             
             doc_id = doc_ref.id
-            self.logger.info(f"Created document with ID: {doc_id}")
+            print(f"Created document with ID: {doc_id}")
             return doc_id
             
         except Exception as e:
-            self.logger.error(f"Error creating document: {e}")
+            print(f"Error creating document: {e}")
             return None
     
     async def get_by_id(self, doc_id: str) -> Optional[T]:
@@ -119,14 +117,14 @@ class BaseRepository(ABC, Generic[T]):
             if doc.exists:
                 data = doc.to_dict()
                 model = self._dict_to_model(data, doc_id)
-                self.logger.info(f"Retrieved document: {doc_id}")
+                print(f"Retrieved document: {doc_id}")
                 return model
             else:
-                self.logger.warning(f"Document not found: {doc_id}")
+                print(f"Document not found: {doc_id}")
                 return None
                 
         except Exception as e:
-            self.logger.error(f"Error getting document {doc_id}: {e}")
+            print(f"Error getting document {doc_id}: {e}")
             return None
     
     async def update(self, doc_id: str, model: T) -> bool:
@@ -145,11 +143,11 @@ class BaseRepository(ABC, Generic[T]):
             doc_ref = self._get_collection_ref().document(doc_id)
             doc_ref.update(doc_data)
             
-            self.logger.info(f"Updated document: {doc_id}")
+            print(f"Updated document: {doc_id}")
             return True
             
         except Exception as e:
-            self.logger.error(f"Error updating document {doc_id}: {e}")
+            print(f"Error updating document {doc_id}: {e}")
             return False
     
     async def delete(self, doc_id: str) -> bool:
@@ -166,11 +164,11 @@ class BaseRepository(ABC, Generic[T]):
             doc_ref = self._get_collection_ref().document(doc_id)
             doc_ref.delete()
             
-            self.logger.info(f"Deleted document: {doc_id}")
+            print(f"Deleted document: {doc_id}")
             return True
             
         except Exception as e:
-            self.logger.error(f"Error deleting document {doc_id}: {e}")
+            print(f"Error deleting document {doc_id}: {e}")
             return False
     
     async def list_all(self, limit: Optional[int] = None) -> List[T]:
@@ -197,11 +195,11 @@ class BaseRepository(ABC, Generic[T]):
                 model = self._dict_to_model(data, doc.id)
                 models.append(model)
             
-            self.logger.info(f"Retrieved {len(models)} documents")
+            print(f"Retrieved {len(models)} documents")
             return models
             
         except Exception as e:
-            self.logger.error(f"Error listing documents: {e}")
+            print(f"Error listing documents: {e}")
             return []
     
     async def find_by_field(self, field: str, value: Any, limit: Optional[int] = None) -> List[T]:
@@ -230,11 +228,11 @@ class BaseRepository(ABC, Generic[T]):
                 model = self._dict_to_model(data, doc.id)
                 models.append(model)
             
-            self.logger.info(f"Found {len(models)} documents with {field}={value}")
+            print(f"Found {len(models)} documents with {field}={value}")
             return models
             
         except Exception as e:
-            self.logger.error(f"Error finding documents by {field}={value}: {e}")
+            print(f"Error finding documents by {field}={value}: {e}")
             return []
     
     async def exists(self, doc_id: str) -> bool:
@@ -253,5 +251,5 @@ class BaseRepository(ABC, Generic[T]):
             return doc.exists
             
         except Exception as e:
-            self.logger.error(f"Error checking document existence {doc_id}: {e}")
+            print(f"Error checking document existence {doc_id}: {e}")
             return False 

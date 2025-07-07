@@ -12,7 +12,7 @@ from src.services.message_service import MessageService
 from src.services.session_service import SessionService
 from src.services.ai_service import AIService
 from src.models.message import Message, MessageRole
-from src.config import GEMINI_API_KEY
+from src.config.settings import GEMINI_API_KEY
 
 async def test_ai_history():
     """Тестирует правильную передачу истории диалога к AI"""
@@ -101,7 +101,8 @@ async def test_ai_history():
         
         # Тест 6: Проверка форматирования для AI
         print("6. Проверяем форматирование для AI...")
-        formatted_history = ai_service.format_conversation_for_ai(ai_messages)
+        from src.utils.ai_utils import format_conversation_for_ai
+        formatted_history = await format_conversation_for_ai(ai_messages, session_id, test_sender_id)
         
         if formatted_history:
             print(f"   ✅ Форматирование выполнено: {len(formatted_history)} сообщений")

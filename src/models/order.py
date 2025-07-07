@@ -8,41 +8,45 @@ from typing import Optional, Dict, Any, List
 from enum import Enum
 
 
-class OrderStatus(str, Enum):
+class OrderStatus(Enum):
     """Статусы заказа"""
-    DRAFT = "draft"           # Черновик
-    CONFIRMED = "confirmed"   # Подтвержден
-    PROCESSING = "processing" # В обработке
-    COMPLETED = "completed"   # Завершен
-    CANCELLED = "cancelled"   # Отменен
+    DRAFT = "draft"                    # Данные собираются
+    INCOMPLETE = "incomplete"          # Собрали, но не хватает обязательных данных
+    READY = "ready"                   # Готов к подтверждению (все обязательные данные есть)
+    CONFIRMED = "confirmed"           # Подтвержден пользователем
+    SENT_TO_OPERATOR = "sent_to_operator"  # Отправлен оператору
+    CANCELLED = "cancelled"           # Отменен
 
 
 @dataclass
 class OrderItem:
-    """Элемент заказа"""
+    """Модель товара в заказе"""
+    
     product_id: str
-    product_name: str
+    bouquet: str  # название букета
     quantity: int = 1
     price: Optional[str] = None
-    retailer_id: Optional[str] = None
+    notes: Optional[str] = None  # "для мамы", "для подруги" и т.д.
     
     def to_dict(self) -> Dict[str, Any]:
+        """Преобразует товар в словарь для сохранения в БД"""
         return {
             'product_id': self.product_id,
-            'product_name': self.product_name,
+            'bouquet': self.bouquet,
             'quantity': self.quantity,
             'price': self.price,
-            'retailer_id': self.retailer_id
+            'notes': self.notes
         }
     
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'OrderItem':
+        """Создает товар из словаря"""
         return cls(
             product_id=data['product_id'],
-            product_name=data['product_name'],
+            bouquet=data['bouquet'],
             quantity=data.get('quantity', 1),
             price=data.get('price'),
-            retailer_id=data.get('retailer_id')
+            notes=data.get('notes')
         )
 
 
@@ -56,9 +60,9 @@ class Order:
     sender_id: str
     status: OrderStatus = OrderStatus.DRAFT
     created_at: datetime = field(default_factory=datetime.now)
+    updated_at: datetime = field(default_factory=datetime.now)
     
-    # Информация о заказе
-    bouquet: Optional[str] = None
+    # Общие данные доставки (для всех товаров в заказе)
     date: Optional[str] = None
     time: Optional[str] = None
     delivery_needed: bool = False
@@ -68,11 +72,20 @@ class Order:
     recipient_name: Optional[str] = None
     recipient_phone: Optional[str] = None
     
-    # Товары
+    # Данные заказчика (из WABA)
+    customer_name: Optional[str] = None
+    customer_phone: Optional[str] = None
+    
+    # Связи с другими заказами
+    parent_order_id: Optional[str] = None  # Связь с предыдущим заказом
+    related_orders: List[str] = field(default_factory=list)  # Связанные заказы
+    
+    # Товары в заказе
     items: List[OrderItem] = field(default_factory=list)
     
-    # Метаданные
-    metadata: Optional[Dict[str, Any]] = None
+    # Метаданные - УДАЛЕНО
+    # metadata: Optional[Dict[str, Any]] = None
+    notes: Optional[str] = None  # Заметки оператора
     
     def __post_init__(self):
         """Валидация после инициализации"""
@@ -91,7 +104,7 @@ class Order:
             'sender_id': self.sender_id,
             'status': self.status.value,
             'created_at': self.created_at.isoformat(),
-            'bouquet': self.bouquet,
+            'updated_at': self.updated_at.isoformat(),
             'date': self.date,
             'time': self.time,
             'delivery_needed': self.delivery_needed,
@@ -100,8 +113,13 @@ class Order:
             'card_text': self.card_text,
             'recipient_name': self.recipient_name,
             'recipient_phone': self.recipient_phone,
+            'customer_name': self.customer_name,
+            'customer_phone': self.customer_phone,
+            'parent_order_id': self.parent_order_id,
+            'related_orders': self.related_orders,
             'items': [item.to_dict() for item in self.items],
-            'metadata': self.metadata or {}
+            # 'metadata': self.metadata or {},  # УДАЛЕНО
+            'notes': self.notes
         }
     
     @classmethod
@@ -114,10 +132,23 @@ class Order:
         elif created_at is None:
             created_at = datetime.now()
         
+        updated_at = data.get('updated_at')
+        if isinstance(updated_at, str):
+            updated_at = datetime.fromisoformat(updated_at.replace('Z', '+00:00'))
+        elif updated_at is None:
+            updated_at = datetime.now()
+        
         # Парсим items
         items = []
-        for item_data in data.get('items', []):
-            items.append(OrderItem.from_dict(item_data))
+        items_data = data.get('items', [])
+        if isinstance(items_data, list):
+            for item_data in items_data:
+                if isinstance(item_data, dict):
+                    items.append(OrderItem.from_dict(item_data))
+                else:
+                    print(f"Warning: item_data is not a dict: {type(item_data)}")
+        else:
+            print(f"Warning: items_data is not a list: {type(items_data)}")
         
         return cls(
             order_id=data['order_id'],
@@ -125,7 +156,7 @@ class Order:
             sender_id=data['sender_id'],
             status=OrderStatus(data.get('status', 'draft')),
             created_at=created_at,
-            bouquet=data.get('bouquet'),
+            updated_at=updated_at,
             date=data.get('date'),
             time=data.get('time'),
             delivery_needed=data.get('delivery_needed', False),
@@ -134,8 +165,13 @@ class Order:
             card_text=data.get('card_text'),
             recipient_name=data.get('recipient_name'),
             recipient_phone=data.get('recipient_phone'),
+            customer_name=data.get('customer_name'),
+            customer_phone=data.get('customer_phone'),
+            parent_order_id=data.get('parent_order_id'),
+            related_orders=data.get('related_orders', []),
             items=items,
-            metadata=data.get('metadata')
+            # metadata=data.get('metadata'),  # УДАЛЕНО
+            notes=data.get('notes')
         )
     
     def add_item(self, item: OrderItem):
@@ -189,14 +225,4 @@ class Order:
         """Получает общее количество товаров"""
         return sum(item.quantity for item in self.items)
     
-    def get_metadata(self, key: str, default: Any = None) -> Any:
-        """Получает значение из метаданных"""
-        if not self.metadata:
-            return default
-        return self.metadata.get(key, default)
-    
-    def set_metadata(self, key: str, value: Any):
-        """Устанавливает значение в метаданные"""
-        if not self.metadata:
-            self.metadata = {}
-        self.metadata[key] = value 
+    # Методы get_metadata, set_metadata - УДАЛИТЬ 

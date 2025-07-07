@@ -1,0 +1,16 @@
+{"event": "function_start", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:35:19.685836", "parameters": {"name": "Alice", "age": 30}}
+{"event": "function_end", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:35:19.686102", "execution_time_ms": 0.01, "result": "Hello Alice, you are 30 years old"}
+{"event": "function_start", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:35:19.694829", "parameters": {"name": "Bob", "age": 25}}
+{"event": "function_end", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:35:19.796259", "execution_time_ms": 101.33, "result": "Async hello Bob, you are 25 years old"}
+{"event": "function_start", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:35:48.834085", "parameters": {"name": "Alice", "age": 30}}
+{"event": "function_end", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:35:48.834771", "execution_time_ms": 0.01, "result": "Hello Alice, you are 30 years old"}
+{"event": "function_start", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:35:48.844666", "parameters": {"name": "Bob", "age": 25}}
+{"event": "function_end", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:35:48.946118", "execution_time_ms": 101.34, "result": "Async hello Bob, you are 25 years old"}
+{"event": "function_start", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:37:41.333452", "parameters": {"name": "Alice", "age": 30}}
+{"event": "function_end", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:37:41.333707", "execution_time_ms": 0.01, "result": "Hello Alice, you are 30 years old"}
+{"event": "function_start", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:37:41.344613", "parameters": {"name": "Bob", "age": 25}}
+{"event": "function_end", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:37:41.446107", "execution_time_ms": 101.39, "result": "Async hello Bob, you are 25 years old"}
+{"event": "function_start", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:38:16.864528", "parameters": {"name": "Alice", "age": 30}}
+{"event": "function_end", "module": "test_module", "function": "simple_function", "timestamp": "2025-07-05T14:38:16.864767", "execution_time_ms": 0.0, "result": "Hello Alice, you are 30 years old"}
+{"event": "function_start", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:38:16.874048", "parameters": {"name": "Bob", "age": 25}}
+{"event": "function_end", "module": "test_module", "function": "async_function", "timestamp": "2025-07-05T14:38:16.974655", "execution_time_ms": 100.47, "result": "Async hello Bob, you are 25 years old"}

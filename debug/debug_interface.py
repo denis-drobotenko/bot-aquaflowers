@@ -11,7 +11,8 @@ import re
 import os
 
 from debug.debug_logger import get_debug_logs
-from src import database
+from src.services.session_service import SessionService
+from src.services.message_service import MessageService
 
 # Router для debug интерфейса
 debug_router = APIRouter(prefix="/debug")

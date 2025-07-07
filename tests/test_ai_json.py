@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.services.ai_service import AIService
 from src.models.message import Message, MessageRole
-from src.config import GEMINI_API_KEY
+from src.config.settings import GEMINI_API_KEY
 
 async def test_ai_json():
     """Тестирует JSON ответы AI"""
