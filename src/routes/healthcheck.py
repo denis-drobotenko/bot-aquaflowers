@@ -127,7 +127,7 @@ async def files_health_check():
         
         # Список важных файлов для проверки
         important_files = [
-            "src/services/prompts/ai_system_prompt.txt",
+            "src/services/prompts/ai_system_prompt.prompt",
             "templates/crm_dashboard.html",
             "templates/chat_history.html",
             "static/css/chat_history.css",

@@ -42,16 +42,35 @@ class AIService:
     @log_function("ai_service")
     def detect_language(self, text: str) -> str:
         """Определяет язык пользователя по тексту сообщения с помощью AI и fallback логики"""
+        result = self.detect_language_with_confidence(text)
+        return result['language']
+
+    @log_function("ai_service")
+    def detect_language_with_confidence(self, text: str) -> dict:
+        """Определяет язык пользователя с оценкой уверенности"""
         if not text:
-            return 'auto'
+            return {'language': 'auto', 'confidence': 0.0, 'should_ask': True}
         
-        # Сначала пробуем AI определение
+        # Сначала пробуем AI определение с оценкой уверенности
         try:
-            # Создаем простой промпт для определения языка
-            language_detection_prompt = f"""What language is this text written in? Respond with only the language code: ru, en, th, it, fr, es, de, pt, nl, pl, cs, sk, hu, ro, bg, hr, sr, sl, et, lv, lt, fi, sv, no, da, is, zh, ja, ko, vi, id, ms, tl, hi, bn, ur, ar, he, fa, tr, ka, hy, az, sw, am, yo, zu, xh, af. If unsure, respond with 'auto'.
+            # Создаем промпт для определения языка с уверенностью
+            language_detection_prompt = f"""Analyze this text and determine the language with confidence level.
 
 Text: "{text}"
-Language:"""
+
+Respond in JSON format:
+{{
+    "language": "language_code",
+    "confidence": 0.95,
+    "should_ask_confirmation": true
+}}
+
+Language codes: ru, en, th, it, fr, es, de, pt, nl, pl, cs, sk, hu, ro, bg, hr, sr, sl, et, lv, lt, fi, sv, no, da, is, zh, ja, ko, vi, id, ms, tl, hi, bn, ur, ar, he, fa, tr, ka, hy, az, sw, am, yo, zu, xh, af
+
+Set should_ask_confirmation to true if you're not very confident about the language detection.
+Set should_ask_confirmation to false if you're very confident about the language.
+
+Response:"""
 
             # Используем отдельную модель для определения языка
             detection_model = genai.GenerativeModel(
@@ -60,7 +79,7 @@ Language:"""
                     temperature=0.1,
                     top_p=1,
                     top_k=1,
-                    max_output_tokens=5
+                    max_output_tokens=200
                 ),
                 safety_settings={
                     HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
@@ -71,19 +90,40 @@ Language:"""
             )
             
             response = detection_model.generate_content(language_detection_prompt)
-            detected_lang = response.text.strip().lower()
+            response_text = response.text.strip()
             
-            # Проверяем, что полученный код языка поддерживается
-            supported_languages = ['ru', 'en', 'th', 'it', 'fr', 'es', 'de', 'pt', 'nl', 'pl', 'cs', 'sk', 'hu', 'ro', 'bg', 'hr', 'sr', 'sl', 'et', 'lv', 'lt', 'fi', 'sv', 'no', 'da', 'is', 'zh', 'ja', 'ko', 'vi', 'id', 'ms', 'tl', 'hi', 'bn', 'ur', 'ar', 'he', 'fa', 'tr', 'ka', 'hy', 'az', 'sw', 'am', 'yo', 'zu', 'xh', 'af']
-            
-            if detected_lang in supported_languages:
-                return detected_lang
+            # Парсим JSON ответ
+            try:
+                import json
+                result = json.loads(response_text)
+                detected_lang = result.get('language', 'auto').lower()
+                confidence = float(result.get('confidence', 0.0))
+                should_ask = result.get('should_ask_confirmation', True)
+                
+                # Проверяем, что полученный код языка поддерживается
+                supported_languages = ['ru', 'en', 'th', 'it', 'fr', 'es', 'de', 'pt', 'nl', 'pl', 'cs', 'sk', 'hu', 'ro', 'bg', 'hr', 'sr', 'sl', 'et', 'lv', 'lt', 'fi', 'sv', 'no', 'da', 'is', 'zh', 'ja', 'ko', 'vi', 'id', 'ms', 'tl', 'hi', 'bn', 'ur', 'ar', 'he', 'fa', 'tr', 'ka', 'hy', 'az', 'sw', 'am', 'yo', 'zu', 'xh', 'af']
+                
+                if detected_lang in supported_languages:
+                    return {
+                        'language': detected_lang,
+                        'confidence': confidence,
+                        'should_ask': should_ask
+                    }
+                    
+            except (json.JSONDecodeError, ValueError) as e:
+                print(f"Failed to parse AI response: {e}")
+                print(f"Response: {response_text}")
                 
         except Exception as e:
             print(f"AI language detection failed: {e}")
         
         # Fallback на старую логику определения языка
-        return self._detect_language_fallback(text)
+        fallback_lang = self._detect_language_fallback(text)
+        return {
+            'language': fallback_lang,
+            'confidence': 0.6 if fallback_lang != 'auto' else 0.0,
+            'should_ask': fallback_lang == 'auto'
+        }
     
     def _detect_language_fallback(self, text: str) -> str:
         """Fallback логика определения языка по символам и ключевым словам"""
@@ -449,7 +489,7 @@ Language:"""
                     temperature=0.1,
                     top_p=1,
                     top_k=1,
-                    max_output_tokens=2048
+                    max_output_tokens=4096
                 )
             )
             
@@ -530,41 +570,15 @@ Example: 'Hello {sender_name}! Would you like to see our flower catalog?'"""
         else:
             language_instruction = f"IMPORTANT: Respond in user's language! User writes in language code '{user_lang}'. Respond in the same language."
         
-        prompt_path = os.path.join(os.path.dirname(__file__), "prompts", "ai_system_prompt.txt")
+        # Загружаем ТОЛЬКО основной промпт
+        prompt_path = os.path.join(os.path.dirname(__file__), "prompts", "ai_system_prompt.prompt")
         try:
             with open(prompt_path, encoding="utf-8") as f:
                 prompt_template = f.read()
+                print(f"[PROMPT_LOAD] Successfully loaded structured prompt from: {prompt_path}")
         except FileNotFoundError:
-            # Fallback промпт если файл не найден
-            prompt_template = """You are AURAFLORA, a flower shop assistant in Phuket, Thailand. You help customers with flower orders, delivery, and catalog browsing.
-
-IMPORTANT RULES:
-1. Always be friendly and helpful
-2. Use flower emoji 🌸 in responses
-3. Respond in user's language: {user_lang}
-4. {language_instruction}
-5. {name_instruction}
-
-CURRENT TIME (Phuket): {phuket_time_str}
-{name_context}
-
-CATALOG INFORMATION:
-- You have access to a flower catalog with products
-- Show catalog when user asks
-- Help with order placement
-- Handle delivery requests
-- Process payment information
-
-RESPONSE FORMAT:
-Respond naturally in conversation. If you need to show catalog or perform actions, use JSON commands.
-
-Available commands:
-- show_catalog: Display flower catalog
-- create_order: Start order process
-- confirm_order: Confirm final order
-- process_payment: Handle payment
-
-Always end responses with 🌸 emoji."""
+            print(f"[PROMPT_LOAD] ERROR: Structured prompt not found: {prompt_path}")
+            raise FileNotFoundError(f"Required prompt file not found: {prompt_path}")
         
         return prompt_template.format(
             user_lang=user_lang,
@@ -646,29 +660,98 @@ Always end responses with 🌸 emoji."""
             
             # print(f"[AI_REQUEST] RequestID: {request_id} | Sending full prompt to Gemini")
             
-            # Получаем ответ от AI
-            response = self.model.generate_content(full_prompt)
-            response_text = response.text.strip()
-            
-            # print(f"[AI_RESPONSE] RequestID: {request_id} | Raw response: {response_text}")
-            
-            # Парсим ответ
-            ai_text, ai_text_en, ai_text_thai, ai_command = parse_ai_response(response_text)
-            
-            # Проверяем на пустой ответ (но с командой)
-            if (not ai_text or ai_text.strip() == "") and not ai_command:
-                print(f"[AI_ERROR] Empty AI response")
-                fallback_text = get_fallback_text(user_lang)
-                return fallback_text, fallback_text, fallback_text, None
-            
-            print(f"[AI_RESPONSE] {ai_text}")
-            
-            return ai_text, ai_text_en, ai_text_thai, ai_command
+            # Получаем ответ от AI с возможностью повторного запроса
+            max_retries = 2
+            for attempt in range(max_retries + 1):
+                try:
+                    response = self.model.generate_content(full_prompt)
+                    response_text = response.text.strip()
+                    
+                    print(f"[AI_RESPONSE] RequestID: {request_id} | Attempt {attempt + 1} | Raw response: {response_text}")
+                    
+                    # Парсим ответ
+                    ai_text, ai_text_en, ai_text_thai, ai_command = parse_ai_response(response_text)
+                    
+                    # Проверяем на пустой ответ (но с командой)
+                    if not ai_text and not ai_command:
+                        print(f"[AI_ERROR] Empty AI response on attempt {attempt + 1}")
+                        if attempt < max_retries:
+                            print(f"[AI_RETRY] Retrying... (attempt {attempt + 2}/{max_retries + 1})")
+                            continue
+                        else:
+                            # Логируем ошибку в систему Errors вместо отправки fallback
+                            await self._log_ai_error(
+                                error="AI returned empty response after all retries",
+                                context_data={
+                                    "attempts": max_retries + 1,
+                                    "user_lang": user_lang,
+                                    "sender_name": sender_name
+                                },
+                                sender_id=sender_id if 'sender_id' in locals() else None,
+                                session_id=session_id if 'session_id' in locals() else None
+                            )
+                            # Возвращаем пустые строки и None, чтобы система НЕ отправляла fallback
+                            return "", "", "", None
+
+                    # Если есть команда, но нет текста - это ошибка, нужно переделать
+                    if ai_command and (not ai_text or ai_text.strip() == ""):
+                        print(f"[AI_ERROR] Command without text: {ai_command}")
+                        if attempt < max_retries:
+                            print(f"[AI_RETRY] Retrying to get text with command... (attempt {attempt + 2}/{max_retries + 1})")
+                            # Добавляем строгие инструкции о необходимости текста
+                            retry_prompt = full_prompt + "\n\nCRITICAL: You MUST provide text field even when using commands. Never return empty text with commands. Always explain what you're doing before using a command."
+                            full_prompt = retry_prompt
+                            continue
+                        else:
+                            # Логируем ошибку в систему Errors вместо отправки fallback
+                            await self._log_ai_error(
+                                error="AI returned command without text after all retries",
+                                context_data={
+                                    "command": ai_command,
+                                    "attempts": max_retries + 1,
+                                    "user_lang": user_lang,
+                                    "sender_name": sender_name
+                                },
+                                sender_id=sender_id if 'sender_id' in locals() else None,
+                                session_id=session_id if 'session_id' in locals() else None
+                            )
+                            # Возвращаем пустые строки и None для команды, чтобы система НЕ отправляла fallback
+                            return "", "", "", None
+                    
+                    # Если команда None, но есть текст - это может быть невалидный ответ
+                    if ai_command is None and ai_text:
+                        print(f"[AI_RETRY] Command is None but text exists, retrying... (attempt {attempt + 2}/{max_retries + 1})")
+                        if attempt < max_retries:
+                            # Добавляем более строгие инструкции в промпт
+                            retry_prompt = full_prompt + "\n\nIMPORTANT: Your previous response was invalid. Please ensure you return a COMPLETE JSON with all required fields: text, text_en, text_thai, and command (as object with 'type' field)."
+                            full_prompt = retry_prompt
+                            continue
+                    
+                    print(f"[AI_RESPONSE] {ai_text}")
+                    return ai_text, ai_text_en, ai_text_thai, ai_command
+                    
+                except Exception as e:
+                    print(f"[AI_ERROR] Attempt {attempt + 1} failed: {e}")
+                    if attempt < max_retries:
+                        print(f"[AI_RETRY] Retrying... (attempt {attempt + 2}/{max_retries + 1})")
+                        continue
+                    else:
+                        raise e
             
         except Exception as e:
             print(f"[AI_REQUEST] RequestID: {request_id} | Error generating response: {e}")
-            error_messages = self._get_error_messages(user_lang)
-            return error_messages['ru'], error_messages['en'], error_messages['th'], None
+            # Логируем ошибку в систему Errors вместо отправки fallback
+            await self._log_ai_error(
+                error=f"AI service error: {e}",
+                context_data={
+                    "user_lang": user_lang,
+                    "sender_name": sender_name
+                },
+                sender_id=sender_id if 'sender_id' in locals() else None,
+                session_id=session_id if 'session_id' in locals() else None
+            )
+            # Возвращаем пустые строки и None, чтобы система НЕ отправляла fallback
+            return "", "", "", None
 
     def _is_repetitive_response(self, messages: List[Message]) -> bool:
         """Проверяет, не является ли последнее сообщение пользователя повторением"""
@@ -695,6 +778,24 @@ Always end responses with 🌸 emoji."""
         # Проверяем, не является ли последнее сообщение пользователя коротким подтверждением
         short_confirmations = ['да', 'да.', 'да...', 'yes', 'yes.', 'yes...', 'ok', 'ok.', 'ok...', 'хорошо', 'хорошо.', 'хорошо...']
         return last_user_message.lower().strip() in short_confirmations 
+
+    async def _log_ai_error(self, error: str, context_data: dict, sender_id: str = None, session_id: str = None):
+        """Логирует ошибку AI в систему Errors"""
+        try:
+            from src.services.error_service import ErrorService
+            error_service = ErrorService()
+            
+            await error_service.log_error(
+                error=Exception(error),
+                sender_id=sender_id,
+                session_id=session_id,
+                context_data=context_data,
+                module="ai_service",
+                function="generate_response"
+            )
+            print(f"[AI_ERROR_LOGGED] Error logged to Errors system: {error}")
+        except Exception as e:
+            print(f"[AI_ERROR_LOG_FAILED] Failed to log error: {e}")
 
     def _get_error_messages(self, user_lang: str) -> Dict[str, str]:
         """Возвращает сообщения об ошибках на разных языках"""
