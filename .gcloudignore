@@ -59,6 +59,7 @@ debug/
 !README.md
 !templates/
 !templates/*.html
+!src/services/prompts/*.txt
 
 # Logs
 logs/
