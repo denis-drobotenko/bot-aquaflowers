@@ -372,15 +372,9 @@ class OrderService:
             customer_name = order_data.get('customer_name', '-')
             customer_phone = order_data.get('customer_phone', '-')
             
-            # Определяем базовый URL в зависимости от окружения
-            import os
-            base_url = os.getenv('BASE_URL', 'http://localhost:8080')
-            if base_url == 'http://localhost:8080':
-                # Локальная разработка
-                chat_url = f"{base_url}/chat/{session_id}"
-            else:
-                # Продакшн
-                chat_url = f"https://auraflora-bot-xicvc2y5hq-as.a.run.app/chat/{session_id}"
+            # Используем переменную окружения для базового URL чата
+            from src.config.settings import CHAT_BASE_URL
+            chat_url = f"{CHAT_BASE_URL}/chat/history/{sender_id}/{session_id}"
             
             # ENGLISH
             order_en = f"NEW ORDER CONFIRMED!\n\nBouquet: {bouquet}\nDelivery address: {address}\nDelivery date: {date}\nDelivery time: {time}\nCard text: {card_text}\nRecipient name: {recipient_name}\nRecipient phone: {recipient_phone}\nCustomer: {customer_name} ({customer_phone})\n"

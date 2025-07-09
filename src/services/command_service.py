@@ -39,12 +39,8 @@ class CommandService:
                 return await self._handle_add_order_item(sender_id, session_id, command)
             elif command_type == 'remove_order_item':
                 return await self._handle_remove_order_item(sender_id, session_id, command)
-            elif command_type == 'update_order_delivery':
-                return await self._handle_update_order_delivery(sender_id, session_id, command)
             elif command_type == 'confirm_order':
                 return await self._handle_confirm_order(sender_id, session_id, command)
-            elif command_type == 'clarify_request':
-                return await self._handle_clarify_request(sender_id, session_id, command)
             else:
                 return {"status": "error", "message": f"Unknown command: {command_type}"}
 
@@ -166,7 +162,7 @@ class CommandService:
             }
         except Exception as e:
             print(f"Error adding order item: {e}")
-            return {"status": "error", "message": "Ошибка при добавлении товара"}
+            return {"status": "error", "message": "Internal error occurred"}
 
     async def _handle_remove_order_item(self, sender_id: str, session_id: str, command: Dict[str, Any]) -> Dict[str, Any]:
         """Обрабатывает команду удаления товара из заказа"""
@@ -192,28 +188,7 @@ class CommandService:
             print(f"Error removing order item: {e}")
             return {"status": "error", "message": "Ошибка при удалении товара"}
 
-    async def _handle_update_order_delivery(self, sender_id: str, session_id: str, command: Dict[str, Any]) -> Dict[str, Any]:
-        """Обрабатывает команду обновления данных доставки"""
-        try:
-            delivery_data = {}
-            delivery_fields = ['date', 'time', 'delivery_needed', 'address', 'card_needed', 
-                              'card_text', 'recipient_name', 'recipient_phone']
-            
-            for field in delivery_fields:
-                if field in command:
-                    delivery_data[field] = command[field]
 
-            order_id = await self.order_service.update_order_data(session_id, sender_id, delivery_data)
-            
-            return {
-                "status": "success",
-                "action": "delivery_updated",
-                "delivery_data": delivery_data,
-                "order_id": order_id
-            }
-        except Exception as e:
-            print(f"Error updating delivery: {e}")
-            return {"status": "error", "message": "Ошибка при обновлении данных доставки"}
 
     async def _handle_confirm_order(self, sender_id: str, session_id: str, command: Dict[str, Any]) -> Dict[str, Any]:
         """Обрабатывает команду подтверждения заказа"""
@@ -255,17 +230,4 @@ class CommandService:
             print(f"Error confirming order: {e}")
             return {"status": "error", "message": "Ошибка при подтверждении заказа"}
 
-    async def _handle_clarify_request(self, sender_id: str, session_id: str, command: Dict[str, Any]) -> Dict[str, Any]:
-        """Обрабатывает команду уточнения запроса"""
-        try:
-            clarification = command.get('clarification', '')
-            print(f"Clarification request: {clarification}")
-            
-            return {
-                "status": "success",
-                "action": "clarification_sent",
-                "clarification": clarification
-            }
-        except Exception as e:
-            print(f"Error processing clarification: {e}")
-            return {"status": "error", "message": "Ошибка при обработке уточнения"} 
+ 

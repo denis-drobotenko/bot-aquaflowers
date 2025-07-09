@@ -29,6 +29,7 @@ class User:
     phone: Optional[str] = None
     language: Optional[str] = None
     last_activity: Optional[datetime] = None
+    id: Optional[str] = None  # ID документа в Firestore
     
     def __post_init__(self):
         """Валидация после инициализации"""
@@ -41,7 +42,7 @@ class User:
     
     def to_dict(self) -> Dict[str, Any]:
         """Преобразует пользователя в словарь для сохранения в БД"""
-        return {
+        result = {
             'sender_id': self.sender_id,
             'name': self.name,
             'status': self.status.value,
@@ -50,6 +51,10 @@ class User:
             'language': self.language,
             'last_activity': self.last_activity.isoformat() if self.last_activity else None,
         }
+        # Добавляем ID только если он есть
+        if self.id:
+            result['id'] = self.id
+        return result
     
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'User':
@@ -73,6 +78,7 @@ class User:
             phone=data.get('phone'),
             language=data.get('language'),
             last_activity=last_activity,
+            id=data.get('id'),  # ID документа в Firestore
         )
     
     def update_activity(self):

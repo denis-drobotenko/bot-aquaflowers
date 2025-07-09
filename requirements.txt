@@ -4,6 +4,8 @@ httpx
 google-generativeai
 google-cloud-firestore
 google-cloud-logging
+google-cloud-speech
+google-cloud-storage
 firebase-admin
 python-dotenv
 requests

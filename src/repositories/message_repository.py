@@ -73,6 +73,14 @@ class MessageRepository(BaseRepository[Message]):
                     message_data['content_thai'] = message.content_thai
                 if message.wa_message_id:
                     message_data['wa_message_id'] = message.wa_message_id
+                if message.image_url:
+                    message_data['image_url'] = message.image_url
+                if message.audio_url:
+                    message_data['audio_url'] = message.audio_url
+                if message.audio_duration:
+                    message_data['audio_duration'] = message.audio_duration
+                if message.transcription:
+                    message_data['transcription'] = message.transcription
                 
                 # Сохраняем сообщение
                 if message.wa_message_id:
@@ -97,7 +105,11 @@ class MessageRepository(BaseRepository[Message]):
                         'timestamp': msg_data.get('timestamp'),
                         'content_en': msg_data.get('content_en'),
                         'content_thai': msg_data.get('content_thai'),
-                        'wa_message_id': msg_data.get('wa_message_id')
+                        'wa_message_id': msg_data.get('wa_message_id'),
+                        'image_url': msg_data.get('image_url'),
+                        'audio_url': msg_data.get('audio_url'),
+                        'audio_duration': msg_data.get('audio_duration'),
+                        'transcription': msg_data.get('transcription')
                     })
                 
                 return history
@@ -116,11 +128,7 @@ class MessageRepository(BaseRepository[Message]):
             return False, []
 
     async def add_message_to_conversation(self, message: Message) -> bool:
-        """
-        Добавляет сообщение в структуру conversations.
-        Структура: conversations/{sender_id}/sessions/{session_id}/messages/{message_id}
-        Если есть wa_message_id (wamid) — использовать его как id документа Firestore.
-        """
+        """Добавляет сообщение в диалог"""
         if not self.db:
             return False
         
@@ -128,28 +136,19 @@ class MessageRepository(BaseRepository[Message]):
             # Создаем ссылку на документ сессии
             doc_ref = self.db.collection('conversations').document(message.sender_id).collection('sessions').document(message.session_id)
             
-            # Проверяем, существует ли документ сессии, если нет - создаем
-            session_doc = doc_ref.get()
-            if not session_doc.exists:
-                print(f"Creating session document for {message.sender_id}/{message.session_id}")
-                doc_ref.set({
-                    'created_at': message.timestamp,
-                    'message_count': 0,
-                    'last_activity': message.timestamp
-                })
-            
-            # Данные сообщения
+            # Подготавливаем данные сообщения
             message_data = {
                 'role': message.role.value,
                 'content': message.content,
                 'timestamp': message.timestamp,
+                'content_en': message.content_en,
+                'content_thai': message.content_thai,
+                'image_url': message.image_url,
+                'audio_url': message.audio_url,
+                'audio_duration': message.audio_duration,
+                'transcription': message.transcription
             }
             
-            # Добавляем переводы если есть
-            if message.content_en:
-                message_data['content_en'] = message.content_en
-            if message.content_thai:
-                message_data['content_thai'] = message.content_thai
             if message.wa_message_id:
                 message_data['wa_message_id'] = message.wa_message_id
             
@@ -197,7 +196,11 @@ class MessageRepository(BaseRepository[Message]):
                     'timestamp': msg_data.get('timestamp'),
                     'content_en': msg_data.get('content_en'),
                     'content_thai': msg_data.get('content_thai'),
-                    'wa_message_id': msg_data.get('wa_message_id')
+                    'wa_message_id': msg_data.get('wa_message_id'),
+                    'image_url': msg_data.get('image_url'),
+                    'audio_url': msg_data.get('audio_url'),
+                    'audio_duration': msg_data.get('audio_duration'),
+                    'transcription': msg_data.get('transcription')
                 })
             
             return history
@@ -294,7 +297,11 @@ class MessageRepository(BaseRepository[Message]):
                         'timestamp': msg_data.get('timestamp'),
                         'content_en': msg_data.get('content_en'),
                         'content_thai': msg_data.get('content_thai'),
-                        'wa_message_id': msg_data.get('wa_message_id')
+                        'wa_message_id': msg_data.get('wa_message_id'),
+                        'image_url': msg_data.get('image_url'),
+                        'audio_url': msg_data.get('audio_url'),
+                        'audio_duration': msg_data.get('audio_duration'),
+                        'transcription': msg_data.get('transcription')
                     })
                 
                 # 2. Добавляем текущее сообщение в историю (если его там еще нет)
@@ -304,7 +311,11 @@ class MessageRepository(BaseRepository[Message]):
                     'timestamp': message.timestamp,
                     'content_en': message.content_en,
                     'content_thai': message.content_thai,
-                    'wa_message_id': message.wa_message_id
+                    'wa_message_id': message.wa_message_id,
+                    'image_url': message.image_url,
+                    'audio_url': message.audio_url,
+                    'audio_duration': message.audio_duration,
+                    'transcription': message.transcription
                 }
                 
                 # Проверяем, есть ли уже такое сообщение в истории

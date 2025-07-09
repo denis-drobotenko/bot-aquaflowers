@@ -15,7 +15,8 @@ DEV_MODE = IS_DEVELOPMENT
 DEBUG_MODE = IS_DEVELOPMENT  # Добавляем DEBUG_MODE
 
 PORT = int(os.getenv('PORT', 8080))
-SERVICE_URL = os.getenv('SERVICE_URL', "https://auraflora-bot-xicvc2y5hq-as.a.run.app")
+SERVICE_URL = os.getenv('SERVICE_URL', "https://auraflora-bot-75152239022.asia-southeast1.run.app")
+CHAT_BASE_URL = os.getenv('CHAT_BASE_URL', SERVICE_URL)
 DEPLOY_ID = os.getenv('DEPLOY_ID', 'local_dev')
 
 # --- Локальная разработка ---

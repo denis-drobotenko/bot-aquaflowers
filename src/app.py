@@ -12,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 from src.routes.chat_routes import router as chat_router
 from src.routes.healthcheck import router as healthcheck_router
 from src.routes.crm_routes import router as crm_router
+from src.routes.error_routes import router as error_router
 from src.handlers.webhook_handler import WebhookHandler
 from fastapi.responses import JSONResponse
 from src.config.settings import DEBUG_MODE
@@ -95,6 +96,7 @@ def create_app() -> FastAPI:
     app.include_router(chat_router)
     app.include_router(healthcheck_router)
     app.include_router(crm_router)
+    app.include_router(error_router)
 
     # Создаем экземпляр WebhookHandler
     webhook_handler = WebhookHandler()

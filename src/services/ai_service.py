@@ -667,7 +667,9 @@ Example: 'Hello {sender_name}! Would you like to see our flower catalog?'"""
                     response = self.model.generate_content(full_prompt)
                     response_text = response.text.strip()
                     
-                    print(f"[AI_RESPONSE] RequestID: {request_id} | Attempt {attempt + 1} | Raw response: {response_text}")
+                    print(f"[AI_RESPONSE] RequestID: {request_id} | Attempt {attempt + 1} | Raw response length: {len(response_text)}")
+                    print(f"[AI_RESPONSE] RequestID: {request_id} | Attempt {attempt + 1} | Raw response: {repr(response_text)}")
+                    print(f"[AI_RESPONSE] RequestID: {request_id} | Attempt {attempt + 1} | Raw response (display): {response_text}")
                     
                     # Парсим ответ
                     ai_text, ai_text_en, ai_text_thai, ai_command = parse_ai_response(response_text)

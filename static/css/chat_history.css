@@ -280,6 +280,189 @@ body {
     margin-left: 16px;
 }
 
+/* Стили для аудиосообщений */
+.audio-message-content {
+    padding: 8px !important;
+    width: 280px !important;
+    border-radius: 16px !important;
+}
+
+.audio-message {
+    width: 100%;
+}
+
+.audio-player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 6px 10px;
+    backdrop-filter: blur(10px);
+}
+
+.audio-player audio {
+    flex: 1;
+    height: 32px;
+    border-radius: 16px;
+    background: transparent;
+    outline: none;
+}
+
+.audio-player audio::-webkit-media-controls-panel {
+    background: transparent;
+}
+
+.audio-player audio::-webkit-media-controls-play-button {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+}
+
+.audio-player audio::-webkit-media-controls-timeline {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    height: 4px;
+}
+
+.audio-player audio::-webkit-media-controls-current-time-display,
+.audio-player audio::-webkit-media-controls-time-remaining-display {
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.audio-duration {
+    font-size: 0.75em;
+    color: inherit;
+    opacity: 0.8;
+    font-weight: 600;
+    min-width: 32px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.audio-transcription {
+    margin-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 6px;
+}
+
+.audio-transcription details {
+    cursor: pointer;
+}
+
+.audio-transcription summary {
+    font-size: 0.8em;
+    color: inherit;
+    opacity: 0.9;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.audio-transcription summary:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.transcription-text {
+    margin-top: 4px;
+    font-size: 0.85em;
+    line-height: 1.4;
+    color: inherit;
+    opacity: 0.95;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 6px 8px;
+    border-radius: 8px;
+    word-break: break-word;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audio-text {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 0.85em;
+    line-height: 1.4;
+    opacity: 0.9;
+    color: inherit;
+}
+
+/* Специальные стили для пользовательских аудиосообщений */
+.message.user .audio-message-content {
+    background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+}
+
+.message.user .audio-player {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.message.user .audio-duration {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+.message.user .audio-transcription {
+    border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+.message.user .transcription-text {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.message.user .audio-text {
+    border-top-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Специальные стили для сообщений бота */
+.message:not(.user) .audio-message-content {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #1d1d1f;
+    border: 1px solid #e5e5e7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.message:not(.user) .audio-player {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.message:not(.user) .audio-duration {
+    background: rgba(0, 0, 0, 0.1);
+    color: #1d1d1f;
+}
+
+.message:not(.user) .audio-transcription {
+    border-top-color: #e5e5e7;
+}
+
+.message:not(.user) .transcription-text {
+    background: rgba(0, 0, 0, 0.03);
+    color: #1d1d1f;
+    border-color: #e5e5e7;
+}
+
+.message:not(.user) .audio-text {
+    border-top-color: #e5e5e7;
+    color: #1d1d1f;
+}
+
 /* Анимации */
 @keyframes messageSlideIn {
     from {
@@ -377,6 +560,30 @@ body {
         font-size: 0.8em;
         margin: 2px 4px 0 4px;
     }
+    
+    .audio-message-content {
+        width: 260px !important;
+        padding: 6px !important;
+    }
+    
+    .audio-player {
+        padding: 4px 8px;
+    }
+    
+    .audio-transcription {
+        margin-top: 4px;
+        padding-top: 4px;
+    }
+    
+    .transcription-text {
+        padding: 4px 6px;
+        margin-top: 2px;
+    }
+    
+    .audio-text {
+        margin-top: 2px;
+        padding-top: 2px;
+    }
 }
 
 /* Планшеты */
@@ -428,4 +635,28 @@ html {
 .message-content {
     font-feature-settings: "liga" 1, "kern" 1;
     text-rendering: optimizeLegibility;
+}
+
+/* Временные метки */
+.message-time {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.message.user .message-time {
+    text-align: right;
+}
+
+.message.model .message-time {
+    text-align: left;
+}
+
+/* Изображения в сообщениях */
+.message-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
 } 

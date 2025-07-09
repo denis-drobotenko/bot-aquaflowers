@@ -76,6 +76,39 @@ async def format_conversation_for_ai(messages: List, session_id: str = None, sen
         })
     return formatted
 
+def validate_ai_response(response_data: Dict[str, Any]) -> Tuple[bool, str]:
+    """
+    Валидирует ответ AI и возвращает (is_valid, error_message).
+    """
+    # Проверяем обязательные поля
+    if 'text' not in response_data:
+        return False, "Missing 'text' field"
+    
+    # ВАЖНО: Текст обязателен всегда, даже с командами
+    if not response_data.get('text'):
+        return False, "Missing or empty 'text' field - text is always required"
+    
+    # Проверяем переводы (делаем необязательными)
+    if 'text_en' not in response_data:
+        response_data['text_en'] = str(response_data.get('text', ''))
+    if 'text_thai' not in response_data:
+        response_data['text_thai'] = str(response_data.get('text', ''))
+    
+    # Проверяем формат команды
+    command = response_data.get('command')
+    if command is not None:
+        if isinstance(command, str):
+            return False, f"Command should be object with 'type' field, got string: '{command}'"
+        elif isinstance(command, dict):
+            if 'type' not in command:
+                return False, "Command object missing 'type' field"
+            if not isinstance(command['type'], str):
+                return False, "Command 'type' should be string"
+        else:
+            return False, f"Command should be object or null, got: {type(command)}"
+    
+    return True, ""
+
 def parse_ai_response(response_text: str) -> Tuple[str, str, str, Optional[Dict[str, Any]]]:
     """
     Парсит ответ AI и извлекает текст на трех языках и команду.
@@ -126,6 +159,18 @@ def parse_ai_response(response_text: str) -> Tuple[str, str, str, Optional[Dict[
         json_str = preprocess_json_string(json_str)
         
         response_data = json.loads(json_str)
+        
+        # Валидируем ответ
+        is_valid, error_msg = validate_ai_response(response_data)
+        if not is_valid:
+            print(f"[AI_VALIDATION] Invalid response: {error_msg}")
+            print(f"[AI_VALIDATION] Response data: {response_data}")
+            # Возвращаем None для команды, чтобы вызвать повторный запрос
+            text = fix_newlines(response_data.get('text', ''))
+            text_en = fix_newlines(response_data.get('text_en', text))
+            text_thai = fix_newlines(response_data.get('text_thai', text))
+            return text, text_en, text_thai, None
+        
         text = fix_newlines(response_data.get('text', ''))
         text_en = fix_newlines(response_data.get('text_en', text))
         text_thai = fix_newlines(response_data.get('text_thai', text))
@@ -153,10 +198,31 @@ def get_fallback_text(user_lang: str) -> str:
     Возвращает fallback-ответ в зависимости от языка.
     """
     if user_lang == 'en':
-        return "Of course! How can I help you? 🌸"
+        return "How can I help you today? 🌸"
     elif user_lang == 'th':
-        return "แน่นอน! ฉันสามารถช่วยคุณได้อย่างไร? 🌸"
-    return "Конечно! Чем могу помочь? 🌸"
+        return "ฉันสามารถช่วยคุณได้อย่างไรวันนี้? 🌸"
+    return "Чем могу помочь сегодня? 🌸"
+
+def get_contextual_fallback_text(user_lang: str, context: str = None) -> str:
+    """
+    Возвращает контекстный fallback-ответ в зависимости от ситуации.
+    """
+    if context == "catalog_requested":
+        if user_lang == 'en':
+            return "Let me show you our flower catalog! 🌸"
+        elif user_lang == 'th':
+            return "ให้ฉันแสดงแคตตาล็อกดอกไม้ของเรา! 🌸"
+        return "Покажу вам наш каталог цветов! 🌸"
+    
+    elif context == "order_info":
+        if user_lang == 'en':
+            return "I'll help you with your order! 🌸"
+        elif user_lang == 'th':
+            return "ฉันจะช่วยคุณกับคำสั่งซื้อ! 🌸"
+        return "Помогу вам с заказом! 🌸"
+    
+    # Общий fallback
+    return get_fallback_text(user_lang)
 
 def format_catalog_for_ai(products: List[Dict[str, Any]]) -> str:
     """

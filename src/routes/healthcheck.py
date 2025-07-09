@@ -14,7 +14,6 @@ import os
 router = APIRouter(prefix="/health", tags=["health"])
 
 @router.get("/")
-@log_function("healthcheck")
 async def health_check():
     """
     Базовый healthcheck - проверяет доступность сервиса.

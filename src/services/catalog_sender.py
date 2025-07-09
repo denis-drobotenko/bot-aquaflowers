@@ -82,6 +82,7 @@ class CatalogSender:
                         content_en="Sorry, there are no bouquets available now. Please try later. 🌸",
                         content_thai="ขออภัย ตอนนี้ไม่มีช่อดอกไม้ในสต็อก กรุณาลองใหม่ภายหลัง 🌸",
                         wa_message_id=message_id,
+                        image_url=None,
                         timestamp=datetime.now()
                     )
                     await self.message_service.add_message_to_conversation(message)
@@ -122,6 +123,7 @@ class CatalogSender:
                         content_en=caption,
                         content_thai=caption,
                         wa_message_id=message_id,
+                        image_url=image_url,
                         timestamp=datetime.now()
                     )
                     await self.message_service.add_message_to_conversation(message)
@@ -149,6 +151,7 @@ class CatalogSender:
                     content_en="An error occurred while sending the catalog. 🌸",
                     content_thai="เกิดข้อผิดพลาดในการส่งแคตตาล็อก 🌸",
                     wa_message_id=message_id,
+                    image_url=None,
                     timestamp=datetime.now()
                 )
                 await self.message_service.add_message_to_conversation(message)

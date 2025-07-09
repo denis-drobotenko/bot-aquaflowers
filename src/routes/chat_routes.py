@@ -10,6 +10,7 @@ from src.services.message_service import MessageService
 from src.services.session_service import SessionService
 import os
 import html
+import re
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
@@ -20,7 +21,7 @@ session_service = SessionService()
 # Настраиваем шаблоны
 templates = Jinja2Templates(directory="templates")
 
-def detect_original_language(text: str) -> tuple[str, str]:
+def detect_original_language(text: str) -> tuple[str, str, str]:
     """
     Определяет оригинальный язык текста и возвращает (код_языка, название_языка, флаг)
     """
@@ -43,7 +44,7 @@ def detect_original_language(text: str) -> tuple[str, str]:
     # Английский язык (по умолчанию)
     return 'en', 'English', '🇬🇧'
 
-def get_available_languages(messages: list, user_language: str = None) -> list:
+def get_available_languages(messages: list, user_language: str | None = None) -> list:
     """
     Определяет доступные языки на основе сообщений и сохраненного языка пользователя.
     Возвращает список кортежей (код_языка, название_языка, флаг, активный_язык)
@@ -107,6 +108,10 @@ def format_messages_for_language(messages: list, target_lang: str) -> str:
     for msg in messages:
         role = msg["role"]
         timestamp = msg["timestamp"]
+        image_url = msg.get("image_url")
+        audio_url = msg.get("audio_url")
+        audio_duration = msg.get("audio_duration")
+        transcription = msg.get("transcription")
         
         # Выбираем контент в зависимости от языка
         if target_lang == 'en' and msg.get('content_en'):
@@ -137,12 +142,84 @@ def format_messages_for_language(messages: list, target_lang: str) -> str:
         content_escaped = html.escape(content)
         content_with_breaks = content_escaped.replace('\\n', '<br>').replace('\n', '<br>')
         
-        messages_html += f"""
-            <div class="message {message_class}">
-                <div class="message-content">{content_with_breaks}</div>
-                {f'<div class="timestamp">{time_str}</div>' if time_str else ''}
-            </div>
-        """
+        # Добавляем изображение если есть
+        image_html = ""
+        if image_url:
+            image_html = f'<img src="{image_url}" alt="Изображение" style="max-width: calc(100% - 36px); border-radius: 8px; margin: 8px 18px 8px 18px; display: block;">'
+        
+        # Добавляем аудио если есть
+        audio_html = ""
+        if audio_url:
+            duration_text = f"{audio_duration}с" if audio_duration else ""
+            audio_html = f"""
+                <div class="audio-message">
+                    <div class="audio-player">
+                        <audio controls preload="metadata" style="width: 100%;">
+                            <source src="{audio_url}" type="audio/ogg">
+                            <source src="{audio_url}" type="audio/mpeg">
+                            <source src="{audio_url}" type="audio/wav">
+                            <source src="{audio_url}" type="audio/mp4">
+                            Ваш браузер не поддерживает аудио.
+                        </audio>
+                        <div class="audio-duration">{duration_text}</div>
+                    </div>
+                </div>
+            """
+        
+        # Добавляем транскрипцию если есть
+        transcription_html = ""
+        if transcription:
+            transcription_escaped = html.escape(transcription)
+            transcription_html = f"""
+                <div class="audio-transcription">
+                    <details>
+                        <summary>🎵 Транскрипция</summary>
+                        <div class="transcription-text">{transcription_escaped}</div>
+                    </details>
+                </div>
+            """
+        
+        # Если есть картинка, убираем padding у message-content и оборачиваем текст
+        if image_url:
+            messages_html += f"""
+                <div class="message {message_class}">
+                    <div class="message-content" style="padding: 0;">
+                        {image_html}
+                        <div style="padding: 0 18px 14px 18px;">{content_with_breaks}</div>
+                    </div>
+                    {f'<div class="timestamp">{time_str}</div>' if time_str else ''}
+                </div>
+            """
+        elif audio_url:
+            # Сообщения с аудио
+            # Если content начинается с [AUDIO (гибко), не показываем текст
+            show_text = True
+            if content:
+                show_text = not re.match(r"^\[AUDIO[\]\s:]*", content.strip(), re.IGNORECASE)
+            
+            # Формируем содержимое аудиосообщения
+            audio_content = f"{audio_html}"
+            if transcription_html:
+                audio_content += f"{transcription_html}"
+            if show_text and content_with_breaks:
+                audio_content += f'<div class="audio-text">{content_with_breaks}</div>'
+            
+            messages_html += f"""
+                <div class="message {message_class}">
+                    <div class="message-content audio-message-content">
+                        {audio_content}
+                    </div>
+                    {f'<div class="timestamp">{time_str}</div>' if time_str else ''}
+                </div>
+            """
+        else:
+            # Обычные сообщения без картинки и аудио
+            messages_html += f"""
+                <div class="message {message_class}">
+                    <div class="message-content">{content_with_breaks}</div>
+                    {f'<div class="timestamp">{time_str}</div>' if time_str else ''}
+                </div>
+            """
     
     return messages_html
 
@@ -161,8 +238,8 @@ async def get_chat_history(request: Request, sender_id: str):
     try:
         print(f"[CHAT_HISTORY] Запрос истории чата для {sender_id}")
         
-        # Получаем историю сообщений
-        messages = await message_service.get_conversation_history_for_ai_by_sender(sender_id, limit=50)
+        # Получаем историю сообщений - используем заглушку для session_id
+        messages = await message_service.get_conversation_history_for_ai_by_sender(sender_id, "default_session", limit=100)
         
         if not messages:
             print(f"[CHAT_HISTORY] История не найдена для {sender_id}")
@@ -180,7 +257,11 @@ async def get_chat_history(request: Request, sender_id: str):
                 "content_en": msg.get("content_en", ""),
                 "content_thai": msg.get("content_thai", ""),
                 "timestamp": msg.get("timestamp", ""),
-                "session_id": msg.get("session_id", "")
+                "session_id": msg.get("session_id", ""),
+                "image_url": msg.get("image_url", ""),
+                "audio_url": msg.get("audio_url", ""),
+                "audio_duration": msg.get("audio_duration", ""),
+                "transcription": msg.get("transcription", "")
             }
             formatted_messages.append(formatted_msg)
         
@@ -193,6 +274,8 @@ async def get_chat_history(request: Request, sender_id: str):
         
         # Получаем сохраненный язык пользователя
         user_language = await session_service.get_user_language(sender_id, formatted_messages[0].get('session_id', '')) if formatted_messages else 'auto'
+        if user_language is None:
+            user_language = 'auto'
         
         # Определяем доступные языки
         available_languages = get_available_languages(formatted_messages, user_language)
@@ -272,7 +355,11 @@ async def get_session_history(request: Request, sender_id: str, session_id: str)
                 "content_en": msg.get("content_en", ""),
                 "content_thai": msg.get("content_thai", ""),
                 "timestamp": msg.get("timestamp", ""),
-                "session_id": msg.get("session_id", "")
+                "session_id": msg.get("session_id", ""),
+                "image_url": msg.get("image_url", ""),
+                "audio_url": msg.get("audio_url", ""),
+                "audio_duration": msg.get("audio_duration", ""),
+                "transcription": msg.get("transcription", "")
             }
             formatted_messages.append(formatted_msg)
         
@@ -339,7 +426,7 @@ async def get_messages_by_language(request: Request, sender_id: str, session_id:
         # Получаем историю сообщений напрямую из репозитория
         from src.repositories.message_repository import MessageRepository
         message_repo = MessageRepository()
-        messages = await message_repo.get_conversation_history_by_sender(sender_id, session_id, limit=50)
+        messages = await message_repo.get_conversation_history_by_sender(sender_id, session_id, limit=100)
         
         print(f"[API_MESSAGES] Получено {len(messages)} сообщений")
         

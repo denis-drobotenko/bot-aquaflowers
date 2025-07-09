@@ -27,6 +27,7 @@ export DEV_MODE=true
 export LOCAL_DEV=true
 export PORT=8080
 export LOG_FILE=local_debug.log
+export AUDIO_BUCKET_NAME=aquaf-audio-files
 
 echo "✅ Переменные окружения загружены"
 echo "🌐 Сервер будет доступен на: http://localhost:8080"

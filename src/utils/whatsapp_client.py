@@ -47,6 +47,8 @@ class WhatsAppClient:
         """
         # Исправляем переносы строк для WhatsApp
         fixed_text = self._fix_newlines_for_whatsapp(text)
+        # Добавляем цветочек к сообщению
+        fixed_text = self._add_flower_emoji(fixed_text)
         print(f"[WHATSAPP] Отправка текста: {fixed_text[:50]}... (session_id={session_id})")
         
         try:

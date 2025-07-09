@@ -34,6 +34,10 @@ class Message:
     id: Optional[str] = None
     wa_message_id: Optional[str] = None
     parts: Optional[List[Dict[str, Any]]] = None
+    image_url: Optional[str] = None  # URL изображения
+    audio_url: Optional[str] = None  # URL аудиофайла
+    audio_duration: Optional[str] = None  # Длительность аудио в секундах
+    transcription: Optional[str] = None  # Транскрибированный текст
     
     def __post_init__(self):
         """Валидация после инициализации"""
@@ -55,7 +59,11 @@ class Message:
             'content_thai': self.content_thai,
             'timestamp': self.timestamp.isoformat(),
             'wa_message_id': self.wa_message_id,
-            'parts': self.parts
+            'parts': self.parts,
+            'image_url': self.image_url,
+            'audio_url': self.audio_url,
+            'audio_duration': self.audio_duration,
+            'transcription': self.transcription
         }
     
     @classmethod
@@ -78,7 +86,11 @@ class Message:
             content_thai=data.get('content_thai'),
             timestamp=timestamp,
             wa_message_id=data.get('wa_message_id'),
-            parts=data.get('parts')
+            parts=data.get('parts'),
+            image_url=data.get('image_url'),
+            audio_url=data.get('audio_url'),
+            audio_duration=data.get('audio_duration'),
+            transcription=data.get('transcription')
         )
     
     def is_from_user(self) -> bool:

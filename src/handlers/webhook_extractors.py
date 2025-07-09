@@ -60,6 +60,99 @@ def extract_message_text(body: dict) -> Optional[str]:
     except (KeyError, IndexError):
         return None
 
+def extract_image_url(body: dict) -> Optional[str]:
+    """
+    Извлекает URL изображения из webhook.
+    
+    Args:
+        body: Тело webhook от WhatsApp
+        
+    Returns:
+        str: URL изображения или None если не найден
+    """
+    try:
+        message = body['entry'][0]['changes'][0]['value']['messages'][0]
+        if message.get('type') == 'image':
+            return message['image'].get('url')
+        return None
+    except (KeyError, IndexError):
+        return None
+
+def extract_image_caption(body: dict) -> Optional[str]:
+    """
+    Извлекает подпись к изображению из webhook.
+    
+    Args:
+        body: Тело webhook от WhatsApp
+        
+    Returns:
+        str: Подпись к изображению или None если не найдена
+    """
+    try:
+        message = body['entry'][0]['changes'][0]['value']['messages'][0]
+        if message.get('type') == 'image':
+            return message['image'].get('caption')
+        return None
+    except (KeyError, IndexError):
+        return None
+
+def extract_audio_id(body: dict) -> Optional[str]:
+    """
+    Извлекает ID аудиофайла из webhook.
+    
+    Args:
+        body: Тело webhook от WhatsApp
+        
+    Returns:
+        str: ID аудиофайла или None если не найден
+    """
+    try:
+        message = body['entry'][0]['changes'][0]['value']['messages'][0]
+        if message.get('type') == 'audio':
+            return message['audio'].get('id')
+        return None
+    except (KeyError, IndexError):
+        return None
+
+def extract_audio_url(body: dict) -> Optional[str]:
+    """
+    Извлекает URL аудиофайла из webhook.
+    ПРИМЕЧАНИЕ: WhatsApp обычно не отправляет URL в webhook'е,
+    вместо этого нужно использовать audio.id и Media API.
+    
+    Args:
+        body: Тело webhook от WhatsApp
+        
+    Returns:
+        str: URL аудиофайла или None если не найден
+    """
+    try:
+        message = body['entry'][0]['changes'][0]['value']['messages'][0]
+        if message.get('type') == 'audio':
+            # WhatsApp может не отправлять URL в webhook'е
+            return message['audio'].get('url')
+        return None
+    except (KeyError, IndexError):
+        return None
+
+def extract_audio_duration(body: dict) -> Optional[str]:
+    """
+    Извлекает длительность аудио из webhook.
+    
+    Args:
+        body: Тело webhook от WhatsApp
+        
+    Returns:
+        str: Длительность аудио в секундах или None если не найдена
+    """
+    try:
+        message = body['entry'][0]['changes'][0]['value']['messages'][0]
+        if message.get('type') == 'audio':
+            return message['audio'].get('duration')
+        return None
+    except (KeyError, IndexError):
+        return None
+
 def extract_interactive_message(body: dict) -> Optional[Dict[str, Any]]:
     """
     Извлекает интерактивное сообщение из webhook.

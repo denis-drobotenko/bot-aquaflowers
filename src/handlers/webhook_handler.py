@@ -205,6 +205,21 @@ class WebhookHandler:
             # Обрабатываем разные типы сообщений
             message_text = await self.process_message_by_type(body, message_type)
             
+            # Извлекаем дополнительные данные для изображений и аудио
+            image_url = None
+            audio_url = None
+            audio_duration = None
+            transcription = None
+            
+            if message_type == 'image':
+                from src.handlers.webhook_extractors import extract_image_url
+                image_url = extract_image_url(body)
+            elif message_type == 'audio':
+                # Используем значения, полученные в extract_audio_message
+                audio_url = getattr(self, '_last_audio_url', None)
+                audio_duration = getattr(self, '_last_audio_duration', None)
+                transcription = getattr(self, '_last_audio_transcription', None)
+
             # Извлекаем reply_to_message_id
             reply_to_message_id = extract_reply_to_message_id(body)
             
@@ -216,7 +231,11 @@ class WebhookHandler:
                 'sender_name': sender_name,
                 'wa_message_id': message_id,
                 'timestamp': timestamp,
-                'reply_to_message_id': reply_to_message_id
+                'reply_to_message_id': reply_to_message_id,
+                'image_url': image_url,
+                'audio_url': audio_url,
+                'audio_duration': audio_duration,
+                'transcription': transcription
             }
             
         except Exception as e:
@@ -230,7 +249,11 @@ class WebhookHandler:
                 return await self.extract_text_message(body)
             elif message_type == 'interactive':
                 return self.process_interactive_message(body)
-            elif message_type in ['image', 'document', 'audio', 'video']:
+            elif message_type == 'image':
+                return await self.extract_image_message(body)
+            elif message_type == 'audio':
+                return await self.extract_audio_message(body)
+            elif message_type in ['document', 'video']:
                 return f"[{message_type.upper()}]"
             else:
                 return f"[{message_type.upper()}]"
@@ -284,6 +307,93 @@ class WebhookHandler:
             return list_response.get('title', '')
         except Exception:
             return ""
+
+    async def extract_image_message(self, body: Dict[str, Any]) -> str:
+        """Извлекает данные изображения из webhook"""
+        try:
+            from src.handlers.webhook_extractors import extract_image_url, extract_image_caption
+            
+            image_url = extract_image_url(body)
+            caption = extract_image_caption(body)
+            
+            if image_url:
+                if caption:
+                    return f"[IMAGE: {image_url}] {caption}"
+                else:
+                    return f"[IMAGE: {image_url}]"
+            else:
+                return "[IMAGE]"
+        except Exception as e:
+            print(f"[WEBHOOK_HANDLER] Ошибка извлечения изображения: {e}")
+            return "[IMAGE]"
+
+    async def extract_audio_message(self, body: Dict[str, Any]) -> str:
+        """Извлекает данные аудиосообщения из webhook и транскрибирует его, сохраняя файл локально"""
+        try:
+            from src.handlers.webhook_extractors import extract_audio_id, extract_audio_duration
+            from src.services.whatsapp_media_service import WhatsAppMediaService
+            from src.services.audio_transcription_service import AudioTranscriptionService
+            
+            # Логируем структуру webhook'а для отладки
+            print(f"[WEBHOOK_HANDLER] Аудиосообщение получено. Структура webhook'а:")
+            print(f"[WEBHOOK_HANDLER] {json.dumps(body, indent=2, default=str)}")
+            
+            # Извлекаем ID аудиофайла (WhatsApp не отправляет URL напрямую)
+            audio_id = extract_audio_id(body)
+            audio_duration = extract_audio_duration(body)
+            
+            print(f"[WEBHOOK_HANDLER] Извлеченные данные:")
+            print(f"[WEBHOOK_HANDLER] Audio ID: {audio_id}")
+            print(f"[WEBHOOK_HANDLER] Audio Duration: {audio_duration}")
+            
+            if not audio_id:
+                print(f"[WEBHOOK_HANDLER] ❌ ID аудио не найден в webhook'е")
+                return "[AUDIO: нет ID]"
+            
+            # Скачиваем аудиофайл через WhatsApp Media API
+            media_service = WhatsAppMediaService()
+            media_result = await media_service.download_audio_file(audio_id)
+            
+            if not media_result:
+                print(f"[WEBHOOK_HANDLER] ❌ Не удалось скачать аудиофайл {audio_id}")
+                return "[AUDIO: ошибка скачивания]"
+            
+            gcs_url = media_result["gcs_url"]
+            print(f"[WEBHOOK_HANDLER] ✅ Аудиофайл скачан: {gcs_url}")
+            
+            # Транскрибируем аудио
+            transcription_service = AudioTranscriptionService()
+            context_text = ""
+            try:
+                sender_id = extract_sender_id(body)
+                if sender_id:
+                    from src.repositories.message_repository import MessageRepository
+                    message_repo = MessageRepository()
+                    last_messages = await message_repo.get_messages_by_sender(sender_id, limit=3)
+                    if last_messages:
+                        context_text = " ".join([msg.get('content', '') for msg in last_messages])
+            except Exception as e:
+                print(f"[WEBHOOK_HANDLER] Ошибка получения контекста для транскрипции: {e}")
+            
+            # Транскрибируем через Google Speech-to-Text
+            result = await transcription_service.transcribe_whatsapp_audio(gcs_url, context_text)
+            transcription = result["transcription"] if result else None
+            
+            # Сохраняем ссылку и транскрипцию в processed_message
+            self._last_audio_url = gcs_url
+            self._last_audio_transcription = transcription
+            self._last_audio_duration = audio_duration
+            
+            if transcription:
+                print(f"[WEBHOOK_HANDLER] ✅ Успешная транскрипция: {transcription[:50]}...")
+                return f"[AUDIO: {gcs_url}] {transcription}"
+            else:
+                print(f"[WEBHOOK_HANDLER] ⚠️ Транскрипция не удалась для {gcs_url}")
+                return f"[AUDIO: {gcs_url}]"
+                
+        except Exception as e:
+            print(f"[WEBHOOK_HANDLER] ❌ Ошибка обработки аудиосообщения: {e}")
+            return "[AUDIO]"
 
     async def verify_webhook(self, mode: str, challenge: str, verify_token: str) -> str:
         """Верифицирует webhook для WhatsApp"""

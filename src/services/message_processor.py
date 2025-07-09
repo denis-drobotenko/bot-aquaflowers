@@ -4,6 +4,8 @@ from typing import List, Optional, Tuple, Dict, Any
 from dataclasses import dataclass
 from datetime import datetime
 
+logger = logging.getLogger(__name__)
+
 from src.utils.whatsapp_client import WhatsAppClient
 from src.services.message_service import MessageService
 from src.models.message import Message, MessageRole
@@ -12,6 +14,7 @@ from src.services.ai_service import AIService
 from src.services.session_service import SessionService
 from src.services.user_service import UserService
 from src.services.command_service import CommandService
+from src.services.error_service import ErrorService
 from src.utils.waba_logger import waba_logger
 from src.models.user import User, UserStatus
 from src.config.settings import GEMINI_API_KEY
@@ -27,6 +30,14 @@ class AIResponse:
 class MessageProcessor:
     """Упрощенный процессор сообщений - единая точка обработки"""
     
+    SUPPORTED_COMMANDS = {
+        'send_catalog',
+        'save_order_info',
+        'add_order_item',
+        'remove_order_item',
+        'confirm_order',
+    }
+    
     def __init__(self):
         self.whatsapp_client = WhatsAppClient()
         self.message_service = MessageService()
@@ -34,6 +45,7 @@ class MessageProcessor:
         self.user_service = UserService()
         self.ai_service = AIService(GEMINI_API_KEY)
         self.command_service = CommandService()
+        self.error_service = ErrorService()
 
     @log_function("message_processor")
     async def process_user_message(self, message_data: Dict[str, Any]) -> bool:
@@ -86,7 +98,7 @@ class MessageProcessor:
             
             # 4. Получаем историю и обрабатываем через AI
             conversation_history = await self.message_service.get_conversation_history_for_ai_by_sender(
-                sender_id, session_id, limit=50
+                sender_id, session_id, limit=100
             )
             
             # Логирование истории для AI
@@ -95,22 +107,28 @@ class MessageProcessor:
             # 5. Генерируем ответ AI
             ai_response = await self._process_ai(message_data, session_id, conversation_history)
             
-            # 6. Отправляем ответ пользователю (включая обработку команд)
-            success = await self._send_ai_response(ai_response, sender_id, session_id, wamid)
+            # 6. Отправляем ответ пользователю (НЕ отправляем fallback при ошибках)
+            await self._send_ai_response(ai_response, sender_id, session_id, wamid, 0)
             
             # Логирование результата
-            if success:
-                print(f"[SUCCESS] ✅")
-            else:
-                print(f"[ERROR] ❌")
+            print(f"[SUCCESS] ✅ Ответ обработан")
             
-            return success
+            return True
             
         except Exception as e:
             wamid = message_data.get("wa_message_id")
             waba_logger.log_error(wamid or "unknown", str(e), "process_user_message")
             logging.error(f"[MESSAGE_PROCESSOR] Error: {e}")
-            return False
+            # Логируем ошибку в систему Errors вместо отправки fallback
+            await self.error_service.log_error(
+                error=e,
+                sender_id=message_data.get('sender_id'),
+                session_id=session_id if 'session_id' in locals() else None,
+                context_data={"message_data": message_data, "wamid": wamid},
+                module="message_processor",
+                function="process_user_message"
+            )
+            return True  # Возвращаем True, чтобы не отправлять fallback
 
     async def _ensure_user_exists(self, sender_id: str, sender_name: str):
         """Создает пользователя если не существует"""
@@ -146,7 +164,11 @@ class MessageProcessor:
             content_en=text_en,
             content_thai=text_thai,
             wa_message_id=message_data.get('wa_message_id'),
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
+            image_url=message_data.get('image_url'),
+            audio_url=message_data.get('audio_url'),
+            audio_duration=message_data.get('audio_duration'),
+            transcription=message_data.get('transcription')
         )
 
     def _create_ai_message(self, ai_response: AIResponse, sender_id: str, session_id: str) -> Message:
@@ -188,20 +210,28 @@ class MessageProcessor:
             
             # Проверяем, нужно ли определить язык
             if user_lang == 'auto' or not user_lang:
-                detected_lang = self.ai_service.detect_language(message_data['message_text'])
+                detection_result = self.ai_service.detect_language_with_confidence(message_data['message_text'])
+                detected_lang = detection_result['language']
+                confidence = detection_result['confidence']
+                should_ask = detection_result['should_ask']
+                
                 if detected_lang != 'auto':
                     # Сохраняем определенный язык
                     await self.session_service.save_user_language(message_data['sender_id'], session_id, detected_lang)
                     user_lang = detected_lang
                     
-                    # Возвращаем сообщение с подтверждением языка
-                    confirmation_text = self.ai_service.ask_language_confirmation(message_data['message_text'], detected_lang)
-                    return AIResponse(
-                        text=confirmation_text,
-                        text_en=confirmation_text,
-                        text_thai=confirmation_text,
-                        command=None
-                    )
+                    # Логируем результат определения языка
+                    print(f"[LANGUAGE_DETECTION] Text: '{message_data['message_text']}' -> {detected_lang} (confidence: {confidence:.2f}, should_ask: {should_ask})")
+                    
+                    if should_ask:
+                        # Возвращаем сообщение с подтверждением языка
+                        confirmation_text = self.ai_service.ask_language_confirmation(message_data['message_text'], detected_lang)
+                        return AIResponse(
+                            text=confirmation_text,
+                            text_en=confirmation_text,
+                            text_thai=confirmation_text,
+                            command=None
+                        )
             
             # Определяем, является ли это первым сообщением в диалоге
             is_first_message = len(conversation_history) <= 1
@@ -218,19 +248,17 @@ class MessageProcessor:
             
         except Exception as e:
             logging.error(f"[MESSAGE_PROCESSOR] AI processing error: {e}")
-            # Получаем язык пользователя для сообщения об ошибке
-            try:
-                user_lang = await self.session_service.get_user_language(message_data['sender_id'], session_id)
-            except:
-                user_lang = 'auto'
-            
-            error_messages = self._get_error_messages(user_lang)
-            return AIResponse(
-                error_messages['ru'],
-                error_messages['en'],
-                error_messages['th'],
-                None
+            # Логируем ошибку в систему Errors вместо возврата fallback
+            await self.error_service.log_error(
+                error=e,
+                sender_id=message_data['sender_id'],
+                session_id=session_id,
+                context_data={"message_data": message_data},
+                module="message_processor",
+                function="_process_ai"
             )
+            # Возвращаем пустой ответ, чтобы система НЕ отправляла fallback
+            return AIResponse("", "", "", None)
 
     async def _handle_ai_command(self, command: Dict[str, Any], session_id: str, sender_id: str, wamid: str = None) -> Dict[str, Any]:
         """Обрабатывает команду от AI и возвращает результат"""
@@ -240,14 +268,40 @@ class MessageProcessor:
                 waba_logger.log_command_handled(wamid, command.get('type', ''), command_result)
             return command_result
         except Exception as e:
+            # Логируем ошибку в систему Errors вместо отправки пользователю
+            await self.error_service.log_error(
+                error=e,
+                sender_id=sender_id,
+                session_id=session_id,
+                context_data={"command": command, "wamid": wamid},
+                module="message_processor",
+                function="_handle_ai_command"
+            )
             logging.error(f"[MESSAGE_PROCESSOR] Command handling error: {e}")
-            return {"status": "error", "message": str(e)}
+            return {"status": "error", "message": "Internal error occurred"}
 
-    async def _send_ai_response(self, ai_response: AIResponse, sender_id: str, session_id: str, wamid: str = None) -> bool:
+    async def _send_ai_response(self, ai_response: AIResponse, sender_id: str, session_id: str, wamid: str = None, retry_count: int = 0) -> bool:
         """Отправляет ответ AI пользователю"""
         try:
+            # Проверяем, есть ли валидный ответ от AI
+            has_text = ai_response.text and ai_response.text.strip()
+            has_command = ai_response.command is not None
+            
+            # Если нет ни текста, ни команды - это ошибка AI, НЕ отправляем fallback
+            if not has_text and not has_command:
+                print(f"[MESSAGE_PROCESSOR] AI returned empty response - logging error, NOT sending fallback")
+                await self.error_service.log_error(
+                    error=Exception("AI returned empty response (no text, no command)"),
+                    sender_id=sender_id,
+                    session_id=session_id,
+                    context_data={"ai_response": str(ai_response), "wamid": wamid},
+                    module="message_processor",
+                    function="_send_ai_response"
+                )
+                return True  # Возвращаем True, чтобы не отправлять fallback
+            
             # 1. Если есть текстовый ответ от AI, отправляем его
-            if ai_response.text and ai_response.text.strip():
+            if has_text:
                 success = await self._send_text_message(
                     sender_id, 
                     ai_response.text, 
@@ -262,43 +316,75 @@ class MessageProcessor:
                     return False
             
             # 2. Если есть команда, выполняем её
-            if ai_response.command:
+            if has_command:
+                command_type = ai_response.command.get('type') if isinstance(ai_response.command, dict) else None
+                if not command_type or command_type not in self.SUPPORTED_COMMANDS:
+                    # Логируем ошибку в Errors
+                    await self.error_service.log_error(
+                        error=Exception(f"Unknown AI command: {command_type}"),
+                        sender_id=sender_id,
+                        session_id=session_id,
+                        ai_response=str(ai_response.command),
+                        context_data={"command": ai_response.command, "wamid": wamid},
+                        module="message_processor",
+                        function="_send_ai_response"
+                    )
+                    # Повторно отправляем запрос к AI при ошибке парсинга команды
+                    if retry_count < 3:
+                        logger.warning(f"Unknown command '{command_type}' from AI, retrying... (attempt {retry_count + 1})")
+                        # Получаем историю сообщений для повторного запроса
+                        conversation_history = await self.message_service.get_conversation_history_for_ai_by_sender(sender_id, session_id, limit=100)
+                        # Повторно обрабатываем через AI
+                        new_ai_response = await self._process_ai(
+                            {"sender_id": sender_id, "message_text": conversation_history[-1].get('content', '') if conversation_history else ""},
+                            session_id,
+                            conversation_history
+                        )
+                        return await self._send_ai_response(new_ai_response, sender_id, session_id, wamid, retry_count + 1)
+                    else:
+                        logger.error(f"Max retries reached for unknown command: {command_type}")
+                        return True  # Возвращаем True, чтобы не отправлять fallback
+                
                 command_result = await self._handle_ai_command(ai_response.command, session_id, sender_id, wamid)
                 
                 # Логируем результат команды
-                if wamid:
+                if wamid and isinstance(ai_response.command, dict):
                     waba_logger.log_command_handled(wamid, ai_response.command.get('type', ''), command_result)
                 
-                # Если команда не выполнена, отправляем ошибку
+                # Если команда не выполнена, НЕ отправляем ошибку пользователю
                 if command_result.get('status') != 'success':
-                    # Получаем язык пользователя для сообщения об ошибке
-                    user_lang = await self.session_service.get_user_language(sender_id, session_id)
-                    error_messages = self._get_error_messages(user_lang)
-                    error_message = command_result.get('message', error_messages['ru'])
-                    error_success = await self._send_text_message(
-                        sender_id, 
-                        error_message, 
-                        session_id
+                    print(f"[MESSAGE_PROCESSOR] Command failed: {command_result.get('message')} - logging error, NOT sending fallback")
+                    await self.error_service.log_error(
+                        error=Exception(f"Command execution failed: {command_result.get('message')}"),
+                        sender_id=sender_id,
+                        session_id=session_id,
+                        context_data={"command": ai_response.command, "result": command_result, "wamid": wamid},
+                        module="message_processor",
+                        function="_send_ai_response"
                     )
-                    if wamid:
-                        waba_logger.log_message_sent(wamid, sender_id, error_message)
-                    return error_success
+                    return True  # Возвращаем True, чтобы не отправлять fallback
                 
                 # Обрабатываем специальные команды
                 if command_result.get('action') == 'order_confirmed':
                     # Заказ подтвержден - оставляем текущую сессию
                     print(f"[MESSAGE_PROCESSOR] Заказ подтвержден, оставляем текущую сессию: {session_id}")
                     
-                    # Отправляем сообщение о завершении заказа в текущую сессию
-                    user_lang = await self.session_service.get_user_language(sender_id, session_id)
-                    completion_messages = self._get_completion_messages(user_lang)
-                    await self._send_text_message(sender_id, completion_messages['ru'], session_id, completion_messages['en'], completion_messages['th'])
+                    # НЕ отправляем дополнительное сообщение - AI уже отправил финальный ответ
             
             return True
             
         except Exception as e:
             logging.error(f"[MESSAGE_PROCESSOR] Send response error: {e}")
-            return False
+            # Логируем ошибку, но НЕ отправляем fallback пользователю
+            await self.error_service.log_error(
+                error=e,
+                sender_id=sender_id,
+                session_id=session_id,
+                context_data={"wamid": wamid},
+                module="message_processor",
+                function="_send_ai_response"
+            )
+            return True  # Возвращаем True, чтобы не отправлять fallback
 
     def _get_error_messages(self, user_lang: str) -> Dict[str, str]:
         """Возвращает сообщения об ошибках на разных языках"""
@@ -377,15 +463,11 @@ class MessageProcessor:
             
             # Сохраняем в БД
             if message_id and session_id:
-                # Получаем текст с эмодзи для сохранения
-                from src.utils.multilingual_emoji import format_message_with_emoji
-                content_with_emoji = format_message_with_emoji(content, user_lang)
-                
                 message = Message(
                     sender_id=to_number,
                     session_id=session_id,
                     role=MessageRole.ASSISTANT,
-                    content=content_with_emoji,
+                    content=content,
                     content_en=content_en,
                     content_thai=content_thai,
                     wa_message_id=message_id,
